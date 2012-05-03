@@ -46,7 +46,7 @@ class page extends base_page
 		$id  = $this->request->variable('id', 0);
 		$pid = $this->request->variable('pid', 0);
 
-		$this->form = new \engine\core\forms();
+		$this->form = new \engine\core\forms($app['template']);
 		$this->form->addButton     = true;
 		$this->form->addButtonText = 'Добавить';
 		$this->form->table_row_id  = $id;

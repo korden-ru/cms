@@ -4,7 +4,7 @@ define('IN_ACP', 0x000001);
 
 require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
-$ip = $request->variable('ip', '');
+$ip = $app['request']->variable('ip', '');
 
 if( !$ip )
 {

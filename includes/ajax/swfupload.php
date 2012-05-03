@@ -26,9 +26,9 @@ if( !isset($_SESSION["file_info"]) )
 	$_SESSION["file_info"] = array();
 }
 
-$folder      = $request->post('folder', '');
-$id_gallery  = $request->post('id_gallery', 0);
-$mysql_table = $request->post('mysql_table', '');
+$folder      = $app['request']->post('folder', '');
+$id_gallery  = $app['request']->post('id_gallery', 0);
+$mysql_table = $app['request']->post('mysql_table', '');
 
 $dirpath = SITE_DIR . 'uploads/' . $folder . '/';
 

@@ -4,12 +4,12 @@ define('IN_ACP', 0x000001);
 
 require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
-if( !$request->is_set_post('table') || !$request->is_ajax )
+if( !$app['request']->is_set_post('table') || !$app['request']->is_ajax )
 {
 	exit;
 }
 
-$table = $request->post('table', '');
+$table = $app['request']->post('table', '');
 
 //существует ли такая таблица и поле sort в ней
 $r = $app['db']->query("SHOW TABLES LIKE '$table'");

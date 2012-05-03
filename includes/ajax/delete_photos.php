@@ -4,20 +4,20 @@ define('IN_ACP', 0x000001);
 
 require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
-if( !$request->is_ajax )
+if( !$app['request']->is_ajax )
 {
 	exit('error_valid');
 }
 
-if( !$request->is_set_post('id_gallery') || !$request->is_set_post('id_photo') || !$request->is_set_post('mysql_table') || !$request->is_set_post('folder') )
+if( !$app['request']->is_set_post('id_gallery') || !$app['request']->is_set_post('id_photo') || !$app['request']->is_set_post('mysql_table') || !$app['request']->is_set_post('folder') )
 {
 	exit('error');
 }
 
-$folder      = $request->post('folder', '');
-$id_gallery  = $request->post('id_gallery', 0);
-$id_photo    = $request->post('id_photo', 0);
-$mysql_table = $request->post('mysql_table', '');
+$folder      = $app['request']->post('folder', '');
+$id_gallery  = $app['request']->post('id_gallery', 0);
+$id_photo    = $app['request']->post('id_photo', 0);
+$mysql_table = $app['request']->post('mysql_table', '');
 
 //проверяем есть ли такая галерея
 $sql = '

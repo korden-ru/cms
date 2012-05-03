@@ -4,15 +4,15 @@ define('IN_ACP', 0x000001);
 
 require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
-if( !$request->is_set_post('id') || !$request->is_set_post('table') || !$request->is_set_post('value') || !$request->is_set_post('input_name') || !$request->is_ajax )
+if( !$app['request']->is_set_post('id') || !$app['request']->is_set_post('table') || !$app['request']->is_set_post('value') || !$app['request']->is_set_post('input_name') || !$app['request']->is_ajax )
 {
 	exit('error');
 }
 
-$id         = $request->post('id', 0);
-$input_name = $request->post('input_name', '');
-$table      = $request->post('table', '');
-$value      = $request->post('value', 0);
+$id         = $app['request']->post('id', 0);
+$input_name = $app['request']->post('input_name', '');
+$table      = $app['request']->post('table', '');
+$value      = $app['request']->post('value', 0);
 
 $sql = '
 	UPDATE

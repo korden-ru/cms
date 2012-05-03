@@ -27,14 +27,14 @@
 
 	/* Check GROUP permissions
 	----------------------------------------*/
-	if(!empty($user->userPerms) && (isset($user->userPerms[0]) && $user->userPerms[0] != 'ALL'))
+	if(!empty($app['user']->userPerms) && (isset($app['user']->userPerms[0]) && $app['user']->userPerms[0] != 'ALL'))
 	{
 		$qWhere = ' AND (';
 		$bWhere = ' AND (';
 
 		$i = 1;
-		$count = count($user->userPerms);
-		foreach($user->userPerms as $key => $moduleId)
+		$count = count($app['user']->userPerms);
+		foreach($app['user']->userPerms as $key => $moduleId)
 		{
 			$orWhere = $i!= $count?' OR ':null;
 
@@ -56,7 +56,7 @@
 	$result=$app['db']->query($sql);
 	while($row=$app['db']->fetchrow($result))
 	{
-		$template->append('main_tabs',array(
+		$app['template']->append('main_tabs',array(
 						
 							'ACTCLASS'	=> $row['id']==$tab?'id="activetab"':'',
 							'ID'		=> $row['id'],
@@ -79,7 +79,7 @@
 		$found=true;
 	}
 	$app['db']->freeresult();
-	$template->append('left_menu',array(),true);
+	$app['template']->append('left_menu',array(),true);
 	if($found)
 	{
 		$menus=sort_1_level($menus);
@@ -87,13 +87,13 @@
 		{
 			if($m['id']==$menu)
 			{
-				$template->assign(array('MODULE_TITLE' => $m['title']));
+				$app['template']->assign(array('MODULE_TITLE' => $m['title']));
 			}
 
-			$template->append('left_menu',array(
+			$app['template']->append('left_menu',array(
 							'PCOUNT'	=> $m['pcount'],
 							'ACTIVE'	=> ($m['id']==$menu)?'id="activemenu"':'',
-							'HREF'		=> $m['class'] && $m['mode']? $config['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
+							'HREF'		=> $m['class'] && $m['mode']? $app['config']['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
 							'TITLE'		=> $m['title']
 							));
 		}		
@@ -106,17 +106,13 @@
 	
 	if($submit)
 	{
-		$notes = $request->post('notes', '');
+		$notes = $app['request']->post('notes', '');
 		$app['db']->query('UPDATE '.SQL_PREFIX.'notes SET text = \''.htmlspecialchars_decode($notes).'\'');
-		redirect($config['acp.root_path']);
+		redirect($app['config']['acp.root_path']);
 	}
 	
 	$q = 'SELECT text
 			FROM '.SQL_PREFIX.'notes';
 	$r = $app['db']->query($q);
 	$s = $app['db']->fetchrow($r);
-	$template->assign(array('NOTES' => htmlspecialchars($s['text'])));
-	
-	
-	
-?>
+	$app['template']->assign(array('NOTES' => htmlspecialchars($s['text'])));
