@@ -1,0 +1,17 @@
+{if isset($input.raw)}
+	<dl>
+		<dt><label for="{$input.name}">{$input.title}</label></dt>
+		<dd><select name="{$input.name}" id="{$input.name}">{$input.raw}</select></dd>
+	</dl>
+{else}
+	<dl>
+		<dt><label for="{$input.name}">{$input.title}:</label></dt>
+		<dd>
+			<select name="{$input.name}" id="{$input.name}" {if isset($input.style)}style="{$input.style}"{/if}>
+				{foreach $input.options as $key => $value}
+					<option value="{$value}" {if isset($input.value) && $input.value == $value}selected="selected"{/if}>{$key}</option>
+				{/foreach}
+			</select>
+		</dd>
+	</dl>
+{/if}

@@ -1,0 +1,121 @@
+{include file="page_header.html"}
+
+	<h2>Мультизагрузка изображений в галерею «<a href="{$title_url}">{$title}</a>»</h2>
+	<br/>
+	
+	<style type="text/css">@import url(js/swfupload/swfupload.css);</style>
+	<script src="js/swfupload/swfupload.js"></script>
+	<script src="js/swfupload/handlers.js"></script>
+	<script>
+	{literal}
+	$(document).ready(function() {
+		
+		var swfu;
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "includes/ajax/swfupload.php",
+			post_params: {{/literal}"PHPSESSID": "{$phpsessid}", "id_gallery" : "{$id_gallery}", "mysql_table" : "{$mysql_table}", "folder": "{$folder}"{literal}},
+
+			// File Upload Settings
+			file_size_limit : "6 MB",
+			file_types : "*.jpg;*.jpeg;*.gif;*.png",
+			file_types_description : "JPG Images; PNG Image; GIF Image",
+			file_upload_limit : 0,
+
+			// Event Handler Settings - these functions as defined in Handlers.js
+			//  The handlers are not part of SWFUpload but are part of my website and control how
+			//  my website reacts to the SWFUpload events.
+			swfupload_preload_handler : preLoad,
+			swfupload_load_failed_handler : loadFailed,
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_image_url : "js/swfupload/images/SmallSpyGlassWithTransperancy_17x18.png",
+			button_placeholder_id : "spanButtonPlaceholder",
+			button_width: 180,
+			button_height: 18,
+			button_text : '<span class="button">Выберите фотографии...</span>',
+			button_text_style : '.button { font-family: Helvetica, Arial, sans-serif; font-size: 12pt; } .buttonSmall { font-size: 10pt; }',
+			button_text_top_padding: 0,
+			button_text_left_padding: 18,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+			
+			// Flash Settings
+			flash_url : "js/swfupload/swfupload.swf",
+			flash9_url : "js/swfupload/swfupload_fp9.swf",
+
+			custom_settings : {
+				upload_target : "divFileProgressContainer"
+			},
+			
+			// Debug Settings
+			debug: false
+		});
+
+		$('img.close').click(function() {
+			id = $(this).attr('id');
+			var arr = id.split('_');
+			if (typeof arr[1] == 'undefined' ||
+				typeof arr[2] == 'undefined')
+				return;
+			$.ajax({
+		    	url: "includes/ajax/delete_photos.php",
+				type: 'post',
+				data: ({'id_gallery' : arr[1], 'id_photo' : arr[2], {/literal}"mysql_table" : "{$mysql_table}", folder: "{$folder}"{literal}}),
+			    dataType: "html",
+			    beforeSend: function(){
+					$('#'+id).hide();
+			    },
+			    success: function(answ){
+			    	if (answ == 'success') 
+			    	{ 
+				    	$('#'+id).parent().hide('fast');
+			    	}
+			    	else
+			    	{
+			    		$('#'+id).show();
+			    	}
+				},
+				error: function ( xhr, ajaxOptions, thrownError ) {
+					$('#'+id).show();
+					//alert('jQuery Ajax error! xhr: ' + xhr + '; ajaxOptions: ' + ajaxOptions);
+				}
+		    });
+		});
+		
+	});
+	{/literal}
+	</script>
+
+
+	<form>
+		<div style="width: 180px; height: 18px; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;">
+			<span id="spanButtonPlaceholder"></span>
+		</div>
+	</form>
+
+	<div id="divFileProgressContainer" style="height: 75px;"></div>
+	<div id="thumbnails">
+		<form action="{$action_title}" method="post">
+		{foreach item=p from=$photos}
+		<div class="thumb_container">
+			<img src="/uploads/{$folder}/sm/{$p.filename}" width="144" style="margin:5px" /><img src="js/swfupload/images/close.png" class="close" id="p_{$id_gallery}_{$p.id}">
+			<div class="ttitle">
+				<input id="title_{$p.id}" name="photo_about[{$p.id}]" value="{$p.about|htmlspecialchars}" />
+			</div>
+		</div>
+		{/foreach}
+	</div>
+	<br clear="left"/>
+	{if (count($photos))}
+		<input class="button1" name="save_about" id="save_about" type="submit" value="Сохранить подписи к фотографиям" />
+	{/if}
+	</form>
+
+{include file="page_footer.html"}

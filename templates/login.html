@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="ru-ru" xml:lang="ru-ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-language" content="ru-ru" />
+<meta http-equiv="imagetoolbar" content="no" />
+<title>Вход в систему управления сайтом :: Версия CMS: {$cms_version}</title>
+<link href="styles/style.css" rel="stylesheet" type="text/css" media="screen" />
+
+{literal}
+<style type="text/css">
+body
+{
+	background-color: #1b9ed6;
+	background: url("images/back2.jpg") no-repeat bottom right;
+	color: #000;
+	font-size: 12px;
+	font-family: sans-serif, arial, verdana;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	position: relative;
+}
+
+a:link, a:visited
+{
+	color: #fff;
+	text-decoration: none;
+}
+
+a:hover, a:active
+{
+	color: #fff;
+	text-decoration: underline;	
+}
+
+input
+{
+	background-color: #fff;
+}
+
+#copyright { position: absolute; bottom: 170px; right: 40px; width: 200px; height: 50px; color: #545454; font-size: 11px !important; line-height: 18px; text-align: right; }
+
+</style>
+{/literal}
+
+</head>
+
+<body >
+	<table id="body_table" cellspacing="0" cellpadding="0">
+	<tr>
+	<td align="center">
+
+
+
+	<form id="acp_login" method="post" action="" enctype="multipart/form-data" >
+		<table width="200px" height="70px" cellspacing="0">
+		<tr>
+		<td style="font-size: 14px; padding-bottom: 15px;"><label for="login">Имя пользователя:&nbsp;&nbsp;</label>
+		<br />
+		<input name="login" type="text" id="login" style="width: 200px; font-size: 18px;" value="" /></td>
+		</tr>
+		<tr>
+		<td style="font-size: 14px;"><label for="password">Пароль:</label><br />
+		<input name="password" type="password" id="password" style="width: 200px; font-size: 18px;" value="" /></td>
+		</tr>
+		<tr>
+		<td align="center"><br/><input class="button1" type="submit" id="loginsubmit" name="loginsubmit" value="Войти" style="font-size: 18px;" /></td>
+		</tr>
+		</table>
+		<input type="hidden" name="login_target" value=""/>
+	</form>
+	</td>
+	</tr>
+	</table>
+
+	<div id="copyright">
+		Версия CMS: {$cms_version}<br/>
+		Copyright &copy; 2011-{$smarty.now|date_format:"%Y"}
+	</div>
+
+</body>
+</html>

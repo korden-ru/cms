@@ -1,0 +1,9 @@
+<dl>
+	<dt><label for="{$input.name}">{$input.title}:</label></dt>
+	<dd>
+		<textarea name="{$input.name}" style="width: 98%;" rows="{$input.rows|default:5}">{$input.value}</textarea>
+		{if isset($input.prim)}
+			<br><div style="margin-top: 5px; font-size: 9px;">{$input.prim}</div>
+		{/if}
+	</dd>
+</dl>

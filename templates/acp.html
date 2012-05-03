@@ -1,0 +1,29 @@
+{include file="page_header.html"}
+	<h1>Добро пожаловать в систему управления сайтом</h1>
+	<h4>Заметки администратора</h4>
+	<form method="post" value="">
+	<fieldset>
+		<dl>
+			<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea>
+		</dl>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit_notes" name="submit_notes" value="Сохранить текст">
+		</p>
+	</fieldset>
+	</form>
+
+	<script src="f/fckeditor.js"></script>
+	<script>
+	$(document).ready(function() {
+		var oFCKeditor = new FCKeditor('notes');
+		oFCKeditor.BasePath = "f/";
+		oFCKeditor.Config["ContentLangDirection"] = "ltr";
+		oFCKeditor.Config["DefaultLanguage"] = "ru";
+		oFCKeditor.Config["EditorAreaStyles"] = "body { padding: 8px; margin: 0; font: normal 12px Verdana; }";
+		// oFCKeditor.Config['ToolbarLocation'] = 'Out:xToolbar';
+		oFCKeditor.Height = 300;
+		oFCKeditor.ReplaceTextarea();
+	});
+	</script>
+	
+{include file="page_footer.html"}

@@ -1,0 +1,15 @@
+<dl>
+	<dt><label for="{$input.name}">{$input.title}:</label></dt>
+	<dd>
+		<input type="text" value="{$input.value}" name="{$input.name}" id="{$input.name}" style="width: 98%">
+		{if isset($input.chpu_button) and $input.chpu_button}
+			<input class="button2" type="button" value="Подобрать URL (ЧПУ)" style="margin: 4px 5px 0 0;" onclick="AjaxClickChpuButton('{$input.chpu_button}', '{$input.name}', 1);">
+		{/if}
+		{if isset($input.chpu_rus_button) and $input.chpu_rus_button}
+			<input class="button2" type="button" value="Подобрать русский URL (ЧПУ)" style="margin: 4px 5px 0 0;" onclick="AjaxClickChpuButton('{$input.chpu_rus_button}', '{$input.name}', 2);">
+		{/if}
+		{if isset($input.prim)}
+			<br><div style="margin-top: 5px; font-size: 9px;">{$input.prim}</div>
+		{/if}
+	</dd>
+</dl>

@@ -1,0 +1,18 @@
+{if $pagination and $pagination.PAGES > 1}
+	<form action="{$pagination.URL}" method="post" style="margin: 0;">
+		<div style="float: left; margin: 0.5em 0;">
+			Всего элементов: <b>{$pagination.ITEMS}</b>
+		</div>
+		<div style="float: right; margin: 0.5em 0;">
+			На страницу:
+			{if $pagination.PREV}
+				<a href="{$pagination.PREV}" title="Предыдущая страница">&larr;</a>
+			{/if}
+			<input type="text" name="{$pagination.VAR}" value="{$pagination.PAGE}" style="display: inline-block; width: 2em;" onclick="highlight(this);">
+			из {$pagination.PAGES}
+			{if $pagination.NEXT}
+				<a href="{$pagination.NEXT}" title="Следующая страница">&rarr;</a>
+			{/if}
+		</div>
+	</form>
+{/if}

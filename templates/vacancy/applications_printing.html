@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Анкета соискателя на должность {$VACANCY}</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="robots" content="noindex, nofollow">
+	<style>
+	body { margin: 0; padding: 0; font: normal 12px Verdana; }
+
+	h1 { padding: 0; margin: 0 0 10px 0; font-size: 22px; text-align: center; }
+	h1 span { text-decoration: underline; }
+	h2 { padding: 0; margin: 0 0 10px 0; font-size: 10px; text-decoration: underline; text-align: center; }
+
+	h3 { margin: 10px 0; padding: 5px; background-color: #eee; text-align: center; }
+
+	#main { text-align: left; width: 197mm; }
+	#anketa { width: 100%; }
+	#anketa td { padding: 5px 0 3px 5px; }
+	#anketa td div { border-bottom: 1px solid #000; margin-bottom: -1px; font-style: italic; font-family: cursive; font-size: 13px; }
+	#anketa td img { margin-bottom: -2px; margin-right: 0; }
+	#anketa td span { font-style: italic; font-family: cursive; font-size: 13px; }
+
+	.kol1 { text-align: right; padding: 0; margin: 0 0 10px 0; font-size: 10px; }
+	.kol2 { padding: 0; margin: 20px 0 5px 0; width: 100%; }
+	.kol2 td { font-size: 10px; vertical-align: top; }
+	</style>
+</head>
+<body onload="window.print();">
+	
+<center>
+<div id="main">
+
+<div class="kol1">Распечатано из системы управления сайта {$cfg.sitename} {$smarty.server.SERVER_NAME}</div>
+<h2>{$cfg.sitename}</h2>
+<h1>АНКЕТА СОИСКАТЕЛЯ НА<br>ДОЛЖНОСТЬ <span>{$VACANCY}</span></h1> 
+
+<h3>Личная информация</h3>
+
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="width:40mm;text-align: right;">Фамилия</td>
+	<td><div>{$SURNAME}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Имя</td>
+	<td><div>{$NAME}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Отчество</td>
+	<td><div>{$NAME2}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Национальность</td>
+	<td><div>{$NATIONALITY}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Гражданство</td>
+	<td><div>{$CITIZENSHIP}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Дата рождения</td>
+	<td><div>{$BIRTHDAY} г.</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Место рождения</td>
+	<td><div>{$BIRTH_MESTO}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Пол</td>
+	<td>
+		<input type="checkbox" disabled{if $SEX} checked{/if}> муж. &nbsp;
+		<input type="checkbox" disabled{if !$SEX} checked{/if}> жен.
+	</td>	
+</tr>
+<tr>
+	<td style="text-align: right;">Семейное положение</td>
+	<td>
+		<input type="checkbox" disabled{if $FSTATUS == 1} checked{/if}> холост/не замужем &nbsp;
+		<input type="checkbox" disabled{if $FSTATUS == 2} checked{/if}> женат/замужем &nbsp;
+		<input type="checkbox" disabled{if $FSTATUS == 3} checked{/if}> разведен(а) &nbsp;
+		<input type="checkbox" disabled{if $FSTATUS == 4} checked{/if}> вдова(ец)
+	</td> 
+</tr>
+</table>
+<br>
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="text-align: right;width: 80mm;">Домашний адрес (по прописке) и индекс</td>
+	<td><div>{$A_P}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Домашний адрес (фактический)</td>
+	<td><div>{$A_F}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Адрес (по регистрации)</td>
+	<td><div>{$A_R}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Контактный телефон (моб.дом.)</td>
+	<td><div>{$PHONE}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">E-mail</td>
+	<td><div>{$EMAIL}</div></td>
+</tr>
+<tr>
+	<td style="text-align: right;">Наиболее удобный способ связаться с Вами</td>
+	<td><div>{$SVYAZ}</div></td>
+</tr>
+</table>
+
+<h3>Образование</h3>
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="text-align: center">
+		<input type="checkbox" disabled{if $ED_1} checked{/if}> среднее &nbsp;
+		<input type="checkbox" disabled{if $ED_2} checked{/if}> среднеспец. &nbsp;
+		<input type="checkbox" disabled{if $ED_3} checked{/if}> незак. высшее &nbsp;
+		<input type="checkbox" disabled{if $ED_4} checked{/if}> высшее &nbsp;
+		<input type="checkbox" disabled{if $ED_5} checked{/if}> прочее
+	</td> 
+</tr>
+<tr>
+	<td style="text-align: left">
+		<table width="100%" cellpadding="0" cellspacing="0" style="border-left: 1px solid #000;border-top: 1px solid #000;">
+		{foreach item=e from=$edu}
+		<tr>
+			<td width="33%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;"><small>Дата поступления:</small> <span>{$e.DATE_OT}</span><br><small>Дата окончания:</small> <span>{$e.DATE_DO}</span></td>
+			<td width="47%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+				<small>Название учебного заведения (ВУЗ, техникум, др.)</small><br><span>{$e.VUZ}</span>
+			</td>
+			<td width="20%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;"><small>Специальность:</small><br><span>{$e.SPEC}</span></td>
+		</tr>
+		{/foreach}
+		</table>
+	</td> 
+</tr>
+</table>
+
+<h3>Дополнительное обучение (курсы, тренинги)</h3>
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="text-align: left">
+		<table width="100%" cellpadding="0" cellspacing="0" style="border-left: 1px solid #000;border-top: 1px solid #000;">
+		<tr>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Название курса</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Компания (провайдер)</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Время обучения</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Дата окончания</td>
+		</tr>
+		{foreach item=e from=$edu_dop}
+		<tr>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+				<span>{$e.KURS}</span>
+			</td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+				<span>{$e.COMPANY}</span>
+			</td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+				<span>{$e.TIME}</span>
+			</td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+				<span>{$e.DATE_END}</span>
+			</td>
+		</tr>
+		{/foreach}
+		</table>
+	</td> 
+</tr>
+</table>
+
+<h3>Профессиональный опыт</h3>
+<small>(укажите 3 последних места работы в обратном хронологическом порядке)</small><br>
+
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="text-align: left">
+		<table width="100%" cellpadding="0" cellspacing="0" style="border-left: 1px solid #000;border-top: 1px solid #000;">
+		<tr>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Период работы</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Название организации/подразделение и должность</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Функциональные обязанности</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;"> Причины ухода</td>
+		</tr>
+		{foreach item=e from=$tr}
+		<tr>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;"><small>С:</small> <span>{$e.DATE_S}</span><br><small>ПО:</small> <span>{$e.DATE_PO}</span></td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.VACANCY}</span></td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.OBYAZ}</span></td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.UHOD}</span></td>
+		</tr>
+		{/foreach}
+		</table>
+	</td> 
+</tr><tr>
+	<td>
+		<p style="margin: 5px 0; font-size: 14px; font-weight: bold;">Ваш месячный доход в настоящее время или на последнем месте работы:</p>
+
+		<input type="checkbox" disabled{if $DHD1} checked{/if}> от 100$ &nbsp;
+		<input type="checkbox" disabled{if $DHD2} checked{/if}> от 100$ до 500$ &nbsp;
+		<input type="checkbox" disabled{if $DHD3} checked{/if}> от 500$ до 1000$ &nbsp;
+		<input type="checkbox" disabled{if $DHD4} checked{/if}> от 1000$ до 2000$ &nbsp;
+		<input type="checkbox" disabled{if $DHD5} checked{/if}> свыше 2000$
+	</td>
+</tr><tr>
+	<td>
+		<p style="margin: 5px 0; font-size: 14px; font-weight: bold;">Насколько Вы удовлетворены своими доходами:</p>
+		<table width="100%" cellpadding="0" cellspacing="0">
+		<tr>
+			<td style="width: 33%; vertical-align: top;">
+				<input type="checkbox" disabled{if $KDHD1} checked{/if}> Я заслуживаю большего<br>
+				<input type="checkbox" disabled{if $KDHD2} checked{/if}> Я неудовлетворен<br>
+			</td>
+			<td style="vertical-align: top;">
+				<input type="checkbox" disabled{if $KDHD3} checked{/if}> Я доволен<br>
+				<input type="checkbox" disabled{if $KDHD4} checked{/if}> Я очень доволен<br>
+			</td>
+			<td style="width: 33%; vertical-align: top;">
+				<input type="checkbox" disabled{if $KDHD5} checked{/if}> Мне переплачивают<br>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr><tr>
+	<td>
+		<p style="margin: 5px 0; font-size: 14px; font-weight: bold;">Какие из следующих качеств Вам характерны:</p>
+		<table width="100%" cellpadding="0" cellspacing="0">
+		<tr>
+			<td style="width: 33%; vertical-align: top;">
+				<input type="checkbox" disabled{if $KA1} checked{/if}> целеустремленность<br>
+				<input type="checkbox" disabled{if $KA2} checked{/if}> амбициозность<br>
+				<input type="checkbox" disabled{if $KA3} checked{/if}> чувствительность<br>
+				<input type="checkbox" disabled{if $KA4} checked{/if}> лояльность<br>
+			</td>
+			<td style="vertical-align: top;">
+				<input type="checkbox" disabled{if $KA5} checked{/if}> ответственность<br>
+				<input type="checkbox" disabled{if $KA6} checked{/if}> решительность<br>
+				<input type="checkbox" disabled{if $KA7} checked{/if}> дисциплинированность<br>
+				<input type="checkbox" disabled{if $KA8} checked{/if}> лидерство<br>
+			</td>
+			<td style="width: 33%; vertical-align: top;">
+				<input type="checkbox" disabled{if $KA9} checked{/if}> агрессивность<br>
+				<input type="checkbox" disabled{if $KA10} checked{/if}> коммуникабельность<br>
+				<input type="checkbox" disabled{if $KA11} checked{/if}> исполнительность<br>
+				<input type="checkbox" disabled{if $KA12} checked{/if}> нервозность<br>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr></table>
+
+<h3>Рекомендации</h3>
+<small>(если у Вас есть рекомендации от предыдущих работодателей, пожалуйста, заполните соответствующие графы)</small><br>
+
+<table width="100%" cellpadding="0" cellspacing="0" id="anketa">
+<tr>
+	<td style="text-align: left">
+		<table width="100%" cellpadding="0" cellspacing="0" style="border-left: 1px solid #000;border-top: 1px solid #000;">
+		<tr>
+			<td width="5%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">№</td>
+			<td width="30%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">ФИО (полностью)</td>
+			<td width="40%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Название компании</td>
+			<td width="25%" style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">Контактный телефон</td>
+		</tr>
+		{foreach item=e from=$rec}
+		<tr>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;text-align: center;">{$e@iteration}</td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.FIO}</span></td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.COMPANY}</span></td>
+			<td style="vertical-align: top;border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;<span>{$e.PHONE}</span></td>
+		</tr>
+		{/foreach}
+		</table>
+	</td> 
+</tr>
+</table>
+
+<br><br>
+<b>Достоверность указанной информации подтверждаю, против получения дополнительных сведений обо мне, изучения и проверки моих деловых качеств не возражаю:</b>
+<br><br>
+Дата заполнения: <u>{$DATE_CREATE}____________________________</u><br><br>
+Личная подпись: ________________________________________
+
+<br><br>
+
+
+<table class="kol2" cellpadding="0" cellspacing="0">
+<tr>
+	<td style="text-align: left; width: 60%">Распечатано из системы управления сайта {$cfg.sitename} {$smarty.server.SERVER_NAME}</td>
+	<td style="width: 20px">&nbsp;</td>
+	<td style="text-align: right;">Разработка сайта - Дизайн-студия «Корден»</td>
+</tr>
+</table>
+
+</div>
+</center>
+	
+</body>
+</html>

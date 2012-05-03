@@ -1,0 +1,52 @@
+{include file="page_header.html"}
+
+	<h1 id="error_header">
+	{if (isset($ERROR))}
+	Ошибка - {$ERROR}
+	{/if}
+	</h1>
+	<h2>Редактирование группы <strong>{$groupName}</strong></h2>
+	<br />
+
+	<form method="post" action="{$U_ACTION}">
+	<fieldset>
+
+	<dl>
+		<dt><label for="title">Название группы</label></dt>
+		<dd><input name="title" type="text" id="title" style="width: 200px" value="{$groupName}" /></dd>
+	</dl>
+
+	<dl>
+		<dt><label>Разрешения для разделов</label></dt>
+	<dd>
+	{foreach key=ktab item=tabs from=$pTabs}
+		<div style="font-size: 14px; font-weight:bold;width: 100%;">{$tabs.title}</div>
+			<input type="hidden" value="{$tabs.id}" name="{$tabs.id}" />
+		<div style="margin-left: 20px;">
+		{foreach key=ktitles item=titles from=$pTitles}
+			{if ($tabs.id == $titles.tab)}
+				<b>{$titles.title}</b><br />
+					<input type="hidden" value="{$titles.id}" name="{$titles.id}" />
+				<div style="margin-left: 20px;">
+					{foreach key=kmods item=mods from=$pModules}
+						{if ($titles.id == $mods.parent) && (in_array($mods.id, $userPerms) || (isset($userPerms[0]) && $userPerms[0] == 'ALL'))}
+						<input type="checkbox" value="{$mods.id}" name="{$mods.id}" {if ((isset($groupPerms[0]) && $groupPerms[0] == 'ALL') || in_array($mods.id, $groupPerms))} checked="checked"{/if} /> {$mods.title} <br />
+						{/if}	
+					{/foreach}	
+				</div>	
+			{/if}
+		{/foreach}
+		</div>
+		 
+	{/foreach}
+	<h3></h3>
+        </dd></dl>
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="Отправить" />
+		&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="По умолчанию" />
+	</p>
+	</fieldset>
+	</form>
+
+{include file="page_footer.html"}

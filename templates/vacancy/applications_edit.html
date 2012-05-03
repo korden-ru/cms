@@ -1,0 +1,388 @@
+{include file="page_header.html"}
+
+<script src="//korden.net/js/jquery/plugins/maskedinput/1.3/jquery.maskedinput.min.js"></script>
+<script src="//korden.net/js/jquery/plugins/alphanumeric/1.0/jquery.alphanumeric.min.js"></script>
+	
+<h1>Анкета соискателя на должность &laquo;{$VACANCY_TITLE}&raquo;</h1>
+<style type="text/css">
+.f_input
+{
+	background-color: #fff;
+	border: 1px solid #cccfd3;;
+	margin: 3px 0 10px 0;
+	width: 700px;
+	font-size: 14px;
+	padding: 2px 3px 3px 3px;
+}
+.obyaz_pole .f_input { border: 1px solid #B8D359; }
+
+select.f_input { padding: 2px 2px 2px 5px; width: 300px; }
+#date { width: 290px; }
+#seria, #date_vudan { width: 120px; }
+.anketa_h { color: #b8d359; font: bold 22px Tahoma; margin: 0 0 10px 0; padding: 0 } 
+.f_tip
+{
+	color: #fff;
+	margin-bottom: 7px;
+	padding: 5px;
+	border: 0px solid #FDFEFF;
+	background-color: #E77817;
+	font-weight: bold;
+	font-size: 12px;
+	width: 700px
+}
+
+.f_greytip
+{
+	color: #B8D359;
+	font-size: 11px;
+	font-style: italic;
+	margin: 3px 0 1px 0;
+}
+
+label { display: block; }
+
+.ed_table { width:708px;border-spacing:0;padding:3px; margin: 0; border: 1px solid #cccfd3; border-top-width: 0 }
+
+</style>
+
+<form id="acp_pages" method="post" action="">
+
+<fieldset>
+<legend></legend>
+{if (isset($OTHER_VACANCY))}
+<label>Должность</label>
+<input type="text" name="title_vacancy" id="title_vacancy" class="f_input" maxlength="100" value="{$VACANCY_TITLE}" /><br/>
+{else}
+<input type="hidden" name="title_vacancy" id="title_vacancy" value="{$VACANCY_TITLE}" />
+{/if}
+
+Анкета рассмотрена?: <input type="checkbox" name="prosmotrena" {if ($PROSMOTRENA == '1')}checked{/if} />
+</fieldset>
+
+<fieldset>
+<legend>ЛИЧНАЯ ИНФОРМАЦИЯ</legend>
+
+<label>Фамилия *</label>
+<input type="text" name="surname" id="surname" class="f_input" maxlength="100" value="{$SURNAME}" /><br/>
+
+<label>Имя *</label>
+<input type="text" name="name" id="name" class="f_input" maxlength="100" value="{$NAME}" /><br/>
+
+<label>Отчество *</label>
+<input type="text" name="name2" id="name2" class="f_input" maxlength="100" value="{$NAME2}" /><br/>
+
+<label>Национальность</label>
+<input type="text" name="nationality" id="nationality" class="f_input" maxlength="100" value="{$NATIONALITY}" /><br/>
+
+<label>Гражданство</label>
+<input type="text" name="citizenship" id="citizenship" class="f_input" maxlength="100"  value="{$CITIZENSHIP}"/><br/>
+
+<table style="width:708px;border-spacing:0;padding:0; margin: 0;" cellpadding="0" cellspacing="0">
+<tr><td style="width: 290px; padding-bottom: 10px;">
+	<label>Дата рождения *</label> 
+	<input type="text" name="birthday" id="birthday" class="f_input" style="width: 150px;margin-bottom: 0;" value="{$BIRTHDAY}" /><br/>
+</td><td style="text-align: right;padding-bottom: 10px;">
+	<label>Место рождения</label> 
+	<input type="text" name="birth_mesto" id="birth_mesto" class="f_input" style="width: 300px;margin-bottom: 0;" maxlength="200" value="{$BIRTH_MESTO}" /><br/>
+</td></tr><tr><td style="padding-bottom: 10px;">
+	<label>Пол</label> 
+	<select name="sex" class="f_input" style="width: 100px;margin-bottom: 0;">
+		<option value="1" {if ($SEX == '1')}selected="selected"{/if}>муж.</option>
+		<option value="0" {if ($SEX == '0')}selected="selected"{/if}>жен.</option>
+	</select>
+</td><td style="text-align: right;padding-bottom: 10px;">
+	<label>Семейное положение</label> 
+	<select name="family_status" class="f_input" style="width: 190px;margin-bottom: 0;">
+		<option value="холост/не замужем" {if ($FSTATUS == '1')}selected="selected"{/if}>холост/не замужем</option>
+		<option value="женат/замужем" {if ($FSTATUS == '2')}selected="selected"{/if}>женат/замужем</option>
+		<option value="разведен(а)" {if ($FSTATUS == '3')}selected="selected"{/if}>разведен(а)</option>
+		<option value="вдова(ец)" {if ($FSTATUS == '4')}selected="selected"{/if}>вдова(ец)</option>
+	</select>
+</td></tr></table> 
+
+<label>Домашний адрес (по прописке) и индекс</label>
+<input type="text" name="address_propiska" id="address_propiska" class="f_input" maxlength="255" value="{$A_P}" /><br/>
+
+<label>Домашний адрес (фактический)</label>
+<input type="text" name="address_factich" id="address_factich" class="f_input" maxlength="255"  value="{$A_F}" /><br/>
+
+<label>Адрес (по регистрации)</label>
+<input type="text" name="address_registraciya" id="address_registraciya" class="f_input" maxlength="255"  value="{$A_R}" /><br/>
+
+<label>Контактный телефон (моб.,дом.)*</label>
+<input type="text" name="telephone" id="telephone" class="f_input" maxlength="255"  value="{$PHONE}" /><br/>
+
+<label>E-mail</label>
+<input type="text" name="email" id="email" class="f_input" maxlength="60"  value="{$EMAIL}" /><br/>
+
+<label>Наиболее удобный способ связаться с Вами</label>
+<input type="text" name="sposob_svyazi" id="sposob_svyazi" class="f_input" maxlength="255"  value="{$SVYAZ}" /><br/>
+
+</fieldset>
+
+
+<fieldset>
+<legend>ОБРАЗОВАНИЕ</legend>
+
+среднее <input type="checkbox" name="education[0]" value="1" {$ED1} > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+среднеспец. <input type="checkbox" name="education[1]" value="1" {$ED2} > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+незак.высшее <input type="checkbox" name="education[2]" value="1" {$ED3} > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+высшее <input type="checkbox" name="education[3]" value="1" {$ED4}> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+прочее <input type="checkbox" name="education[4]" value="1" {$ED5}>
+<br/><br/>
+
+{foreach item=e from=$edu}
+<table class="ed_table" cellpadding="0" cellspacing="0" {if ($e.I == '1')}style="border-top-width: 1px"{/if}>
+<tr>
+	<td style="vertical-align: top; width: 33%">
+		Дата поступления: <input type="text" name="ed_date_ot[]" id="ed_date_ot{$e@iteration}" class="f_input" style="width: 80px" value="{$e.DATE_OT}" /><br/>
+		Дата окончания: &nbsp;&nbsp;&nbsp;<input type="text" name="ed_date_do[]" id="ed_date_do{$e.iteration}" class="f_input" style="width: 80px" value="{$e.DATE_DO}" /><br/>
+	</td>
+	<td style="vertical-align: top; width: 34%">
+		Название учебного заведения (ВУЗ, техникум, др.)<br/>
+		<input type="text" name="ed_vuz[]" id="ed_vuz{$e.iteration}" class="f_input" style="width: 200px" maxlength="255" value="{$e.VUZ}" /><br/>
+	</td>
+	<td style="vertical-align: top; width: 34%">
+		Специальность<br/><br/>
+		<input type="text" name="ed_spec[]" id="ed_spec{$e.iteration}" class="f_input" style="width: 200px" maxlength="255" value="{$e.SPEC}" /><br/>
+	</td>
+</tr>
+</table>
+{/foreach}
+</fieldset>
+
+<fieldset>
+<legend>ДОПОЛНИТЕЛЬНОЕ ОБУЧЕНИЕ (КУРСЫ, ТРЕНИНГИ)</legend>
+<table class="ed_table" cellpadding="0" cellspacing="0"  style="border-top-width: 1px">
+<tr>
+	<td style="width: 25%">Название курса</td>
+	<td style="width: 25%">Компания (провайдер)</td>
+	<td style="width: 25%">Время обучения</td>
+	<td style="width: 25%">Дата окончания</td>
+</tr>
+{foreach item=e from=$edu_dop}
+<tr>
+	<td><input type="text" name="ed_kurs[]" id="ed_kurs{$e@iteration}" class="f_input" style="width: 160px" value="{$e.KURS}" /></td>
+	<td><input type="text" name="ed_company[]" id="ed_company{$e@iteration}" class="f_input" style="width: 160px" value="{$e.COMPANY}" /></td>
+	<td><input type="text" name="ed_edtime[]" id="ed_edtime{$e@iteration}" class="f_input" style="width: 160px" value="{$e.TIME}" /></td>
+	<td><input type="text" name="ed_dateend[]" id="ed_dateend{$e@iteration}" class="f_input" style="width: 160px" value="{$e.DATE_END}" /></td>
+</tr>
+{/foreach}
+</table>
+</fieldset>
+
+<fieldset>
+<legend>ПРОФЕССИОНАЛЬНЫЙ ОПЫТ</legend>
+<table class="ed_table" cellpadding="0" cellspacing="0"  style="border-top-width: 1px">
+<tr>
+	<td style="width: 200px">Период работы</td>
+	<td>Название организации / подразделение и должность</td>
+	<td>функциональные обязанности</td>
+	<td>Причины ухода</td>
+</tr>
+{foreach item=e from=$tr}
+<tr>
+	<td>с <input type="text" name="tr_date_s[]" id="tr_date_s{$e@iteration}" class="f_input" style="width: 55px" value="{$e.DATE_S}" /> по <input type="text" name="tr_date_po[]" id="tr_date_po{$e@iteration}" class="f_input" style="width: 55px" value="{$e.DATE_PO}" /></td>
+	<td><input type="text" name="tr_vacancy[]" id="tr_vacancy{$e@iteration}" class="f_input" style="width: 140px" value="{$e.VACANCY}" /></td>
+	<td><input type="text" name="tr_obyaz[]" id="tr_obyaz{$e@iteration}" class="f_input" style="width: 140px" value="{$e.OBYAZ}" /></td>
+	<td><input type="text" name="tr_uhod[]" id="tr_uhod{$e@iteration}" class="f_input" style="width: 140px" value="{$e.UHOD}" /></td>
+</tr>
+{/foreach}
+</table>
+<br>
+
+<label>Ваш месячный доход в настоящее время или на последнем месте работы</label> 
+<select name="dohod" class="f_input" style="width: 250px;">
+	<option value="от 100$" {if ($DOHOD == '1')}selected="selected"{/if}>от 100$</option>
+	<option value="от 100$ до 500$" {if ($DOHOD == '2')}selected="selected"{/if}>от 100$ до 500$</option>
+	<option value="от 500$ до 1000$" {if ($DOHOD == '3')}selected="selected"{/if}>от 500$ до 1000$</option>
+	<option value="от 1000$ до 2000$" {if ($DOHOD == '4')}selected="selected"{/if}>от 1000$ до 2000$</option>
+	<option value="свыше 2000$" {if ($DOHOD == '5')}selected="selected"{/if}>свыше 2000$</option>
+</select><br/>
+
+<label>Насколько Вы удовлетворены своими доходами</label>
+<select name="kak_dohod" class="f_input" style="width: 250px;">
+	<option value="Я заслуживаю большего" {if ($KAK_DOHOD == '1')}selected="selected"{/if}>Я заслуживаю большего</option>
+	<option value="Я неудовлетворен" {if ($KAK_DOHOD == '2')}selected="selected"{/if}>Я неудовлетворен</option>
+	<option value="Я доволен" {if ($KAK_DOHOD == '3')}selected="selected"{/if}>Я доволен</option>
+	<option value="Я очень доволен" {if ($KAK_DOHOD == '4')}selected="selected"{/if}>Я очень доволен</option>
+	<option value="Мне переплачивают" {if ($KAK_DOHOD == '5')}selected="selected"{/if}>Мне переплачивают</option>
+</select><br/>
+                                                    
+<label>Какие из следующих качеств  Вам характерны</label>
+<table class="ed_table" cellpadding="0" cellspacing="0"   style="border-top-width: 1px">
+<tr>
+	<td style="width: 33%">
+		<input type="checkbox" name="kachestva[0]" value="1" {$KA1}> целеустремленность<br/>
+		<input type="checkbox" name="kachestva[1]" value="1" {$KA2}> амбициозность<br/>
+		<input type="checkbox" name="kachestva[2]" value="1" {$KA3}> чувствительность<br/>
+		<input type="checkbox" name="kachestva[3]" value="1" {$KA4}> лояльность
+	</td>
+	<td style="width: 33%" {$KA1}>
+		<input type="checkbox" name="kachestva[4]" value="1" {$KA5}> ответственность<br/>  
+		<input type="checkbox" name="kachestva[5]" value="1" {$KA6}> решительность<br/>
+		<input type="checkbox" name="kachestva[6]" value="1" {$KA7}> дисциплинированность<br/>
+		<input type="checkbox" name="kachestva[7]" value="1" {$KA8}> лидерство
+	</td>
+	<td>
+		<input type="checkbox" name="kachestva[8]" value="1" {$KA9}> агрессивность<br/>  
+		<input type="checkbox" name="kachestva[9]" value="1" {$KA10}> коммуникабельность<br/>
+		<input type="checkbox" name="kachestva[10]" value="1" {$KA11}> исполнительность<br/>
+		<input type="checkbox" name="kachestva[11]" value="1" {$KA12}> нервозность
+	</td>
+</tr>
+</table>
+<br/>
+</fieldset>
+
+<fieldset>
+<legend>РЕКОМЕНДАЦИИ</legend>
+<table class="ed_table" cellpadding="0" cellspacing="0" style="border-top-width: 1px">
+<tr>
+	<td style="width: 200px;">Ф.И.О. (полностью)</td>
+	<td>Название компании</td>
+	<td style="width: 200px;">Контактный телефон</td>
+</tr>
+{foreach item=e from=$rec}
+<tr>
+	<td><input type="text" name="rec_fio[]" id="rec_fio{$e@iteration}" class="f_input" style="width: 185px" value="{$e.FIO}" /></td>
+	<td><input type="text" name="rec_company[]" id="rec_company{$e@iteration}" class="f_input" style="width: 285px" value="{$e.COMPANY}" /></td>
+	<td><input type="text" name="rec_phone[]" id="rec_phone{$e@iteration}" class="f_input" style="width: 185px" value="{$e.PHONE}" /></td>
+</tr>
+{/foreach}
+</table>
+
+</fieldset>
+
+<p class="submit-buttons">
+	<input class="button1" type="submit" id="submit" name="submit" value="Отправить" />
+	&nbsp;
+	<input class="button2" type="reset" id="reset" name="reset" value="Сбросить" />
+</p>
+</form>
+
+<script>
+$(document).ready(function() {
+	
+	/*alphanumeric & maskinput*/
+    $('#surname').alpha({allow:"- "});
+    $('#name').alpha({allow:"- "});
+    $('#name2').alpha({allow:"- "});
+    $('#nationality').alpha({allow:"- ()"});
+    $('#citizenship').alpha({allow:"- ()"});
+    $('#birthday').mask("99-99-9999");
+    $('#birth_mesto').alphanumeric({allow:"- ().,:;'"});
+    $('#address_propiska').alphanumeric({allow:"- ().,:;'"});
+    $('#address_factich').alphanumeric({allow:"- ().,:;'"});
+    $('#address_registraciya').alphanumeric({allow:"- ().,:;'"});
+    $('#telephone').numeric({allow:"- ().,;+"});
+    $('#email').alphanumeric({allow:"-_.@"});
+    $('#sposob_svyazi').alphanumeric({allow:"- ().,:;'"});
+    
+    $('#ed_date_ot1').mask("99-99-9999");
+    $('#ed_date_do1').mask("99-99-9999");
+    $('#ed_vuz1').alphanumeric({allow:"-., "});
+    $('#ed_spec1').alphanumeric({allow:"-., &"});
+    $('#ed_date_ot2').mask("99-99-9999");
+    $('#ed_date_do2').mask("99-99-9999");
+    $('#ed_vuz2').alphanumeric({allow:"-., "});
+    $('#ed_spec2').alphanumeric({allow:"-., &"});
+    $('#ed_date_ot3').mask("99-99-9999");
+    $('#ed_date_do3').mask("99-99-9999");
+    $('#ed_vuz3').alphanumeric({allow:"-., "});
+    $('#ed_spec3').alphanumeric({allow:"-., &"});
+    
+    $('#ed_kurs1').alphanumeric({allow:"-., &"});
+    $('#ed_kurs2').alphanumeric({allow:"-., &"});
+    $('#ed_kurs3').alphanumeric({allow:"-., &"});
+    $('#ed_kurs4').alphanumeric({allow:"-., &"});
+    $('#ed_kurs5').alphanumeric({allow:"-., &"});
+    $('#ed_company1').alphanumeric({allow:"-., &"});
+    $('#ed_company2').alphanumeric({allow:"-., &"});
+    $('#ed_company3').alphanumeric({allow:"-., &"});
+    $('#ed_company4').alphanumeric({allow:"-., &"});
+    $('#ed_company5').alphanumeric({allow:"-., &"});
+    $('#ed_edtime1').alphanumeric({allow:"-., "});
+    $('#ed_edtime2').alphanumeric({allow:"-., "});
+    $('#ed_edtime3').alphanumeric({allow:"-., "});
+    $('#ed_edtime4').alphanumeric({allow:"-., "});
+    $('#ed_edtime5').alphanumeric({allow:"-., "});
+    $('#ed_dateend1').mask("99-99-9999");
+    $('#ed_dateend2').mask("99-99-9999");
+    $('#ed_dateend3').mask("99-99-9999");
+    $('#ed_dateend4').mask("99-99-9999");
+    $('#ed_dateend5').mask("99-99-9999");
+    
+    $('#tr_date_s1').mask("99-99-9999");
+    $('#tr_date_s2').mask("99-99-9999");
+    $('#tr_date_s3').mask("99-99-9999");
+    $('#tr_date_po1').mask("99-99-9999");
+    $('#tr_date_po2').mask("99-99-9999");
+    $('#tr_date_po3').mask("99-99-9999");
+    $('#tr_vacancy1').alphanumeric({allow:"-.,; "});
+    $('#tr_vacancy2').alphanumeric({allow:"-.,; "});
+    $('#tr_vacancy3').alphanumeric({allow:"-.,; "});
+    $('#tr_obyaz1').alphanumeric({allow:"-.,; "});
+    $('#tr_obyaz2').alphanumeric({allow:"-.,; "});
+    $('#tr_obyaz3').alphanumeric({allow:"-.,; '"});
+    $('#tr_uhod1').alphanumeric({allow:"-.,; "});
+    $('#tr_uhod2').alphanumeric({allow:"-.,; "});
+    $('#tr_uhod3').alphanumeric({allow:"-.,; "});
+
+    $('#rec_fio1').alphanumeric({allow:"- "});
+    $('#rec_fio2').alphanumeric({allow:"- "});
+    $('#rec_fio3').alphanumeric({allow:"- "});
+    $('#rec_company1').alphanumeric({allow:"-.,; &"});
+    $('#rec_company2').alphanumeric({allow:"-.,; &"});
+    $('#rec_company3').alphanumeric({allow:"-.,; &"});
+    $('#rec_phone1').numeric({allow:"- ().,;+"});
+    $('#rec_phone2').numeric({allow:"- ().,;+"});
+    $('#rec_phone3').numeric({allow:"- ().,;+"});
+    
+    $('#acp_pages').submit(function(){
+    	if ($.trim($('#title_vacancy').val()) == "")
+    	{
+    		alert("Заполните, пожалуйста, поле ДОЛЖНОСТЬ.");
+    		$('#title_vacancy').focus();
+    		return false;
+    	}
+    	
+    	if ($.trim($('#surname').val()) == "")
+    	{
+    		alert("Заполните, пожалуйста, поле ФАМИЛИЯ.");
+    		$('#surname').focus();
+    		return false;
+    	}
+    	if ($.trim($('#name').val()) == "")
+    	{
+    		alert("Заполните, пожалуйста, поле ИМЯ.");
+    		$('#name').focus();
+    		return false;
+    	}
+    	if ($.trim($('#name2').val()) == "")
+    	{
+    		alert("Заполните, пожалуйста, поле ОТЧЕСТВО.");
+    		$('#name2').focus();
+    		return false;
+    	}
+    	if ($('#birthday').val() == "")
+    	{
+    		alert("Заполните, пожалуйста, поле ДАТА РОЖДЕНИЯ.");
+    		$('#birthday').focus();
+    		return false;
+    	}
+    	if ($.trim($('#telephone').val()) == "")
+    	{
+    		alert("Заполните, пожалуйста, поле КОНТАКТНЫЙ ТЕЛЕФОН.");
+    		$('#telephone').focus();
+    		return false;
+    	}
+    	
+    	return true;
+    });
+    
+});
+</script>
+
+{include file="page_footer.html"}

@@ -1,0 +1,27 @@
+<dl>
+	<dt><label for="{$input.name}">{$input.title}:</label></dt>
+</dl>
+<dl>
+	<div id="xToolbar_{$input.name}"></div>
+	<textarea name="{$input.name}" id="{$input.name}" style="width: 100%;">{$input.value}</textarea>
+</dl>
+
+{if not $editor_plugin_loaded}
+	<script src="f/fckeditor.js"></script>
+{/if}
+<script>
+$(document).ready(function() {
+	var oFCKeditor = new FCKeditor('{$input.name}');
+	oFCKeditor.BasePath = "f/";
+	oFCKeditor.Config["ContentLangDirection"] = "ltr";
+	oFCKeditor.Config["DefaultLanguage"] = "ru";
+	oFCKeditor.Config["EditorAreaCSS"] = "/css/{$input.css|default:'acp.css'}";
+	oFCKeditor.Config["EditorAreaStyles"] = "html, body { width: 98% !important; min-width: 98% !important; height: 98% !important; min-height: 98% !important; padding: 0 2px;";
+	oFCKeditor.Height = {$input.height|default:300};
+	oFCKeditor.Config["EnterMode"] = "br" ;
+	oFCKeditor.Config["ShiftEnterMode"] = "p";
+	oFCKeditor.Config['ToolbarLocation'] = 'Out:xToolbar_{$input.name}';
+	oFCKeditor.ToolbarSet = "{$input.editor|default:'Default'}";
+	oFCKeditor.ReplaceTextarea();
+});
+</script>

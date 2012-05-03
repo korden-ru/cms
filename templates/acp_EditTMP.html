@@ -1,0 +1,20 @@
+{include file="page_header.html"}
+
+<h1>Редактирование</h1>
+<br>
+	<form id="acp_news" method="post" action="{$U_ACTION}" enctype="multipart/form-data" >
+	<fieldset>
+	<legend>Содержание</legend>
+		
+		{$FIELDS}
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="Отправить">
+			&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="Очистить">
+		</p>
+		{if (isset($HIDDEN_FIELDS))} {$HIDDEN_FIELDS} {/if}
+	</fieldset>
+	</form>
+
+{include file="page_footer.html"}
