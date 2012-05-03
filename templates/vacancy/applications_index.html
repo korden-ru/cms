@@ -1,89 +1,89 @@
-{include file="page_header.html"}
-	
-	<h2>Анкеты соискателей</h2>
-	<table class="list" cellspacing="1">
-	<thead>
-	<tr>
-	<th width="15px">№</th>
-	<th>Соискатель</th>
-	<th>Должность</th>
-	<th>Дата / IP</th>
-	<th width="110px">Управление</th>
-	</tr>
-	</thead>
-	
-	{if ($IS_UNVIEW == 1)}
-		<tr><td colspan="5" style="text-align: center;font: bold 12px Tahoma; background-color: #4188AF; color: #fff;">Новые анкеты</td></tr>
-		{foreach item=u from=$unview}
-		<tr class="{cycle values="row1,row2"}">
-		<td>{$u.NUM}</td>
-		<td>
-			<b>{$u.NAME}</b><br>
-			{$u.BIRTHDAY} г.р.<br>
-			Тел: {$u.TELEPHONE}
-			{if ($u.EMAIL != '')}<br>Email: {$u.EMAIL}{/if}
-		</td>
-		<td>{$u.VACANCY_TITLE}</td>
-		<td>{$u.DATE_CREATE}<br>--------------------<br>{$u.IP}</td>
-		<td>
-		<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{$u.U_EDIT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="Redirect(arguments, '{$u.U_PRINT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {ldelim}Redirect(arguments, '{$u.U_DELETE}');{rdelim}" />
-		</td>
-		</tr>
-		{/foreach}
-	
-	{/if}
-	
-	{if ($IS_VIEW == 1)}
-		<tr><td colspan="5" style="text-align: center;font: bold 12px Tahoma; background-color: #4188AF; color: #fff;">Просмотренные анкеты</td></tr>
-		{foreach item=u from=$view}
-		<tr class="{cycle values="row1,row2"}">
-		<td>{$u.NUM}</td>
-		<td>
-			<b>{$u.NAME}</b><br>
-			{$u.BIRTHDAY} г.р.<br>
-			Тел: {$u.TELEPHONE}
-			{if ($u.EMAIL != '')}<br>Email: {$u.EMAIL}{/if}
-		</td>
-		<td>{$u.VACANCY_TITLE}</td>
-		<td>{$u.DATE_CREATE}<br>--------------------<br>{$u.IP}</td>
-		<td>
-		<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{$u.U_EDIT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="popupWindow('{$u.U_PRINT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {ldelim}Redirect(arguments, '{$u.U_DELETE}');{rdelim}" />
-		</td>
-		</tr>
-		{/foreach}
-	{/if}
-	
-	
-	
-	{*
-	
-	<!-- if IS_VIEW == 1 -->
-	
-		<!-- cycle view -->
-		<tr {view.CLASS}>
-		<td>{view.NUM}</td>
-		<td>
-			<b>{view.NAME}</b><br>
-			{view.BIRTHDAY} г.р.<br>
-			Тел: {view.TELEPHONE}
-			<!-- if view.EMAIL != '' --><br>Email: {view.EMAIL} <!-- endif -->
-		</td>
-		<td>{view.VACANCY_TITLE}</td>
-		<td>{view.DATE_CREATE}<br>--------------------<br>{view.IP}</td>
-		<td>
-		<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{view.U_EDIT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="popupWindow('{view.U_PRINT}');" /><br>
-		<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {Redirect(arguments, '{view.U_DELETE}');}" />
-		</td>
-		</tr>
-		<!-- endcycle view -->
-	<!-- endif -->
-	*}
-	
-	</table>
+{extends "base.html"}
 
-{include file="page_footer.html"}
+{block name=content}
+<h2>Анкеты соискателей</h2>
+<table class="list" cellspacing="1">
+<thead>
+<tr>
+<th width="15px">№</th>
+<th>Соискатель</th>
+<th>Должность</th>
+<th>Дата / IP</th>
+<th width="110px">Управление</th>
+</tr>
+</thead>
+	
+{if ($IS_UNVIEW == 1)}
+	<tr><td colspan="5" style="text-align: center;font: bold 12px Tahoma; background-color: #4188AF; color: #fff;">Новые анкеты</td></tr>
+	{foreach item=u from=$unview}
+	<tr class="{cycle values="row1,row2"}">
+	<td>{$u.NUM}</td>
+	<td>
+		<b>{$u.NAME}</b><br>
+		{$u.BIRTHDAY} г.р.<br>
+		Тел: {$u.TELEPHONE}
+		{if ($u.EMAIL != '')}<br>Email: {$u.EMAIL}{/if}
+	</td>
+	<td>{$u.VACANCY_TITLE}</td>
+	<td>{$u.DATE_CREATE}<br>--------------------<br>{$u.IP}</td>
+	<td>
+	<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{$u.U_EDIT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="Redirect(arguments, '{$u.U_PRINT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {ldelim}Redirect(arguments, '{$u.U_DELETE}');{rdelim}" />
+	</td>
+	</tr>
+	{/foreach}
+	
+{/if}
+	
+{if ($IS_VIEW == 1)}
+	<tr><td colspan="5" style="text-align: center;font: bold 12px Tahoma; background-color: #4188AF; color: #fff;">Просмотренные анкеты</td></tr>
+	{foreach item=u from=$view}
+	<tr class="{cycle values="row1,row2"}">
+	<td>{$u.NUM}</td>
+	<td>
+		<b>{$u.NAME}</b><br>
+		{$u.BIRTHDAY} г.р.<br>
+		Тел: {$u.TELEPHONE}
+		{if ($u.EMAIL != '')}<br>Email: {$u.EMAIL}{/if}
+	</td>
+	<td>{$u.VACANCY_TITLE}</td>
+	<td>{$u.DATE_CREATE}<br>--------------------<br>{$u.IP}</td>
+	<td>
+	<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{$u.U_EDIT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="popupWindow('{$u.U_PRINT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {ldelim}Redirect(arguments, '{$u.U_DELETE}');{rdelim}" />
+	</td>
+	</tr>
+	{/foreach}
+{/if}
+	
+	
+	
+{*
+	
+<!-- if IS_VIEW == 1 -->
+	
+	<!-- cycle view -->
+	<tr {view.CLASS}>
+	<td>{view.NUM}</td>
+	<td>
+		<b>{view.NAME}</b><br>
+		{view.BIRTHDAY} г.р.<br>
+		Тел: {view.TELEPHONE}
+		<!-- if view.EMAIL != '' --><br>Email: {view.EMAIL} <!-- endif -->
+	</td>
+	<td>{view.VACANCY_TITLE}</td>
+	<td>{view.DATE_CREATE}<br>--------------------<br>{view.IP}</td>
+	<td>
+	<input class="button1" style="width:100%;" type="submit" value="Смотреть" onclick="Redirect(arguments, '{view.U_EDIT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Печать" onclick="popupWindow('{view.U_PRINT}');" /><br>
+	<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {Redirect(arguments, '{view.U_DELETE}');}" />
+	</td>
+	</tr>
+	<!-- endcycle view -->
+<!-- endif -->
+*}
+	
+</table>
+{/block}

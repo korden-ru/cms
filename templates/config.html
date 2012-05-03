@@ -1,5 +1,6 @@
-{include file="page_header.html"}
+{extends "base.html"}
 
+{block name=content}
 <h1>Редактирование настроек сайта</h1>
 <br>
 	<form id="acp_pages" method="post" action="{$U_ACTION}">
@@ -18,5 +19,4 @@
 		</p>
 	</fieldset>
 	</form>
-
-{include file="page_footer.html"}
+{/block}

@@ -1,48 +1,49 @@
-{include file="page_header.html"}
+{extends "base.html"}
 
-	{if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}{$SORTINGSCRIPT}{/if}
+{block name=content}
 
-	<h1 id="error_header">
-	{if (isset($ERROR))}
-	Ошибка - {$ERROR}
-	{/if}
-	</h1>
-	<h2>{$TITLETABLE}</h2>
-	{if ($ADDBUTTON)}
-	<input style="float:left;" class="button1" type="submit" value="{$ADDBUTTONTEXT}" onclick="Redirect(arguments, '{$U_ADD}');" /><br />
-	{/if}
-	<br />
+{if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}{$SORTINGSCRIPT}{/if}
+
+<h1 id="error_header">
+{if (isset($ERROR))}
+Ошибка - {$ERROR}
+{/if}
+</h1>
+<h2>{$TITLETABLE}</h2>
+{if ($ADDBUTTON)}
+<input style="float:left;" class="button1" type="submit" value="{$ADDBUTTONTEXT}" onclick="Redirect(arguments, '{$U_ADD}');" /><br />
+{/if}
+<br />
 	
-	{if (isset($FILTERSLIST) && $FILTERSLIST != '')}{$FILTERSLIST}{else}<br/>{/if}
+{if (isset($FILTERSLIST) && $FILTERSLIST != '')}{$FILTERSLIST}{else}<br/>{/if}
 	
-	{if (isset($TOOLTIP) && $TOOLTIP)}
-	<link rel="stylesheet" href="//korden.net/js/jquery/plugins/cluetip/1.0.6/jquery.cluetip.css">
-	<script src="//korden.net/js/jquery/plugins/cluetip/1.0.6/jquery.cluetip.js"></script>
-	<script>
-	$(document).ready(function() {
-		$('a.jt').cluetip({
-			cluetipClass: 'jtip', 
-			activation: 'click',
-			arrows: true, 
-			dropShadow: false,
-			hoverIntent: false,
-			sticky: true,
-			mouseOutClose: true,
-			closePosition: 'title',
-			closeText: '<img src="//korden.net/js/jquery/plugins/cluetip/1.0.6/cross.png" alt="close">'
-		});
+{if (isset($TOOLTIP) && $TOOLTIP)}
+<link rel="stylesheet" href="//korden.net/js/jquery/plugins/cluetip/1.0.6/jquery.cluetip.css">
+<script src="//korden.net/js/jquery/plugins/cluetip/1.0.6/jquery.cluetip.js"></script>
+<script>
+$(document).ready(function() {
+	$('a.jt').cluetip({
+		cluetipClass: 'jtip', 
+		activation: 'click',
+		arrows: true, 
+		dropShadow: false,
+		hoverIntent: false,
+		sticky: true,
+		mouseOutClose: true,
+		closePosition: 'title',
+		closeText: '<img src="//korden.net/js/jquery/plugins/cluetip/1.0.6/cross.png" alt="close">'
 	});
-	</script>
-	{/if}
+});
+</script>
+{/if}
 
-	{include "block/pagination.html"}
+{include "block/pagination.html"}
 	
-	<table class="list" cellspacing="1" {if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}id="{$HTMLTABLEID}"{/if}>
+<table class="list" cellspacing="1" {if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}id="{$HTMLTABLEID}"{/if}>
 	
-	{$TABLE}
+{$TABLE}
 
-	</table>
+</table>
 
-	{include "block/pagination.html"}
-
-{include file="page_footer.html"}
+{include "block/pagination.html"}
+{/block}

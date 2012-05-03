@@ -1,5 +1,6 @@
-{include file="page_header.html"}
+{extends "base.html"}
 
+{block name=content}
 <h1>Редактирование пользователя <b>{$LOGIN}</b></h1>
 <br>
 	<script src="f/fckeditor.js"></script>
@@ -89,4 +90,4 @@
 		{$HIDDEN_FIELDS}
 	</fieldset>
 	</form>
-{include file="page_footer.html"}
+{/block}

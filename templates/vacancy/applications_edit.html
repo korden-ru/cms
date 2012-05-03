@@ -1,5 +1,6 @@
-{include file="page_header.html"}
+{extends "base.html"}
 
+{block name=content}
 <script src="//korden.net/js/jquery/plugins/maskedinput/1.3/jquery.maskedinput.min.js"></script>
 <script src="//korden.net/js/jquery/plugins/alphanumeric/1.0/jquery.alphanumeric.min.js"></script>
 	
@@ -384,5 +385,4 @@ $(document).ready(function() {
     
 });
 </script>
-
-{include file="page_footer.html"}
+{/block}

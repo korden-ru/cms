@@ -1,39 +1,41 @@
-{include file="page_header.html"}
-	<h1 id="error_header">
-	{if (isset($ERROR))}
-	Ошибка - {$ERROR}
-	{/if}
-	</h1>
-	<h2>{$MODULE_TITLE}</h2>
-	<input style="float:left;" class="button1" type="submit" value="Добавить нового" onclick="Redirect(arguments, '{$U_ADD}');" /><br>
-	<br>
-	<table class="list" cellspacing="1">
-	<thead>
-	<tr>
-	<th>Имя</th>
-	<th>Логин</th>
-	<th>Уровень<br />доступа</th>
-	<th>Группа пользователя</th>
-	<th>Время регистрации</th>
-	<th></th>
-	</tr>
-	</thead>
-	{foreach $users AS $row}
-	<tr{if ($row@iteration % 2 == 0)} class="row2"{/if}>
-	<td>{$row.NAME}</td>
-	<td>{$row.LOGIN}</td>
-	<td>{if ($row.ROLE == 0)}Пользователь{elseif ($row.ROLE == 4)}Администратор{/if}</td>
-	<td>{$row.GROUP_TITLE}</td>
-	<td>{$row.REGTIME}</td>
-	<td>
-	<input class="button1" style="width:100%;" type="submit" value="Изменить" onclick="Redirect(arguments, '{$row.U_EDIT}');" />
-	<br>
-	{if ($row.ID != 1)}
-	{literal}<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {Redirect(arguments, '{/literal}{$row.U_DELETE}{literal}');}" />{/literal}
-	{/if}
-	<br />
-	</td>
-	</tr>
-	{/foreach}
-	</table>
-{include file="page_footer.html"}
+{extends "base.html"}
+
+{block name=content}
+<h1 id="error_header">
+{if (isset($ERROR))}
+Ошибка - {$ERROR}
+{/if}
+</h1>
+<h2>{$MODULE_TITLE}</h2>
+<input style="float:left;" class="button1" type="submit" value="Добавить нового" onclick="Redirect(arguments, '{$U_ADD}');" /><br>
+<br>
+<table class="list" cellspacing="1">
+<thead>
+<tr>
+<th>Имя</th>
+<th>Логин</th>
+<th>Уровень<br />доступа</th>
+<th>Группа пользователя</th>
+<th>Время регистрации</th>
+<th></th>
+</tr>
+</thead>
+{foreach $users AS $row}
+<tr{if ($row@iteration % 2 == 0)} class="row2"{/if}>
+<td>{$row.NAME}</td>
+<td>{$row.LOGIN}</td>
+<td>{if ($row.ROLE == 0)}Пользователь{elseif ($row.ROLE == 4)}Администратор{/if}</td>
+<td>{$row.GROUP_TITLE}</td>
+<td>{$row.REGTIME}</td>
+<td>
+<input class="button1" style="width:100%;" type="submit" value="Изменить" onclick="Redirect(arguments, '{$row.U_EDIT}');" />
+<br>
+{if ($row.ID != 1)}
+{literal}<input class="button1" style="width:100%;" type="submit" value="Удалить" onclick="if(confirm('Будет удалена вся информация связанная с этой записью! Продолжить?')) {Redirect(arguments, '{/literal}{$row.U_DELETE}{literal}');}" />{/literal}
+{/if}
+<br />
+</td>
+</tr>
+{/foreach}
+</table>
+{/block}
