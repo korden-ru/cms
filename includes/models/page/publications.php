@@ -173,8 +173,8 @@ class page_publications extends page
 			array('name' => 'title', 'title' => 'Заголовок', 'type' => 'text', 'value' => $row['title']),
 			//array('name' => 'title_small', 'title' => 'Краткий заголовок для ТОП-новости', 'type' => 'text', 'value' => $row['title_small'], 'prim' => '2-3 слова. Если не указан, будет использовано поле «Заголовок»'),
 			array('name' => 'modifyurl', 'title' => 'ЧПУ (человекопонятный URL)', 'type' => 'hidden', 'value' => modifyUrl($row['title']." ".$id)),
-			array('name' => 'preview', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['preview'], "width" => 100),
-			array('name' => 'text', 'title' => 'Текст', 'type' => 'textarea', 'value' => $row['text'], "width" => 200),
+			array('name' => 'preview', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['preview'], 'height' => 100),
+			array('name' => 'text', 'title' => 'Текст', 'type' => 'textarea', 'value' => $row['text'], 'height' => 200),
 			array('name' => 'image', 'title' => 'Изображение', 'type' => 'file', 'value' => $row['image'], 'old' => 'old_image', 'resize' => $resize, 'ajax_delete' => $ajax_delete),
 			
 			

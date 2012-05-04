@@ -113,8 +113,8 @@ class faq extends page
 		$this->db->freeresult();
 		
 		$fieldset = array(
-			array('name' => 'question', 'title' => 'Вопрос', 'type' => 'textarea', 'value' => $row['question'], "width" => 100),
-			array('name' => 'answer', 'title' => 'Ответ', 'type' => 'textarea', 'value' => $row['answer'], "width" => 100),
+			array('name' => 'question', 'title' => 'Вопрос', 'type' => 'textarea', 'value' => $row['question'], 'height' => 100),
+			array('name' => 'answer', 'title' => 'Ответ', 'type' => 'textarea', 'value' => $row['answer'], 'height' => 100),
 			array('name' => 'fio', 'title' => 'Имя', 'type' => 'text', 'value' => $row['fio']),
 			array('name' => 'phone', 'title' => 'Телефон', 'type' => 'text', 'value' => $row['phone']),
 			array('name' => 'email', 'title' => 'Email', 'type' => 'text', 'value' => $row['email']),

@@ -195,7 +195,7 @@ class gallery extends page
 		
 		$fieldset = array(
 			array('name' => 'title', 'title' => 'Наименование галереи', 'type' => 'text', 'value' => $row['title']),
-			array('name' => 'description', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['description'], "width" => 100),
+			array('name' => 'description', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['description'], 'height' => 100),
 			array('name' => 'image', 'title' => 'Изображение', 'type' => 'file', 'value' => $row['image'], 'old' => 'old_image', 'resize' => $resize, 'ajax_delete' => $ajax_delete),
 
 
