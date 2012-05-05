@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package src.ivacuum.ru
+* @package cms.korden.net
 * @copyright (c) 2012 vacuum
 *
 */
@@ -21,6 +21,7 @@ class page extends base_page
 	public $path_menu;
 	public $path_mode;
 	public $path_module;
+	public $site_id = 1;
 	
 	function __construct()
 	{
@@ -70,6 +71,8 @@ class page extends base_page
 			
 			$this->template->assign('U_ADD', $this->path_menu . '&mode=add');
 		}
+		
+		$this->site_id = $this->request->cookie($this->config['cookie.name'] . '_site_id', 1);
 	}
 	
 	/**
