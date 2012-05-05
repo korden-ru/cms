@@ -1,9 +1,34 @@
 <?php
+/**
+*
+* @package cms.korden.net
+* @copyright (c) 2012 vacuum
+*
+*/
 
 namespace acp\models;
 
 class page_publications extends page
 {
+	protected $publication_type = 0;
+
+	function __construct()
+	{
+		global $app;
+
+		parent::__construct();
+		
+		$class_name = get_class($this);
+		$table_name = mb_substr($class_name, mb_strrpos($class_name, '\\') + 1);
+		
+		if( !isset($app['publication.types'][$table_name]) )
+		{
+			trigger_error('Тип публикаций не найден.');
+		}
+		
+		$this->publication_type = $app['publication.types'][$table_name];
+	}
+	
 	/**
 	* Список
 	*/
@@ -21,11 +46,13 @@ class page_publications extends page
 				a.title,
 				a.activation,
 				a.page_type,
-				(SELECT COUNT(b.id) FROM ' . $this->form->table_name . '_gallery b WHERE b.id_row = a.id) AS total_photos
+				(SELECT COUNT(b.id) FROM tcms_publications_gallery b WHERE b.id_row = a.id) AS total_photos
 			FROM
-				' . $this->form->table_name . ' a
+				tcms_publications a
 			WHERE
-				a.type_news = 0
+				a.site_id = ' . $this->db->check_value($this->site_id) . '
+			AND
+				a.type = ' . $this->db->check_value($this->publication_type) . '
 			ORDER BY
 				a.date DESC';
 		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
@@ -38,7 +65,7 @@ class page_publications extends page
 				$row['add_buttons'][] = '<input class="button1" style="width:100%;" type="button" value="Фотоотчет (' . $row['total_photos'] . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=' . $this->class_name . '_gallery&pid=' . $row['id'] . '\');" />';
 			}
 			
-			$row['activation'] = ( $row['activation'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['activation'] = $row['activation'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			
 			switch( $row['page_type'] )
 			{
@@ -51,7 +78,7 @@ class page_publications extends page
 			
 			$row['page_type']  = '<center>' . $row['page_type'] . '</center>';
 			
-			$row['image'] = ( $row['image'] ) ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . htmlspecialchars($row['title']) . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
+			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . htmlspecialchars($row['title']) . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
 				
 			unset($row['total_photos']);
 
@@ -88,12 +115,12 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				' . $this->form->table_name;
+				tcms_publications';
 		$this->db->query($sql);
 		$total = $this->db->fetchfield('total') + 1;
 		$this->db->freeresult();
 		
-		$sql = 'INSERT INTO ' . $this->form->table_name . ' ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
+		$sql = 'INSERT INTO tcms_publications ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
 		$this->db->query($sql);
 		
 		redirect($this->form->U_EDIT . $this->db->insert_id());
@@ -110,9 +137,13 @@ class page_publications extends page
 			SELECT
 				image
 			FROM
-				' . $this->form->table_name . '
+				tcms_publications
 			WHERE
-				id = ' . $this->db->check_value($id);
+				id = ' . $this->db->check_value($id) . '
+			AND
+				site_id = ' . $this->db->check_value($this->site_id) . '
+			AND
+				type = ' . $this->db->check_value($this->publication_type);
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
@@ -127,9 +158,11 @@ class page_publications extends page
 			$sql = '
 				DELETE
 				FROM
-					' . $this->form->table_name . '
+					tcms_publications
 				WHERE
-					id = ' . $this->db->check_value($id);
+					id = ' . $this->db->check_value($id) . '
+				AND
+					type = ' . $this->db->check_value($this->publication_type);
 			$this->db->query($sql);
 		}
 		
@@ -150,16 +183,20 @@ class page_publications extends page
 			SELECT
 				*
 			FROM
-				' . $this->form->table_name . '
+				tcms_publications
 			WHERE
-				id = ' . $this->db->check_value($id);
+				id = ' . $this->db->check_value($id) . '
+			AND
+				site_id = ' . $this->db->check_value($this->site_id) . '
+			AND
+				type = ' . $this->db->check_value($this->publication_type);
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
 		$ajax_delete = array(
 			'url'   => 'includes/ajax/delete_file.php', 
-			'param' => "{ id: $id, table: '" . $this->form->table_name . "', column: 'image', dir: '" . $this->form->upload_folder . "' }"
+			'param' => "{ id: $id, table: 'tcms_publications', column: 'image', dir: '" . $this->form->upload_folder . "' }"
 		);	
 			
 		$resize = array(
@@ -220,9 +257,11 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				' . $this->form->table_name . '
+				tcms_publications
 			WHERE
-				type_news = 0';
+				site_id = ' . $this->db->check_value($this->site_id) . '
+			AND
+				type = ' . $this->db->check_value($this->publication_type);
 		$this->db->query($sql);
 		$total = $this->db->fetchfield('total');
 		$this->db->freeresult();
