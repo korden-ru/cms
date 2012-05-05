@@ -6,9 +6,6 @@ session_start();
 
 define('IN_ACP', 0x000001);
 
-$_SESSION['user_login'] = isset($_SESSION['user_login']) ? $_SESSION['user_login'] : '';
-$_SESSION['user_passwd'] = isset($_SESSION['user_passwd']) ? $_SESSION['user_passwd'] : '';
-
 require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
 /* Login section
