@@ -23,6 +23,8 @@ class articles extends page_publications
 	protected function get_insert_data($total)
 	{
 		return array(
+			'site_id'    => $this->site_id,
+			'type'       => $this->publication_type,
 			'title'      => 'Статья №' . $total,
 			'activation' => 0,
 			'date'       => time(),

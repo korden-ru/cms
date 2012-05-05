@@ -43,17 +43,17 @@ class pages extends page
 			FROM
 				' . $this->form->table_name . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
 				left_id ASC';
-		$result = $this->db->query($sql);
+		$this->db->query($sql);
 		
-		while( $row = $this->db->fetchrow($result) ) 
+		while( $row = $this->db->fetchrow() ) 
 		{
 			$menu_source[] = $row;
 		}
 		
-		$this->db->freeresult($result);
+		$this->db->freeresult();
 		
 		$menu_final = $this->generate_menu($menu_source, 0);
 		
@@ -61,13 +61,13 @@ class pages extends page
 		{
 			if( $this->user->group == 1 )
 			{
-				$row['page_url'] = ( $row['is_dir'] ) ? sprintf('/%s/', $row['page_url']) : sprintf('%s.%s', $row['page_url'], $row['page_formats']);
+				$row['page_url'] = $row['is_dir'] ? sprintf('/%s/', $row['page_url']) : sprintf('%s.%s', $row['page_url'], $row['page_formats']);
 			}
 			
-			$row['page_url']     = ( mb_strlen($row['page_url']) > 25 ) ? mb_substr($row['page_url'], 0, 25) . '...' : $row['page_url'];
-			$row['page_enabled'] = ( $row['page_enabled'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
-			$row['page_enabled'] = ( $row['page_enabled'] && $row['page_redirect'] ) ? '<center><img src="images/road_sign.png" alt="" title="Редирект &rarr; ' . htmlspecialchars($row['page_redirect']) . '"></center>' : $row['page_enabled'];
-			$row['page_display'] = ( $row['page_display'] == 2 ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['page_url']     = mb_strlen($row['page_url']) > 25 ? mb_substr($row['page_url'], 0, 25) . '...' : $row['page_url'];
+			$row['page_enabled'] = $row['page_enabled'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['page_enabled'] = $row['page_enabled'] && $row['page_redirect'] ? '<center><img src="images/road_sign.png" alt="" title="Редирект &rarr; ' . htmlspecialchars($row['page_redirect']) . '"></center>' : $row['page_enabled'];
+			$row['page_display'] = 2 == $row['page_display'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			
 			if( $this->user->group == 1 && $row['page_handler'] )
 			{
@@ -160,7 +160,7 @@ class pages extends page
 	public function add()
 	{
 		$page_data = array(
-			'site_id'   => 1,
+			'site_id'   => $this->site_id,
 			'parent_id' => 0,
 			'page_name' => 'Новая страница'
 		);
@@ -190,7 +190,7 @@ class pages extends page
 	*/
 	public function edit($paths)
 	{
-		global $_MODULE_TYPEPAGES;
+		global $app;
 
 		$id     = $this->request->variable('id', 0);
 		$submit = $this->request->is_set_post('submit');
@@ -232,7 +232,7 @@ class pages extends page
 			
 			array('type' => 'code', 	'html' => '<fieldset><legend>Тип страницы</legend>'),
 			array('type' => 'select',   'name' => 'is_dir', 'title' => 'Файл или папка', 'options' => array('Папка' => 1, 'Файл' => 0), 'value' => $row['is_dir'], 'perms' => array(1)),
-			array('type' => 'select', 	'name' => 'page_type', 'title' => 'Тип страницы', 'options' => $_MODULE_TYPEPAGES, 'value' => $row['page_type']),
+			array('type' => 'select', 	'name' => 'page_type', 'title' => 'Тип страницы', 'options' => $app['page.types'], 'value' => $row['page_type']),
 			array('type' => 'select', 	'name' => 'text_position', 'title' => 'Расположение текста', 'options' => array('Сверху' => 0, 'Снизу' => 1), 'value' => $row['text_position']),
 			array('type' => 'text', 	'name' => 'gallery_title', 'title' => 'Наименование галереи', 'value' => $row['gallery_title'], 'prim' => 'для страниц типа «Текстовая с галереей»'),
 			array('type' => 'code', 	'html' => '</fieldset>'),
@@ -419,7 +419,7 @@ class pages extends page
 			FROM
 				' . PAGES_TABLE . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				page_id = ' . $page_id;
 		$this->db->query($sql);
@@ -434,7 +434,7 @@ class pages extends page
 			SET
 				right_id = right_id - ' . $diff . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				left_id < ' . $row['right_id'] . '
 			AND
@@ -448,7 +448,7 @@ class pages extends page
 				left_id = left_id - ' . $diff . ',
 				right_id = right_id - ' . $diff . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				left_id > ' . $row['right_id'];
 		$this->db->query($sql);
@@ -478,9 +478,9 @@ class pages extends page
 			LEFT JOIN
 				' . PAGES_TABLE . ' p2 ON (' . $condition . ')
 			WHERE
-				p1.site_id = 1
+				p1.site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
-				p2.site_id = 1
+				p2.site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				p1.page_id = ' . $this->db->check_value($page_id) . '
 			ORDER BY
@@ -513,7 +513,7 @@ class pages extends page
 			FROM
 				' . PAGES_TABLE . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				page_id = ' . $this->db->check_value($page_id);
 		$this->db->query($sql);
@@ -546,7 +546,7 @@ class pages extends page
 			FROM
 				' . PAGES_TABLE . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
 				left_id ASC';
 		$this->db->query($sql);
@@ -621,7 +621,7 @@ class pages extends page
 			SET
 				right_id = right_id - ' . $diff . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				left_id < ' . (int) $from_data['right_id'] . '
 			AND
@@ -636,7 +636,7 @@ class pages extends page
 				left_id = left_id - ' . $diff . ',
 				right_id = right_id - ' . $diff . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				left_id > ' . (int) $from_data['right_id'];
 		$this->db->query($sql);
@@ -652,7 +652,7 @@ class pages extends page
 				SET
 					right_id = right_id + ' . $diff . '
 				WHERE
-					site_id = 1
+					site_id = ' . $this->db->check_value($this->site_id) . '
 				AND
 					' . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 				AND
@@ -667,7 +667,7 @@ class pages extends page
 					left_id = left_id + ' . $diff . ',
 					right_id = right_id + ' . $diff . '
 				WHERE
-					site_id = 1
+					site_id = ' . $this->db->check_value($this->site_id) . '
 				AND
 					left_id > ' . (int) $to_data['right_id'] . '
 				AND
@@ -694,7 +694,7 @@ class pages extends page
 				FROM
 					' . PAGES_TABLE . '
 				WHERE
-					site_id = 1
+					site_id = ' . $this->db->check_value($this->site_id) . '
 				AND
 					' . $this->db->in_set('page_id', $moved_ids, true);
 			$this->db->query($sql);
@@ -711,7 +711,7 @@ class pages extends page
 				left_id = left_id ' . $diff . ',
 				right_id = right_id ' . $diff . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				' . $this->db->in_set('page_id', $moved_ids);
 		$this->db->query($sql);
@@ -737,7 +737,7 @@ class pages extends page
 			FROM
 				' . PAGES_TABLE . '
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				parent_id = ' . (int) $page_row['parent_id'] . '
 			AND
@@ -805,7 +805,7 @@ class pages extends page
 					ELSE ' . $diff_down . '
 				END
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				left_id BETWEEN ' . $left_id . ' AND ' . $right_id . '
 			AND
@@ -846,7 +846,7 @@ class pages extends page
 					FROM
 						' . PAGES_TABLE . '
 					WHERE
-						site_id = 1
+						site_id = ' . $this->db->check_value($this->site_id) . '
 					AND
 						page_id = ' . (int) $page_data['parent_id'];
 				$this->db->query($sql);
@@ -874,7 +874,7 @@ class pages extends page
 						left_id = left_id + 2,
 						right_id = right_id + 2
 					WHERE
-						site_id = 1
+						site_id = ' . $this->db->check_value($this->site_id) . '
 					AND
 						left_id > ' . $row['right_id'];
 				$this->db->query($sql);
@@ -885,7 +885,7 @@ class pages extends page
 					SET
 						right_id = right_id + 2
 					WHERE
-						site_id = 1
+						site_id = ' . $this->db->check_value($this->site_id) . '
 					AND
 						' . $row['left_id'] . ' BETWEEN left_id AND right_id';
 				$this->db->query($sql);
@@ -901,7 +901,7 @@ class pages extends page
 					FROM
 						' . PAGES_TABLE . '
 					WHERE
-						site_id = 1';
+						site_id = ' . $this->db->check_value($this->site_id);
 				$this->db->query($sql);
 				$row = $this->db->fetchrow();
 				$this->db->freeresult();
@@ -944,7 +944,7 @@ class pages extends page
 				SET
 					' . $this->db->build_array('UPDATE', $update_ary) . '
 				WHERE
-					site_id = 1
+					site_id = ' . $this->db->check_value($this->site_id) . '
 				AND
 					page_id = ' . (int) $page_data['page_id'];
 			$this->db->query($sql);

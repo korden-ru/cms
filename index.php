@@ -24,7 +24,7 @@ $app['template']->assign(array(
 	'LOGIN'     => '',
 	'USER_ROLE' => 0
 ));
-
+	
 if( false === $app['user']->check() && $login )
 {
 	switch( $app['user']->login() )
@@ -118,6 +118,7 @@ $paths['mode_path']   = $app['config']['acp.root_path'] . '?tab=' . $tab . '&men
 
 $app['template']->assign('ACTIVE_MENU', $paths['mode_path']);
 $app['template']->assign('cms_version', $app::VERSION);
+$app['template']->assign('sites', $app['cache']->obtain_sites());
 
 if($app['user']->id && $app['user']->role >= 4)
 {

@@ -34,8 +34,6 @@ class page_publications extends page
 	*/
 	public function index()
 	{
-		global $_MODULE_TYPEPAGES;
-		
 		$pagination = pagination(10, $this->get_entries_count(), $this->path_menu);
 		
 		$sql = '
@@ -174,7 +172,7 @@ class page_publications extends page
 	*/
 	public function edit()
 	{
-		global $_MODULE_TYPEPAGES;
+		global $app;
 		
 		$id     = $this->request->variable('id', 0);
 		$submit = $this->request->is_set_post('submit');
@@ -224,7 +222,7 @@ class page_publications extends page
 			
 			
 			array('type' => 'code', 	'html' => '<fieldset><legend>Тип страницы</legend>'),
-			array('type' => 'select', 	'name' => 'page_type', 'title' => 'Тип страницы', 'options' => $_MODULE_TYPEPAGES, 'value' => $row['page_type']),
+			array('type' => 'select', 	'name' => 'page_type', 'title' => 'Тип страницы', 'options' => $app['page.types'], 'value' => $row['page_type']),
 			array('type' => 'select', 	'name' => 'text_position', 'title' => 'Расположение текста', 'options' => array('Сверху' => 0, 'Снизу' => 1), 'value' => $row['text_position']),
 			array('type' => 'text', 	'name' => 'gallery_title', 'title' => 'Наименование галереи', 'value' => $row['gallery_title'], 'prim' => 'для страниц типа «Текстовая с галереей»'),
 			array('type' => 'code', 	'html' => '</fieldset>'),

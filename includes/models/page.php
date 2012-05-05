@@ -73,6 +73,8 @@ class page extends base_page
 		}
 		
 		$this->site_id = $this->request->cookie($this->config['cookie.name'] . '_site_id', 1);
+		
+		$this->template->assign('S_SITE_ID', $this->site_id);
 	}
 	
 	/**

@@ -4,14 +4,27 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Система управления сайтом :: Версия CMS: {$cms_version}</title>
 <link rel="stylesheet" href="styles/style.css">
+<link rel="stylesheet" href="//korden.net/js/jquery/plugins/chosen/0.9.8/chosen.css">
 <script src="//yandex.st/jquery/1.7.2/jquery.min.js"></script>
+<script src="//korden.net/js/jquery/plugins/chosen/0.9.8/chosen.jquery.min.js"></script>
 <script src="//korden.net/js/jquery/plugins/tablednd/0.5/jquery.tablednd.js"></script>
 {include "block/highslide.html"}
 </head>
 <body>
-<div style="margin-left: 20px;">
+<div style="margin-left: 20px; float: left;">
 <a href="">Главная панели</a> | <a href="/">Главная сайта</a>
 </div>
+<div style="float: right; margin-right: 15px;">
+	{if sizeof($sites) > 1}
+		Выберите сайт:
+		<select class="chzn-select" id="sites_list" style="width: 250px;">
+			{foreach $sites as $row}
+				<option value="{$row.site_id}"{if $S_SITE_ID == $row.site_id} selected{/if}>{$row.site_url}</option>
+			{/foreach}
+		</select>
+	{/if}
+</div>
+<br style="clear: both;">
 <table id="body_table" cellspacing="0">
 	<tr>
 		<td></td>
@@ -246,6 +259,16 @@ function AjaxClickFormButton(id_source, autoins_arr)
 		$('#' + autoins_arr[key]).val($('#' + id_source).val());
 	}
 }
+
+$(document).ready(function() {
+	$('.chzn-select').chosen();
+	
+	$('#sites_list').change(function() {
+		$.post('includes/ajax/set_site_id.php', { site_id: $(this).val() }, function() {
+			document.location.href = document.location.href;
+		});
+	});
+});
 </script>
 </body>
 </html>

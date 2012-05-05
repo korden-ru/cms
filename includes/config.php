@@ -27,7 +27,7 @@ class config extends page
 			FROM
 				tcms_config
 			WHERE
-				site_id = 1
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
 				sort';
 		$this->db->query($sql);
