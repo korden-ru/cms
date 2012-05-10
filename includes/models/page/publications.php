@@ -113,7 +113,11 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				tcms_publications';
+				tcms_publications
+			WHERE
+				site_id = ' . $this->db->check_value($this->site_id) . '
+			AND
+				type = ' . $this->db->check_value($this->publication_type);
 		$this->db->query($sql);
 		$total = $this->db->fetchfield('total') + 1;
 		$this->db->freeresult();
