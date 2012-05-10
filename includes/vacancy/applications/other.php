@@ -1,6 +1,6 @@
 <?php
 
-namespace app\vacancy;
+namespace acp\vacancy;
 
 /**
 * Анкеты соискателей

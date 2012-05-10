@@ -1,8 +1,8 @@
 <?php
 
-namespace app\vacancy;
+namespace acp\vacancy;
 
-use app\models\page;
+use acp\models\page;
 
 /**
 * Анкеты соискателей
