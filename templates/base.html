@@ -11,20 +11,19 @@
 {include "block/highslide.html"}
 </head>
 <body>
-<div style="margin-left: 20px; float: left;">
+<div style="margin-left: 20px;">
 <a href="">Главная панели</a> | <a href="/">Главная сайта</a>
 </div>
-<div style="float: right; margin-right: 15px;">
-	{if sizeof($sites) > 1}
-		Выберите сайт:
+{if sizeof($sites) > 1}
+<div style="position: absolute; right: 20px; top: 10px;z-index: 1">
+		Выберите сайт:<br/>
 		<select class="chzn-select" id="sites_list" style="width: 250px;">
 			{foreach $sites as $row}
 				<option value="{$row.site_id}"{if $S_SITE_ID == $row.site_id} selected{/if}>{$row.site_url}</option>
 			{/foreach}
 		</select>
-	{/if}
 </div>
-<br style="clear: both;">
+{/if}
 <table id="body_table" cellspacing="0">
 	<tr>
 		<td></td>
