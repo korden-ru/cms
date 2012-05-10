@@ -218,9 +218,9 @@ class pages extends page
 				tcms_pages
 			WHERE
 				page_id = ' . $this->db->check_value($id);
-		$result = $this->db->query($sql);
-		$row = $this->db->fetchrow($result);
-		$this->db->freeresult($result);
+		$this->db->query($sql);
+		$row = $this->db->fetchrow();
+		$this->db->freeresult();
 
 		$s_cat_option = '<option value="0"' . (($row['parent_id'] == 0) ? ' selected="selected"' : '') . '>Родительский пункт меню</option>';
 		
@@ -232,8 +232,29 @@ class pages extends page
 			array('type' => 'textarea', 'name' => 'page_text', 'title' => 'Текст страницы', 'value' => $row['page_text']),
 			
 			
-			array('type' => 'code', 	'html' => '<fieldset><legend>Каталогизатор</legend>'),
-			array('type' => 'select', 	'name' => 'parent_id', 'title' => 'Вложенность меню', 'raw' => $s_cat_option . $this->make_page_select($row['parent_id'], $row['page_id'], false, true)),
+			array('type' => 'code', 	'html' => '<fieldset><legend>Поместить в меню</legend>'),
+			array('type' => 'select', 	'name' => 'parent_id', 'title' => 'Родительская страница', 'raw' => $s_cat_option . $this->make_page_select($row['parent_id'], $row['page_id'], false, true)),
+		);
+		
+		$sql = '
+			SELECT
+				*
+			FROM
+				tcms_menus
+			WHERE
+				activation = 1
+			ORDER BY
+				sort ASC';
+		$this->db->query($sql);
+		
+		while( $menu = $this->db->fetchrow() )
+		{
+			$fieldset[] = array('type' => 'checkbox', 'name' => 'display_in_menu_' . $menu['id'], 'title' => $menu['title'], 'value' => 1, 'checked' => $row['display_in_menu_' . $menu['id']]);
+		}
+		
+		$this->db->freeresult();
+		
+		$fieldset = array_merge($fieldset, array(
 			array('type' => 'code', 	'html' => '</fieldset>'),
 			
 			
@@ -258,10 +279,9 @@ class pages extends page
 			array('type' => 'checkbox', 'name' => 'page_enabled', 'title' => 'Отображается НА САЙТЕ?', 'value' => 1, 'checked' => $row['page_enabled']),
 			array('type' => 'select',   'name' => 'page_display', 'title' => 'Отображается В ГЛАВНОМ МЕНЮ?', 'options' => array('Нет' => 0, 'Да (глобально)' => 2, 'Да (только в подразделах)' => 1), 'value' => $row['page_display']),
 			array('type' => 'select', 'name' => 'page_protected', 'title' => 'Защитить страницу в системе управления', 'options' => array('Нет' => 0, 'От удаления' => 1, 'От редактирования' => 2, 'От просмотра' => 3), 'value' => $row['page_protected'], 'perms' => array(1)),
-			array('type' => 'checkbox', 'name' => 'display_in_menu', 'title' => 'Поместить в БОКОВОЕ МЕНЮ', 'value' => 1, 'checked' => $row['display_in_menu']),
 			array('type' => 'text',     'name' => 'page_redirect', 'title' => 'Редирект', 'value' => $row['page_redirect'], 'prim' => 'Для осуществления редиректа у страницы не должен быть назначен файл- и метод-обработчики', 'perms' => array(1)),
 			array('type' => 'code', 	'html' => '</fieldset>')
-		);
+		));
 
 		if( $submit )
 		{
