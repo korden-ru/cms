@@ -33,6 +33,7 @@ class pages extends page
 				page_formats,
 				page_enabled,
 				page_display,
+				page_protected,
 				page_type,
 				is_dir,
 				parent_id,
@@ -59,6 +60,11 @@ class pages extends page
 		
 		foreach( $menu_final as $key => $row )
 		{
+			if( $row['page_protected'] == 3 && $this->user->group != 1 )
+			{
+				continue;
+			}
+			
 			if( $this->user->group == 1 )
 			{
 				$row['page_url'] = $row['is_dir'] ? sprintf('/%s/', $row['page_url']) : sprintf('%s.%s', $row['page_url'], $row['page_formats']);
@@ -68,6 +74,16 @@ class pages extends page
 			$row['page_enabled'] = $row['page_enabled'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			$row['page_enabled'] = $row['page_enabled'] && $row['page_redirect'] ? '<center><img src="images/road_sign.png" alt="" title="Редирект &rarr; ' . htmlspecialchars($row['page_redirect']) . '"></center>' : $row['page_enabled'];
 			$row['page_display'] = 2 == $row['page_display'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			
+			if( $row['page_protected'] >= 1 && $this->user->group != 1 )
+			{
+				$row['skip_delete'] = true;
+			}
+			
+			if( $row['page_protected'] >= 2 && $this->user->group != 1 )
+			{
+				$row['skip_edit'] = true;
+			}
 			
 			if( $this->user->group == 1 && $row['page_handler'] )
 			{
@@ -130,7 +146,7 @@ class pages extends page
 			
 			$row['arrows'] = '<center><a href="' . $this->path_menu . '&mode=move_up&id=' . $row['page_id'] . '"><img src="images/arrow_090.png" alt="" title="Переместить выше"></a> <a href="' . $this->path_menu . '&mode=move_down&id=' . $row['page_id'] . '"><img src="images/arrow_270.png" alt="" title="Переместить ниже"></a></center>';
 
-			unset($row['parent_id'], $row['submenu'], $row['page_handler'], $row['handler_method'], $row['page_redirect'], $row['page_formats'], $row['is_dir']);
+			unset($row['parent_id'], $row['submenu'], $row['page_handler'], $row['handler_method'], $row['page_redirect'], $row['page_formats'], $row['is_dir'], $row['page_protected']);
 			
 			$data[] = $row;
 		}
@@ -241,6 +257,7 @@ class pages extends page
 			array('type' => 'code', 	'html' => '<fieldset><legend>Дополнительные настройки</legend>'),
 			array('type' => 'checkbox', 'name' => 'page_enabled', 'title' => 'Отображается НА САЙТЕ?', 'value' => 1, 'checked' => $row['page_enabled']),
 			array('type' => 'select',   'name' => 'page_display', 'title' => 'Отображается В ГЛАВНОМ МЕНЮ?', 'options' => array('Нет' => 0, 'Да (глобально)' => 2, 'Да (только в подразделах)' => 1), 'value' => $row['page_display']),
+			array('type' => 'select', 'name' => 'page_protected', 'title' => 'Защитить страницу в системе управления', 'options' => array('Нет' => 0, 'От удаления' => 1, 'От редактирования' => 2, 'От просмотра' => 3), 'value' => $row['page_protected'], 'perms' => array(1)),
 			array('type' => 'checkbox', 'name' => 'display_in_menu', 'title' => 'Поместить в БОКОВОЕ МЕНЮ', 'value' => 1, 'checked' => $row['display_in_menu']),
 			array('type' => 'text',     'name' => 'page_redirect', 'title' => 'Редирект', 'value' => $row['page_redirect'], 'prim' => 'Для осуществления редиректа у страницы не должен быть назначен файл- и метод-обработчики', 'perms' => array(1)),
 			array('type' => 'code', 	'html' => '</fieldset>')
@@ -347,6 +364,11 @@ class pages extends page
 		
 		foreach( $mas as $k => $v )
 		{
+			if( $v['page_protected'] == 3 && $this->user->group != 1 )
+			{
+				continue;
+			}
+			
 			$link_e    = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=edit&id=' . $v['page_id'];
 			$link_d    = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=delete&id=' . $v['page_id'];
 			$link_down = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=move_down&id=' . $v['page_id'];
@@ -363,7 +385,7 @@ class pages extends page
 			$str .= '<div style="position:absolute; right: 10px; top: 2px; z-index: 20; text-align: right;width:100px;">';
 			$str .= '<a href="' . $link_up . '"><img src="images/arrow_090.png" alt="" title="Переместить выше"></a> ';
 			$str .= '<a href="' . $link_down . '"><img src="images/arrow_270.png" alt="" title="Переместить ниже"></a> ';
-			$str .= '<a href="'.$link_e.'"><img src="images/pencil.png" title="Редактировать"></a> ';
+			$str .= $v['page_protected'] < 2 || $this->user->group == 1 ? '<a href="'.$link_e.'"><img src="images/pencil.png" title="Редактировать"></a> ' : '';
 			if ($v['page_type'] != 0)
 			{
 				if ($v['page_type'] != 5)
@@ -377,7 +399,7 @@ class pages extends page
 					$str .= '<a href="'.$link_p.'"><img src="images/_block.png"></a> ';
 				}
 			}
-			$str .= '<a href="'.$link_d.'" onclick="return confirm(\'Будет удалена вся информация связанная с этой записью! Продолжить?\');"><img src="images/cross_script.png" title="Удалить"></a>';
+			$str .= $v['page_protected'] < 1 || $this->user->group == 1 ? '<a href="'.$link_d.'" onclick="return confirm(\'Будет удалена вся информация связанная с этой записью! Продолжить?\');"><img src="images/cross_script.png" title="Удалить"></a>' : '';
 			$str .= '</div></div>';	
 			$str .= $this->reqursive_print_menu($v['submenu'], $offset + 20);
 		}
