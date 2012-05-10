@@ -116,3 +116,7 @@
 	$r = $app['db']->query($q);
 	$s = $app['db']->fetchrow($r);
 	$app['template']->assign(array('NOTES' => htmlspecialchars($s['text'])));
+
+	$site_id = $app['request']->cookie($app['config']['cookie.name'] . '_site_id', 1);
+		
+	$app['template']->assign('S_SITE_ID', $site_id);
