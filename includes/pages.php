@@ -863,10 +863,24 @@ class pages extends page
 	*/
 	private function remove_cache_file()
 	{
-		global $app;
+		$site_info = get_site_info_by_id($this->site_id);
+
+		$sql = '
+			SELECT
+				*
+			FROM
+				' . $this->form->table_name;
+		$this->db->query($sql);
 		
-		$this->cache->_delete(sprintf('%s_handlers_%s', $app['site_info']['domain'], $app['site_info']['language']));
-		$this->cache->_delete(sprintf('%s_menu_%s', $app['site_info']['domain'], $app['site_info']['language']));
+		while( $row = $this->db->fetchrow() )
+		{
+			$this->cache->_delete(sprintf('%s_menu_%d_%s', $site_info['domain'], $row['id'], $site_info['language']));
+		}
+		
+		$this->db->freeresult();
+		
+		$this->cache->_delete(sprintf('%s_handlers_%s', $site_info['domain'], $site_info['language']));
+		$this->cache->_delete(sprintf('%s_menu_%s', $site_info['domain'], $site_info['language']));
 	}
 	
 	/**

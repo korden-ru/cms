@@ -77,6 +77,7 @@ class menus extends page
 		
 		$sql = 'ALTER TABLE ' . PAGES_TABLE . ' ADD display_in_menu_' . $menu_id . ' tinyint(1) UNSIGNED DEFAULT \'0\' NOT NULL';
 		$this->db->query($sql);
+		$this->remove_cache();
 		
 		redirect($this->form->U_EDIT . $menu_id);
 	}
@@ -95,6 +96,7 @@ class menus extends page
 		
 		$sql = 'ALTER TABLE ' . PAGES_TABLE . ' DROP COLUMN display_in_menu_' . $id;
 		$this->db->query($sql);
+		$this->remove_cache();
 		
 		redirect($this->path_class);
 	}
@@ -118,18 +120,41 @@ class menus extends page
 		$fieldset = array(
 			array('type' => 'text', 'name' => 'title', 'title' => 'Название меню', 'value' => $row['title']),
 			array('type' => 'text', 'name' => 'alias', 'title' => 'Алиас', 'value' => $row['alias']),
-
-
 			array('type' => 'checkbox', 'name' => 'activation', 'title' => 'Отображается НА САЙТЕ?', 'value' => 1, 'checked' => $row['activation']),
 		);
 
 		if( $submit )
 		{
 			$this->form->saveIntoDB($fieldset);
+			$this->remove_cache();
 			
 			redirect($this->path_menu);
 		}
 		
 		$this->form->createEditTMP($fieldset);
+	}
+	
+	/**
+	* Удаление кэшированного списка меню
+	*/
+	private function remove_cache()
+	{
+		$site_info = get_site_info_by_id($this->site_id);
+		
+		$sql = '
+			SELECT
+				*
+			FROM
+				' . $this->form->table_name;
+		$this->db->query($sql);
+		
+		while( $row = $this->db->fetchrow() )
+		{
+			$this->cache->_delete(sprintf('%s_menu_%d_%s', $site_info['domain'], $row['id'], $site_info['language']));
+		}
+		
+		$this->db->freeresult();
+		
+		$this->cache->delete('menus');
 	}
 }
