@@ -188,9 +188,9 @@ class gallery extends page
 		);	
 			
 		$resize = array(
-			'root' 		=> array(1024, 1024, true, false),
-			'original' 	=> array(1024, 1024, false, false),
-			'sm'		=> array(210, 158, false, true)
+			'root'     => array($this->config['thumbnail.source_width'], $this->config['thumbnail.source_height'], true, false),
+			'original' => array($this->config['thumbnail.source_width'], $this->config['thumbnail.source_height'], false, false),
+			'sm'       => array($this->config['thumbnail.width'], $this->config['thumbnail.height'], false, $this->config['thumbnail.crop'])
 		);
 		
 		$fieldset = array(
