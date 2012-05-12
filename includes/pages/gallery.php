@@ -28,7 +28,7 @@ class pages_gallery extends page_gallery
 			SELECT
 				*
 			FROM
-				tcms_pages
+				' . PAGES_TABLE . '
 			WHERE
 				page_id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);

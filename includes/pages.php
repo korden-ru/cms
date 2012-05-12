@@ -215,7 +215,7 @@ class pages extends page
 			SELECT
 				*
 			FROM
-				tcms_pages
+				' . PAGES_TABLE . '
 			WHERE
 				page_id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
@@ -864,12 +864,12 @@ class pages extends page
 	private function remove_cache_file()
 	{
 		$site_info = get_site_info_by_id($this->site_id);
-
+		
 		$sql = '
 			SELECT
 				*
 			FROM
-				' . $this->form->table_name;
+				' . MENUS_TABLE;
 		$this->db->query($sql);
 		
 		while( $row = $this->db->fetchrow() )
