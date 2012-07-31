@@ -1,4 +1,8 @@
 <?php
+/**
+* @package cms.korden.net
+* @copyright (c) 2012
+*/
 
 	if(!defined('IN_ACP'))
 		exit('Incorrect file access');

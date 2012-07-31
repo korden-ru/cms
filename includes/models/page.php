@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package cms.korden.net
-* @copyright (c) 2012 vacuum
-*
+* @copyright (c) 2012
 */
 
 namespace acp\models;
