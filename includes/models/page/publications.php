@@ -26,6 +26,7 @@ class page_publications extends page
 			trigger_error('Тип публикаций не найден.');
 		}
 		
+		$this->form->table_name = SQL_PREFIX . 'publications';
 		$this->publication_type = $app['publication.types'][$table_name];
 	}
 	
