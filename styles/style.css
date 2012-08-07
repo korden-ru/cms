@@ -1259,7 +1259,7 @@ input.disabled {
 	visibility: hidden;
 }*/
 
-.clearfix, #tabs, .row, #content, fieldset dl, #page-body {
+.clearfix, #tabs, .row, fieldset dl, #page-body {
 	height: 1%;
 	overflow: hidden;
 }
