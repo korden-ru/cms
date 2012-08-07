@@ -1,17 +1,11 @@
 {extends "base.html"}
 
 {block name=content}
-<h1>Добро пожаловать в систему управления сайтом</h1>
+<h2>Добро пожаловать в систему управления сайтом</h2>
 <h4>Заметки администратора</h4>
-<form method="post" value="">
-<fieldset>
-	<dl>
-		<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea>
-	</dl>
-	<p class="submit-buttons">
-		<input class="button1" type="submit" id="submit_notes" name="submit_notes" value="Сохранить текст">
-	</p>
-</fieldset>
+<form action="" class="well" method="post">
+	<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea>
+	<input class="btn" type="submit" name="submit_notes" value="Сохранить">
 </form>
 
 <script src="f/fckeditor.js"></script>

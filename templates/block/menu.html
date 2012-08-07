@@ -1,0 +1,11 @@
+<div class="well" style="padding: 8px 0;">
+	<ul class="nav nav-list">
+		{foreach $left_menu as $row}
+			{if !$row.HREF}
+				<li class="nav-header">{$row.TITLE}</li>
+			{else}
+				<li {if $row.ACTIVE}class="active"{/if}><a href="{$row.HREF}">{if $row.ICON}<img src="//korden.net/i/icons/{$row.ICON}.png" alt=""> {/if}{$row.TITLE}</a></li>
+			{/if}
+		{/foreach}
+	</ul>
+</div>

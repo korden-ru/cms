@@ -114,7 +114,8 @@ class pages extends page
 					$total = $this->db->fetchfield('total');
 					$this->db->freeresult();
 					
-					$row['add_buttons'][] = '<input class="button1" style="width: 100%;" type="button" value="Блоки (' . $total . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'] . '\');">';
+					$this->form->addAdditionalButton($this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'], 'Блоки (' . $total . ')');
+					// $row['add_buttons'][] = '<input class="button1" style="width: 100%;" type="button" value="Блоки (' . $total . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'] . '\');">';
 					
 				break;
 				case 4:

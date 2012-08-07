@@ -9,9 +9,9 @@
 Ошибка - {$ERROR}
 {/if}
 </h1>
-<h2>{$TITLETABLE}</h2>
+<h3>{$TITLETABLE}</h3>
 {if ($ADDBUTTON)}
-<input style="float:left;" class="button1" type="submit" value="{$ADDBUTTONTEXT}" onclick="Redirect(arguments, '{$U_ADD}');" /><br />
+<a class="btn" href="{$U_ADD}"><i class="icon-plus"></i> {$ADDBUTTONTEXT}</a>
 {/if}
 <br />
 	
@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 {include "block/pagination.html"}
 	
-<table class="list" cellspacing="1" {if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}id="{$HTMLTABLEID}"{/if}>
+<table class="table table-condensed" {if (isset($SORTINGSCRIPT) && !empty($SORTINGSCRIPT))}id="{$HTMLTABLEID}"{/if}>
 	
 {$TABLE}
 
