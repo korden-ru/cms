@@ -61,11 +61,11 @@
 	while($row=$app['db']->fetchrow($result))
 	{
 		$app['template']->append('main_tabs',array(
-						
-							'ACTCLASS'	=> $row['id']==$tab?'id="activetab"':'',
-							'ID'		=> $row['id'],
-							'TITLE'		=> $row['title']
-							));
+			'ICON'   => $row['icon'],
+			'ACTIVE' => $row['id']==$tab,
+			'ID'     => $row['id'],
+			'TITLE'  => $row['title']
+		));
 	}
 		
 	$app['db']->freeresult();
@@ -95,11 +95,12 @@
 			}
 
 			$app['template']->append('left_menu',array(
-							'PCOUNT'	=> $m['pcount'],
-							'ACTIVE'	=> ($m['id']==$menu)?'id="activemenu"':'',
-							'HREF'		=> $m['class'] && $m['mode']? $app['config']['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
-							'TITLE'		=> $m['title']
-							));
+				'ICON'   => $m['icon'],
+				'PCOUNT' => $m['pcount'],
+				'ACTIVE' => $m['id']==$menu,
+				'HREF'   => $m['class'] && $m['mode']? $app['config']['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
+				'TITLE'  => $m['title']
+			));
 		}		
 	}
 	
