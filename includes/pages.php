@@ -114,8 +114,7 @@ class pages extends page
 					$total = $this->db->fetchfield('total');
 					$this->db->freeresult();
 					
-					$this->form->addAdditionalButton($this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'], 'Блоки (' . $total . ')');
-					// $row['add_buttons'][] = '<input class="button1" style="width: 100%;" type="button" value="Блоки (' . $total . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'] . '\');">';
+					$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'], 'Блоки (' . $total . ')');
 					
 				break;
 				case 4:
@@ -130,8 +129,8 @@ class pages extends page
 					$this->db->query($sql);
 					$total = $this->db->fetchfield('total');
 					$this->db->freeresult();
-					
-					$row['add_buttons'][] = '<input class="button1" style="width: 100%;" type="button" value="Товары (' . $total . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=products&pid=' . $row['page_id'] . '\');">';
+
+					$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=products&pid=' . $row['page_id'], 'Товары (' . $total . ')');
 				
 				break;
 			}

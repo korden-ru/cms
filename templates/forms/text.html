@@ -1,15 +1,15 @@
-<dl>
-	<dt><label for="{$input.name}">{$input.title}:</label></dt>
-	<dd>
-		<input type="text" value="{$input.value}" name="{$input.name}" id="{$input.name}" style="width: 98%">
-		{if isset($input.chpu_button) and $input.chpu_button}
-			<input class="button2" type="button" value="Подобрать URL (ЧПУ)" style="margin: 4px 5px 0 0;" onclick="AjaxClickChpuButton('{$input.chpu_button}', '{$input.name}', 1);">
-		{/if}
-		{if isset($input.chpu_rus_button) and $input.chpu_rus_button}
-			<input class="button2" type="button" value="Подобрать русский URL (ЧПУ)" style="margin: 4px 5px 0 0;" onclick="AjaxClickChpuButton('{$input.chpu_rus_button}', '{$input.name}', 2);">
+<div class="control-group">
+	<label class="control-label" for="{$input.name}">{$input.title}</label>
+	<div class="controls">
+		{if (isset($input.chpu_button) and $input.chpu_button) or (isset($input.chpu_rus_button) and $input.chpu_rus_button)}
+			<div class="input-append">
+				<input type="text" value="{$input.value}" name="{$input.name}" id="{$input.name}">{if isset($input.chpu_button) and $input.chpu_button}<button class="btn" onclick="AjaxClickChpuButton('{$input.chpu_button}', '{$input.name}', 1); return false;">Подобрать URL</button>{/if}{if isset($input.chpu_rus_button) and $input.chpu_rus_button}<button class="btn" onclick="AjaxClickChpuButton('{$input.chpu_rus_button}', '{$input.name}', 2); return false;">Подобрать русский URL</button>{/if}
+			</div>
+		{else}
+			<input type="text" value="{$input.value}" name="{$input.name}" id="{$input.name}">
 		{/if}
 		{if isset($input.prim)}
-			<br><div style="margin-top: 5px; font-size: 9px;">{$input.prim}</div>
+			<p class="help-block">{$input.prim}</p>
 		{/if}
-	</dd>
-</dl>
+	</div>
+</div>

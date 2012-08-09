@@ -1,10 +1,6 @@
-<dl>
-	<dt><label for="{$input.name}">{$input.title}:</label></dt>
-</dl>
-<dl>
-	<div id="xToolbar_{$input.name}"></div>
-	<textarea name="{$input.name}" id="{$input.name}" style="width: 100%;">{$input.value}</textarea>
-</dl>
+<legend>{$input.title}</legend>
+<div id="xToolbar_{$input.name}"></div>
+<textarea name="{$input.name}" id="{$input.name}" style="width: 100%;">{$input.value}</textarea>
 
 {if not $editor_plugin_loaded}
 	<script src="f/fckeditor.js"></script>

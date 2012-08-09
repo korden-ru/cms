@@ -1,16 +1,19 @@
-<dl>
-	<dt><label for="{$input.name}">{$input.title}:</label></dt>
-	<dd><input type="text" value="{$input.value|date_format:"d.m.Y"}" name="{$input.name}" id="{$input.name}"  style="width: 200px;">
-	</dd>
-</dl>
+<div class="control-group">
+	<label class="control-label" for="{$input.name}">{$input.title}</label>
+	<div class="controls">
+		<div class="input-append">
+			<input type="text" value="{$input.value|date_format:"d.m.Y"}" name="{$input.name}" id="{$input.name}"><button class="btn" id="{$input.name}_datepicker"><i class="icon-calendar"></i></button>
+		</div>
+	</div>
+</div>
 
 {if not $date_plugin_loaded}
-	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.18/themes/smoothness/jquery.ui.core.min.css">
-	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.18/themes/smoothness/jquery.ui.theme.min.css">
-	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.18/themes/smoothness/jquery.ui.datepicker.min.css">
-	<script src="//yandex.st/jquery-ui/1.8.18/jquery.ui.core.min.js"></script>
-	<script src="//yandex.st/jquery-ui/1.8.18/jquery.ui.datepicker.min.js"></script>
-	<script src="//yandex.st/jquery-ui/1.8.18/i18n/jquery.ui.datepicker-ru.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.22/themes/smoothness/jquery.ui.core.min.css">
+	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.22/themes/smoothness/jquery.ui.theme.min.css">
+	<link rel="stylesheet" type="text/css" href="//yandex.st/jquery-ui/1.8.22/themes/smoothness/jquery.ui.datepicker.min.css">
+	<script src="//yandex.st/jquery-ui/1.8.22/jquery.ui.core.min.js"></script>
+	<script src="//yandex.st/jquery-ui/1.8.22/jquery.ui.datepicker.min.js"></script>
+	<script src="//yandex.st/jquery-ui/1.8.22/i18n/jquery.ui.datepicker-ru.min.js"></script>
 {/if}
 
 <script>
@@ -18,7 +21,13 @@ $(document).ready(function() {
 	$('#{$input.name}').datepicker({
 		changeMonth: true,
 		changeYear: true,
-		dateFormat: 'dd.mm.yy'
+		dateFormat: 'dd.mm.yy',
+		numberOfMonths: 1,
+	});
+
+	$('#{$input.name}_datepicker').bind('click', function() {
+		$('#{$input.name}').datepicker('show');
+		return false;
 	});
 });
 </script>
