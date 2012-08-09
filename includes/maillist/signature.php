@@ -31,7 +31,7 @@ class maillist_signature extends page
 			
 			$sql = '
 				UPDATE
-					tcms_maillist_signature
+					' . MAILLIST_SIGNATURE_TABLE . '
 				SET
 					signature = ' . $this->db->check_value($signature);
 			$this->db->query($sql);
@@ -43,7 +43,7 @@ class maillist_signature extends page
 			SELECT
 				*
 			FROM
-				tcms_maillist_signature';
+				' . MAILLIST_SIGNATURE_TABLE;
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();

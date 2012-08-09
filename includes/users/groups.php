@@ -150,7 +150,7 @@ class users_groups extends page
 				id,
 				title
 			FROM
-				tcms_modules
+				' . MODULES_TABLE . '
 			WHERE
 				parent = 0
 			AND
@@ -172,7 +172,7 @@ class users_groups extends page
 				title,
 				tab
 			FROM
-				tcms_modules
+				' . MODULES_TABLE . '
 			WHERE
 				parent = 0
 			ORDER BY
@@ -192,7 +192,7 @@ class users_groups extends page
 				title,
 				parent
 			FROM
-				tcms_modules
+				' . MODULES_TABLE . '
 			WHERE
 				tab != 0
 			AND

@@ -43,9 +43,9 @@ class page_publications extends page
 				a.title,
 				a.activation,
 				a.page_type,
-				(SELECT COUNT(b.id) FROM tcms_publications_gallery b WHERE b.id_row = a.id) AS total_photos
+				(SELECT COUNT(b.id) FROM ' . PUBLICATIONS_GALLERY_TABLE . ' b WHERE b.id_row = a.id) AS total_photos
 			FROM
-				tcms_publications a
+				' . PUBLICATIONS_TABLE . ' a
 			WHERE
 				a.site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
@@ -112,7 +112,7 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				tcms_publications
+				' . PUBLICATIONS_TABLE . '
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
@@ -121,7 +121,7 @@ class page_publications extends page
 		$total = $this->db->fetchfield('total') + 1;
 		$this->db->freeresult();
 		
-		$sql = 'INSERT INTO tcms_publications ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
+		$sql = 'INSERT INTO ' . PUBLICATIONS_TABLE . ' ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
 		$this->db->query($sql);
 		
 		redirect($this->form->U_EDIT . $this->db->insert_id());
@@ -138,7 +138,7 @@ class page_publications extends page
 			SELECT
 				image
 			FROM
-				tcms_publications
+				' . PUBLICATIONS_TABLE . '
 			WHERE
 				id = ' . $this->db->check_value($id) . '
 			AND
@@ -159,7 +159,7 @@ class page_publications extends page
 			$sql = '
 				DELETE
 				FROM
-					tcms_publications
+					' . PUBLICATIONS_TABLE . '
 				WHERE
 					id = ' . $this->db->check_value($id) . '
 				AND
@@ -184,7 +184,7 @@ class page_publications extends page
 			SELECT
 				*
 			FROM
-				tcms_publications
+				' . PUBLICATIONS_TABLE . '
 			WHERE
 				id = ' . $this->db->check_value($id) . '
 			AND
@@ -197,7 +197,7 @@ class page_publications extends page
 
 		$ajax_delete = array(
 			'url'   => 'includes/ajax/delete_file.php', 
-			'param' => "{ id: $id, table: 'tcms_publications', column: 'image', dir: '" . $this->form->upload_folder . "' }"
+			'param' => "{ id: $id, table: " . PUBLICATIONS_TABLE . ", column: 'image', dir: '" . $this->form->upload_folder . "' }"
 		);	
 			
 		$resize = array(
@@ -258,7 +258,7 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				tcms_publications
+				' . PUBLICATIONS_TABLE . '
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND

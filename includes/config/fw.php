@@ -29,7 +29,7 @@ class config_fw extends page
 			SELECT
 				*
 			FROM
-				tcms_config
+				' . CONFIG_TABLE . '
 			WHERE
 				site_id = 0
 			ORDER BY

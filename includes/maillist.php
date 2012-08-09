@@ -35,7 +35,7 @@ class maillist extends page
 				SELECT
 					*
 				FROM
-					tcms_maillist_signature';
+					' . MAILLIST_SIGNATURE_TABLE;
 			$this->db->query($sql);
 			$signature = $this->db->fetchfield('signature');
 			$this->db->freeresult();
@@ -48,9 +48,9 @@ class maillist extends page
 						m.email,
 						m.code
 					FROM
-						tcms_maillist_group_users mu
+						' . MAILLIST_GROUP_USERS_TABLE . ' mu
 					LEFT JOIN
-						tcms_maillist m ON (m.id = mu.user_id)
+						' . MAILLIST_TABLE . ' m ON (m.id = mu.user_id)
 					WHERE
 						mu.group_id = ' . $this->db->check_value($recipients);
 			}
@@ -60,7 +60,7 @@ class maillist extends page
 					SELECT
 						*
 					FROM
-						tcms_maillist
+						' . MAILLIST_TABLE . '
 					WHERE
 						activation = 1';
 			}
@@ -80,7 +80,7 @@ class maillist extends page
 			}
 			
 			$this->db->freeresult();
-			$this->db->multi_insert('tcms_maillist_spool', $sql_ary);
+			$this->db->multi_insert(MALILIST_SPOOL_TABLE, $sql_ary);
 			
 			$this->template->file = 'maillist.html';
 			$this->page_header();
@@ -92,7 +92,7 @@ class maillist extends page
 				id,
 				title
 			FROM
-				tcms_maillist_groups
+				' . MAILLIST_GROUPS_TABLE . '
 			ORDER BY
 				id ASC';
 		$this->db->query($sql);

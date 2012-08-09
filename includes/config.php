@@ -29,7 +29,7 @@ class config extends page
 			SELECT
 				*
 			FROM
-				tcms_config
+				' . CONFIG_TABLE . '
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY

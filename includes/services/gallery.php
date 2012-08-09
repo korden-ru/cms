@@ -26,7 +26,7 @@ class services_gallery extends page_gallery
 			SELECT
 				*
 			FROM
-				tcms_services
+				' . PUBLICATIONS_TABLE . '
 			WHERE
 				id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);

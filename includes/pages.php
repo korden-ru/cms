@@ -117,22 +117,22 @@ class pages extends page
 					$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'], 'Блоки (' . $total . ')');
 					
 				break;
-				case 4:
-				
-					$sql = '
-						SELECT
-							COUNT(*) as total
-						FROM
-							tcms_products
-						WHERE
-							id_row = ' . $this->db->check_value($row['page_id']);
-					$this->db->query($sql);
-					$total = $this->db->fetchfield('total');
-					$this->db->freeresult();
-
-					$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=products&pid=' . $row['page_id'], 'Товары (' . $total . ')');
-				
-				break;
+				// case 4:
+				// 
+				// 	$sql = '
+				// 		SELECT
+				// 			COUNT(*) as total
+				// 		FROM
+				// 			' . PRODUCTS_TABLE . '
+				// 		WHERE
+				// 			id_row = ' . $this->db->check_value($row['page_id']);
+				// 	$this->db->query($sql);
+				// 	$total = $this->db->fetchfield('total');
+				// 	$this->db->freeresult();
+				// 
+				// 	$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=products&pid=' . $row['page_id'], 'Товары (' . $total . ')');
+				// 
+				// break;
 			}
 			
 			switch( $row['page_type'] )
@@ -244,7 +244,7 @@ class pages extends page
 			SELECT
 				*
 			FROM
-				tcms_menus
+				' . MENUS_TABLE . '
 			WHERE
 				activation = 1
 			ORDER BY

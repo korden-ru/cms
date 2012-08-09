@@ -208,7 +208,7 @@ $this->form->upload_folder . "' }"
 			SELECT
 				*
 			FROM
-				tcms_gallery
+				' . GALLERY_TABLE . '
 			WHERE
 				id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);
