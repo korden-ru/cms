@@ -5,6 +5,7 @@
 <title>Система управления сайтом :: Версия CMS: {$cms_version}</title>
 <link rel="stylesheet" href="//korden.net/i/bootstrap/2.0.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="//korden.net/i/bootstrap/2.0.4/css/expansion.css">
+<link rel="stylesheet" href="//korden.net/i/bootstrap/2.0.4/css/responsive.min.css">
 <link rel="stylesheet" href="//korden.net/js/jquery/plugins/chosen/0.9.8/chosen.css">
 <script src="//yandex.st/jquery/1.7.2/jquery.min.js"></script>
 <script src="//korden.net/i/bootstrap/2.0.4/js/bootstrap.min.js"></script>
@@ -14,6 +15,9 @@
 </head>
 
 <body>
+
+<div id="wrappingbox">
+
 {*if sizeof($sites) > 1}
 <div style="position: absolute; right: 20px; top: 45px; z-index: 1">
 		Выберите сайт:<br/>
@@ -59,7 +63,7 @@
 		</div>
 	</div>
 </div>
-<div class="container">
+<div class="container acpbox">
 	<ul class="nav nav-tabs">
 		{foreach $main_tabs as $row}
 			<li {if $row.ACTIVE}class="active"{/if}><a href="?tab={$row.ID}">{if $row.ICON}<img src="//korden.net/i/icons/{$row.ICON}.png" alt=""> {/if}{$row.TITLE}</a></li>
@@ -79,7 +83,18 @@
 		</div>
 	</div>
 </div>
-<div style="text-align: center;">Версия CMS: {$cms_version} &copy; {$smarty.now|date_format:"%Y"}</div>
+
+</div><!-- /wrappingbox -->
+
+<div id="footerbox">
+<footer>
+	<div class="container">
+		<p>Система управления сайтом <span class="muted">v{$cms_version}</span></p>
+		<p>&copy; {$smarty.now|date_format:'Y'}, <a href="http://korden.ru/">Веб-студия «Корден»</a></p>
+		<p>Служба поддержки: <a href="mailto:support@korden.ru">support@korden.ru</a></p>
+	</div>
+</footer>
+</div>
 </body>
 <script>
 function AjaxClickCheckbox(el, input_name, table, id)
