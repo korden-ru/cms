@@ -8,17 +8,15 @@
 	<input class="btn" type="submit" name="submit_notes" value="Сохранить">
 </form>
 
-<script src="f/fckeditor.js"></script>
+<script src="wysiwyg/ckeditor.js"></script>
 <script>
 $(document).ready(function() {
-	var oFCKeditor = new FCKeditor('notes');
-	oFCKeditor.BasePath = "f/";
-	oFCKeditor.Config["ContentLangDirection"] = "ltr";
-	oFCKeditor.Config["DefaultLanguage"] = "ru";
-	oFCKeditor.Config["EditorAreaStyles"] = "body { padding: 8px; margin: 0; font: normal 12px Verdana; }";
-	// oFCKeditor.Config['ToolbarLocation'] = 'Out:xToolbar';
-	oFCKeditor.Height = 300;
-	oFCKeditor.ReplaceTextarea();
+	CKEDITOR.replace( 'notes', {
+		skin : 'office2003',
+		/*extraPlugins : 'stylesheetparser',
+		contentsCss : 'wysiwyg/styles/stylesheetparser.css',
+		stylesSet : []*/
+	});
 });
 </script>
 {/block}
