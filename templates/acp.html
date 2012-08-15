@@ -4,7 +4,7 @@
 <h2>Добро пожаловать в систему управления сайтом</h2>
 <h4>Заметки администратора</h4>
 <form action="" class="well" method="post">
-	<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea>
+	<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea><br/>
 	<input class="btn" type="submit" name="submit_notes" value="Сохранить">
 </form>
 
@@ -13,6 +13,7 @@
 $(document).ready(function() {
 	CKEDITOR.replace( 'notes', {
 		skin : 'office2003',
+		toolbar : 'MyToolbar'
 		/*extraPlugins : 'stylesheetparser',
 		contentsCss : 'wysiwyg/styles/stylesheetparser.css',
 		stylesSet : []*/
