@@ -10,6 +10,13 @@ use acp\models\page_gallery;
 
 class news_gallery extends page_gallery
 {
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->form->table_name = SQL_PREFIX . 'publications_gallery';
+	}
+	
 	protected function get_parent_name($pid)
 	{
 		if( empty($this->parent_row) )
