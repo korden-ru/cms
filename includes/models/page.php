@@ -74,6 +74,19 @@ class page extends base_page
 		
 		$this->template->assign('S_SITE_ID', $this->site_id);
 	}
+
+	/**
+	* Предустановки
+	*/
+	public function _setup()
+	{
+		global $app;
+		
+		$this->template->assign(array(
+			'cms_version' => $app::VERSION,
+			'sites'       => $this->cache->obtain_sites()
+		));
+	}
 	
 	/**
 	* Количество записей в таблице
