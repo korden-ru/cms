@@ -34,5 +34,5 @@ nbproject
 .CVS
 .idea
 
-f
-wysiwyg
+/public_html/f
+/public_html/wysiwyg
