@@ -59,7 +59,7 @@ class config extends page
 		{
 			foreach( $config as $key => $value )
 			{
-				$this->config->set($key, htmlspecialchars_decode($value));
+				$this->config->set($key, htmlspecialchars_decode($value), $this->site_id);
 			}
 		}
 		
