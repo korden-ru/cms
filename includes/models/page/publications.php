@@ -59,7 +59,7 @@ class page_publications extends page
 		{
 			if( $row['page_type'] )
 			{
-				$row['add_buttons'][] = '<input class="button1" style="width:100%;" type="button" value="Фотоотчет (' . $row['total_photos'] . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=' . $this->class_name . '_gallery&pid=' . $row['id'] . '\');" />';
+				$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">Фотоотчет (%d)</a>', $this->path_menu . '&class=' . $this->class_name . '_gallery&pid=' . $row['id'], $row['total_photos']);
 			}
 			
 			$row['activation'] = $row['activation'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
