@@ -34,5 +34,7 @@ nbproject
 .CVS
 .idea
 
+/cache
 /public_html/f
 /public_html/wysiwyg
+/config.php
