@@ -9,9 +9,9 @@
 		
 	{$FIELDS}
 
-	<input class="btn" type="submit" name="save" value="Сохранить">
 	<input class="btn" type="submit" name="submit" value="Сохранить и выйти">
-	{if isset($HIDDEN_FIELDS)}{$HIDDEN_FIELDS}{/if}
+	<input class="btn" type="submit" name="save" value="Сохранить">
+	{$HIDDEN_FIELDS|default:''}
 </fieldset>
 </form>
 {/block}
