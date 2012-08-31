@@ -3,12 +3,12 @@
 <textarea name="{$input.name}" id="{$input.name}" style="width: 100%;">{$input.value}</textarea>
 
 {if not $editor_plugin_loaded}
-	<script src="f/fckeditor.js"></script>
+	<script src="/f/fckeditor.js"></script>
 {/if}
 <script>
 $(document).ready(function() {
 	var oFCKeditor = new FCKeditor('{$input.name}');
-	oFCKeditor.BasePath = "f/";
+	oFCKeditor.BasePath = "/f/";
 	oFCKeditor.Config["ContentLangDirection"] = "ltr";
 	oFCKeditor.Config["DefaultLanguage"] = "ru";
 	oFCKeditor.Config["EditorAreaCSS"] = "/css/{$input.css|default:'acp.css'}";
