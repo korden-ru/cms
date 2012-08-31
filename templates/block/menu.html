@@ -1,11 +1,18 @@
-<div class="well" style="padding: 8px 0;">
-	<ul class="nav nav-list">
-		{foreach $left_menu as $row}
-			{if !$row.HREF}
-				<li class="nav-header">{$row.TITLE}</li>
-			{else}
-				<li {if $row.ACTIVE}class="active"{/if}><a href="{$row.HREF}">{if $row.ICON}<img src="//korden.net/i/icons/{$row.ICON}.png" alt=""> {/if}{$row.TITLE}</a></li>
-			{/if}
-		{/foreach}
-	</ul>
-</div>
+{if not empty($menu)}
+	{foreach $menu as $row}
+		{if isset($row.ACTIVE) and $row.children}
+			<div class="well" style="padding: 8px 0;">
+				<ul class="nav nav-list">
+					{foreach $row.children as $row2}
+						<li class="nav-header">{$row2.TITLE}</li>
+						{if $row2.children}
+							{foreach $row2.children as $row3}
+								<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{if $row.IMAGE}<img src="//korden.net/i/icons/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
+							{/foreach}
+						{/if}
+					{/foreach}
+				</ul>
+			</div>
+		{/if}
+	{/foreach}
+{/if}

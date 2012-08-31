@@ -52,11 +52,13 @@
 	</div>
 </div>
 <div class="container acpbox">
-	<ul class="nav nav-tabs">
-		{foreach $main_tabs as $row}
-			<li {if $row.ACTIVE}class="active"{/if}><a href="?tab={$row.ID}">{if $row.ICON}<img src="//korden.net/i/icons/{$row.ICON}.png" alt=""> {/if}{$row.TITLE}</a></li>
-		{/foreach}
-	</ul>
+	{if not empty($menu)}
+		<ul class="nav nav-tabs">
+			{foreach $menu as $row}
+				<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{if $row.IMAGE}<img src="//korden.net/i/icons/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
+			{/foreach}
+		</ul>
+	{/if}
 	<div class="row">
 		<div class="span3">
 			{block name=menu}
@@ -90,23 +92,23 @@ function AjaxClickCheckbox(el, input_name, table, id)
 	var value = 0;
 	if ($(el).attr('checked')) value = 1;
 	
-	$.post('includes/ajax/checkbox.php', { value: value, table: table, id: id, input_name: input_name });
+	$.post('/ajax/checkbox.php', { value: value, table: table, id: id, input_name: input_name });
 }
 
 function AjaxClickChpuButton(id_source, id_dest, type)
 {
 	if( type == 1 ) {
-	  $.post('includes/ajax/modifyurl.php', { value: $('#' + id_source).val() }, function(data) {
+	  $.post('/ajax/modifyurl.php', { value: $('#' + id_source).val() }, function(data) {
 	    $('#' + id_dest).val(data);
 	  });
 	} else if( type == 2 ) {
-	  $.post('includes/ajax/seo_url.php', { value: $('#' + id_source).val() }, function(data) {
+	  $.post('/ajax/seo_url.php', { value: $('#' + id_source).val() }, function(data) {
 	    $('#' + id_dest).val(data);
 	  });
 	} else if( type == 3 ) {
 		google.language.translate($('#' + id_source).val(), 'ru', 'en', function(result) {
       if (result.translation) {
-        $.post('includes/ajax/modifyurl.php', { value: result.translation }, function(data) {
+        $.post('/ajax/modifyurl.php', { value: result.translation }, function(data) {
           $('#' + id_dest).val(data);
         });
       }
@@ -125,7 +127,7 @@ $(document).ready(function() {
 	$('.chzn-select').chosen();
 	
 	$('#sites_list').change(function() {
-		$.post('includes/ajax/set_site_id.php', { site_id: $(this).val() }, function() {
+		$.post('/ajax/set_site_id.php', { site_id: $(this).val() }, function() {
 			document.location.href = document.location.href;
 		});
 	});
