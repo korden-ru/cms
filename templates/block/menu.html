@@ -7,7 +7,15 @@
 						<li class="nav-header">{$row2.TITLE}</li>
 						{if $row2.children}
 							{foreach $row2.children as $row3}
-								<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{if $row.IMAGE}<img src="//korden.net/i/icons/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
+								<li class="{if isset($row3.ACTIVE)}active{/if}"><a href="{$row3.URL}">{if $row3.IMAGE}<img src="//korden.net/i/icons/{$row3.IMAGE}.png" alt=""> {/if}{$row3.TITLE}</a>
+									{if isset($row3.ACTIVE) and $row3.children}
+										<ul class="nav nav-list">
+											{foreach $row3.children as $row4}
+												<li class="{if isset($row4.ACTIVE)}active{/if}"><a href="{$row4.URL}">{if $row4.IMAGE}<img src="//korden.net/i/icons/{$row4.IMAGE}.ong" alt=""> {/if}{$row4.TITLE}</a></li>
+											{/foreach}
+										</ul>
+									{/if}
+								</li>
 							{/foreach}
 						{/if}
 					{/foreach}
