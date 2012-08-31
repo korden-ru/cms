@@ -17,9 +17,9 @@ class pages extends page
 	{
 		parent::__construct();
 		
-		$this->form->addButtonText = 'Добавить страницу';
-		$this->form->titleTable    = 'Просмотр страниц';
-		$this->form->set_primary_id('page_id');
+		$this->forms->addButtonText = 'Добавить страницу';
+		$this->forms->titleTable    = 'Просмотр страниц';
+		$this->forms->set_primary_id('page_id');
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class pages extends page
 				page_redirect,
 				1 AS arrows
 			FROM
-				' . $this->form->table_name . '
+				' . PAGES_TABLE . '
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
@@ -107,7 +107,7 @@ class pages extends page
 						SELECT
 							COUNT(*) as total
 						FROM
-							' . $this->form->table_name . '_gallery
+							' . PAGES_TABLE . '_gallery
 						WHERE
 							id_row = ' . $this->db->check_value($row['page_id']);
 					$this->db->query($sql);
@@ -155,7 +155,7 @@ class pages extends page
 			$data[] = $row;
 		}
 		
-		$this->form->createShowTMP(array(
+		$this->forms->createShowTMP(array(
 			'ID',
 			'Название',
 			'URL',
@@ -188,7 +188,7 @@ class pages extends page
 		$this->update_page_data($page_data);
 		$this->remove_cache_file();
 		
-		redirect($this->form->U_EDIT . $page_data['page_id']);
+		redirect($this->forms->U_EDIT . $page_data['page_id']);
 	}
 	
 	/**
@@ -298,13 +298,13 @@ class pages extends page
 				$this->move_page($id, $parent_id);
 			}
 
-			$this->form->saveIntoDB($fieldset);
+			$this->forms->saveIntoDB($fieldset);
 			$this->remove_cache_file();
 			
 			redirect($this->path_menu);
 		}
 
-		$this->form->createEditTMP($fieldset);
+		$this->forms->createEditTMP($fieldset);
 	}
 	
 	/**
