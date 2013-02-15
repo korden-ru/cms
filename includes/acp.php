@@ -69,8 +69,7 @@
 	$sql='SELECT a.tab, COUNT(a.id) AS cnt 
 		FROM '.SQL_PREFIX.'modules AS a  
 		WHERE a.parent != 0 AND a.tab IN ('.implode(',', array_keys($tabs)).')'.$qWhere.'
-		GROUP BY a.tab 
-		ORDER BY a.sort ASC';
+		GROUP BY a.tab';
 	$result=$app['db']->query($sql);
 	$arr = array();
 	while($row=$app['db']->fetchrow($result))
