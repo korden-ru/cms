@@ -3,112 +3,248 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Система управления сайтом :: Версия CMS: {$cms_version}</title>
-<link rel="stylesheet" href="//korden.net/i/bootstrap/2.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//korden.net/i/bootstrap/2.1.0/css/responsive.min.css">
-<link rel="stylesheet" href="//korden.net/i/bootstrap/2.1.0/css/expansion.css">
+<link rel="stylesheet" href="styles/style.css">
 <link rel="stylesheet" href="//korden.net/js/jquery/plugins/chosen/0.9.8/chosen.css">
-<script src="//yandex.st/jquery/1.7.2/jquery.min.js"></script>
-<script src="//korden.net/i/bootstrap/2.1.0/js/bootstrap.min.js"></script>
+<script src="//yandex.st/jquery/1.8.3/jquery.min.js"></script>
 <script src="//korden.net/js/jquery/plugins/chosen/0.9.8/chosen.jquery.min.js"></script>
 <script src="//korden.net/js/jquery/plugins/tablednd/0.5/jquery.tablednd.js"></script>
-{include "block/highslide.html"}
-{block name=head}{/block}
+{include "block/fancybox.html"}
 </head>
 <body>
-<div id="wrappingbox">
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<a class="brand" href="/">Система управления сайтом</a>
-			<div class="nav-collapse">
-				<ul class="nav">
-					<li><a href="/">&larr; Вернуться на сайт</a></li>
-				</ul>
-				<ul class="nav pull-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{*$LOGIN*} <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="/acp/?logoutsubmit=1">Выход</a></li>
-						</ul>
-					</li>
-					<li>
-						{if sizeof($sites) > 1}
-							<div style="margin-top: 7px;">
-								<select class="chzn-select" id="sites_list" style="width: 225px;">
-									{foreach $sites as $row}
-										<option value="{$row.site_id}"{if $S_SITE_ID == $row.site_id} selected{/if}>{$row.site_url}</option>
-									{/foreach}
-								</select>
-							</div>
-						{/if}
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div style="margin-left: 20px;">
+<a href="">Главная панели</a> | <a href="/">Главная сайта</a>
 </div>
-<div class="container acpbox">
-	{if not empty($menu)}
-		<ul class="nav nav-tabs">
-			{foreach $menu as $row}
-				<li class="{if isset($row.ACTIVE)}active{/if}"><a href="{$row.URL}">{if $row.IMAGE}<img src="//korden.net/i/icons/{$row.IMAGE}.png" alt=""> {/if}{$row.TITLE}</a></li>
+{if sizeof($sites) > 1}
+<div style="position: absolute; right: 20px; top: 10px;z-index: 1">
+		Выберите сайт:<br/>
+		<select class="chzn-select" id="sites_list" style="width: 250px;">
+			{foreach $sites as $row}
+				<option value="{$row.site_id}"{if $S_SITE_ID == $row.site_id} selected{/if}>{$row.site_url}</option>
 			{/foreach}
-		</ul>
-	{/if}
-	<div class="row">
-		<div class="span3">
-			{block name=menu}
-				{include "block/menu.html"}
-			{/block}
+		</select>
+</div>
+{/if}
+<table id="body_table" cellspacing="0">
+	<tr>
+		<td></td>
+		<td style="vertical-align:top;">
+		<div id="content">
+		<div id="tabs">
+			<ul>
+				{section name=mt loop=$main_tabs}
+				<li {$main_tabs[mt].ACTCLASS}><a href="?tab={$main_tabs[mt].ID}"><span>{$main_tabs[mt].TITLE}</span></a></li>
+				{/section}
+			</ul>
 		</div>
-		<div class="span9">
-			{if isset($ERROR)}
-			<h3>Ошибка - {$ERROR}</h3><br>
-			{/if}
-			{block name=content}{/block}
+		<div id="acp">
+		<div class="panel">
+			<span class="corners-top"><span></span></span>
+				<div id="content">
+					<div id="menu">
+						<p>Вы вошли c правами:<br/>
+						<table>
+						<tr>
+						<td><strong>{$userLevel}&nbsp;&nbsp;</strong></td>
+						<td><form action="">
+						<input class="button1" type="submit" id="logoutsubmit" name="logoutsubmit" value="Выход" />
+						<input type="hidden" name="logout_target" value=""/>
+						</form></td>
+						</tr>
+						</table>
+						</p>
+						<ul>
+							{section name=lm loop=$left_menu}
+							{if (!empty($left_menu[lm].HREF))}
+							<li {$left_menu[lm].ACTIVE}><a href="{$left_menu[lm].HREF}"><span>{$left_menu[lm].TITLE}</span></a></li>						{else}
+							{if (isset($left_menu[lm].TITLE) && !empty($left_menu[lm].TITLE) && $left_menu[lm].PCOUNT > 0)}<li class="header">{$left_menu[lm].TITLE}</li>{/if}
+							{/if}
+							{/section}
+						</ul>
+					</div>
+					<div id="main">
+					<!-- <img src="images/dot.gif" width="840" height="1" /> -->
+					{if (isset($ERROR))}
+					<h3>Ошибка - {$ERROR}</h3><br>
+					{/if}
+{block name=content}{/block}
+		</div>
+				</div>
+			<span class="corners-bottom"><span></span></span>
 		</div>
 	</div>
-</div>
-
-</div><!-- /wrappingbox -->
-
-<div id="footerbox">
-<footer>
-	<div class="container">
-		<p>Система управления сайтом <span class="muted">v{$cms_version}</span></p>
-		<p><span class="muted">{$smarty.now|date_format:'Y'}</span> &copy; <a href="http://korden.ru/">Веб-студия «Корден»</a></p>
-		<p>Служба поддержки: <a href="mailto:support@korden.ru">support@korden.ru</a></p>
-	</div>
-</footer>
-</div>
-</body>
+		</div>
+		</td>
+		<td></td>
+	</tr>
+</table>
+<div style="text-align: center;">Версия CMS: {$cms_version} &copy; 2011-{$smarty.now|date_format:"%Y"}</div>
 <script>
+var t_close;
+var request;
+var close_el;
+var flag;
+function getRequestStateText(code)
+{
+	switch (code)
+	{
+		case 0: return "Uninitialized."; break;  
+		case 1: return "Loading..."; break;  
+		case 2: return "Loaded."; break;  
+		case 3: return "Interactive..."; break;  
+		case 4: return "Complete."; break;  
+	}  
+}
+
+function close_response()
+{
+	clearTimeout(t_close);
+	CloseWaitWindow();
+	if (request.readyState == 4)
+	{
+		alert(request.status);
+		if(request.status == 200)
+		{
+			alert(request.responseText);
+			close_el.checked=!close_el.checked;
+		}
+	}
+	flag=false;
+}
+
+
+function close_page(id,time)
+{
+	if(t_close==null)
+	{
+		flag=true;
+		var close_el=document.getElementById('closed'+id);
+		
+		if(IsIE())
+			request = new ActiveXObject("Microsoft.XMLHTTP");
+		else
+			request=new XMLHttpRequest();
+		
+		request.onreadystatechange = close_response;
+		request.open("GET", "/acp/includes/acp_main_page.php?close_page="+id, true);  
+	
+		if(IsIE())
+			request.send();
+		else
+			request.send(null);
+			
+		ShowWaitWindow('Loading...');
+		close_el.checked=!close_el.checked;
+		t_close=setTimeout('close_page('+id+',0);',time);
+	}
+	else
+	{
+		if(flag==false)
+		{
+			clearTimeout(t_close);
+			request.abort();
+		}
+	}
+}
+
+function IsIE()
+{
+	return (document.attachEvent && !this.IsOpera());
+}
+
+function IsOpera()
+{
+	return (navigator.userAgent.toLowerCase().indexOf('opera') != -1);
+}
+
+function Redirect(args, url)
+{
+	var e = null, bCtrl = false;
+
+	if( args.length > 0 )
+	{
+		e = args[0];
+	}
+
+	if( !e )
+	{
+		e = window.event;
+	}
+
+	if( e )
+	{
+		bCtrl = e.ctrlKey;
+	}
+
+	if( bCtrl )
+	{
+		window.open(url); 
+	}
+	else
+	{
+		ShowWaitWindow('Loading...');
+		window.location=url;
+	}
+}
+
+function ShowWaitWindow(message)
+{
+	CloseWaitWindow();
+
+	var div = document.body.appendChild(document.createElement("DIV"));
+	div.id = "wait_window_div";
+	div.innerHTML = message;
+	div.className = "waitwindow";
+	div.style.left = document.body.scrollLeft + (document.body.clientWidth - div.offsetWidth) - 5 + "px";
+	div.style.top = document.body.scrollTop + 5 + "px";
+
+	if(IsIE())
+	{
+		var frame = document.createElement("IFRAME");
+		frame.src = "javascript:''";
+		frame.id = "wait_window_frame";
+		frame.className = "waitwindow";
+		frame.style.width = div.offsetWidth + "px";
+		frame.style.height = div.offsetHeight + "px";
+		frame.style.left = div.style.left;
+		frame.style.top = div.style.top;
+		document.body.appendChild(frame);
+	}
+}
+
+function CloseWaitWindow()
+{
+
+	var frame = document.getElementById("wait_window_frame");
+	if(frame)
+		frame.parentNode.removeChild(frame);
+
+	var div = document.getElementById("wait_window_div");
+	if(div)
+		div.parentNode.removeChild(div);
+}
+
 function AjaxClickCheckbox(el, input_name, table, id)
 {
 	var value = 0;
 	if ($(el).attr('checked')) value = 1;
 	
-	$.post('/ajax/checkbox.php', { value: value, table: table, id: id, input_name: input_name });
+	$.post('includes/ajax/checkbox.php', { value: value, table: table, id: id, input_name: input_name });
 }
 
 function AjaxClickChpuButton(id_source, id_dest, type)
 {
 	if( type == 1 ) {
-	  $.post('/ajax/modifyurl.php', { value: $('#' + id_source).val() }, function(data) {
+	  $.post('includes/ajax/modifyurl.php', { value: $('#' + id_source).val() }, function(data) {
 	    $('#' + id_dest).val(data);
 	  });
 	} else if( type == 2 ) {
-	  $.post('/ajax/seo_url.php', { value: $('#' + id_source).val() }, function(data) {
+	  $.post('includes/ajax/seo_url.php', { value: $('#' + id_source).val() }, function(data) {
 	    $('#' + id_dest).val(data);
 	  });
 	} else if( type == 3 ) {
 		google.language.translate($('#' + id_source).val(), 'ru', 'en', function(result) {
       if (result.translation) {
-        $.post('/ajax/modifyurl.php', { value: result.translation }, function(data) {
+        $.post('includes/ajax/modifyurl.php', { value: result.translation }, function(data) {
           $('#' + id_dest).val(data);
         });
       }
@@ -127,7 +263,7 @@ $(document).ready(function() {
 	$('.chzn-select').chosen();
 	
 	$('#sites_list').change(function() {
-		$.post('/ajax/set_site_id.php', { site_id: $(this).val() }, function() {
+		$.post('includes/ajax/set_site_id.php', { site_id: $(this).val() }, function() {
 			document.location.href = document.location.href;
 		});
 	});

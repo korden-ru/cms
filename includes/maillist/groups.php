@@ -27,7 +27,7 @@ class maillist_groups extends page
 			SELECT
 				mg.id,
 				mg.title,
-				(SELECT COUNT(mu.id) FROM ' . MAILLIST_GROUP_USERS_TABLE . ' mu WHERE mu.group_id = mg.id) AS total_users
+				(SELECT COUNT(mu.id) FROM tcms_maillist_group_users mu WHERE mu.group_id = mg.id) AS total_users
 			FROM
 				' . $this->form->table_name . ' mg
 			ORDER BY
@@ -76,7 +76,7 @@ class maillist_groups extends page
 		$sql = '
 			DELETE
 			FROM
-				' . MAILLIST_GROUP_USERS_TABLE . '
+				tcms_maillist_group_users
 			WHERE
 				group_id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
@@ -126,11 +126,11 @@ class maillist_groups extends page
 			$sql = '
 				DELETE
 				FROM
-					' . MAILLIST_GROUP_USERS_TABLE . '
+					tcms_maillist_group_users
 				WHERE
 					group_id = ' . $this->db->check_value($id);
 			$this->db->query($sql);
-			$this->db->multi_insert(MAILLIST_GROUP_USERS_TABLE, $sql_ary);
+			$this->db->multi_insert('tcms_maillist_group_users', $sql_ary);
 			
 			redirect($this->path_menu);
 		}
@@ -140,9 +140,9 @@ class maillist_groups extends page
 				m.*,
 				mu.user_id AS checked
 			FROM
-				' . MAILLIST_TABLE . ' m
+				tcms_maillist m
 			LEFT JOIN
-				' . MAILLIST_GROUP_USERS_TABLE . ' mu ON (mu.user_id = m.id AND mu.group_id = ' . $this->db->check_value($id) . ')
+				tcms_maillist_group_users mu ON (mu.user_id = m.id AND mu.group_id = ' . $this->db->check_value($id) . ')
 			WHERE
 				m.activation = 1
 			ORDER BY

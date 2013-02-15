@@ -52,7 +52,7 @@ class page_gallery extends page
 		while( $row = $this->db->fetchrow() )
 		{
 			$row['activation'] = ( $row['activation'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
-			$row['image'] = ( $row['image'] ) ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . $row['title'] . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
+			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" title="' . $row['title'] . '" class="fancybox-gallery" rel="gallery"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
 
 			$data[] = $row;
 		}
@@ -174,7 +174,7 @@ $this->form->upload_folder . "' }"
 		
 		$fieldset = array(
 			array('name' => 'title', 'title' => 'Наименование фотографии', 'type' => 'text', 'value' => $row['title']),
-			array('name' => 'preview', 'title' => 'Краткое описание фотографии', 'type' => 'textarea', 'value' => $row['preview'], 'height' => 100),
+			array('name' => 'preview', 'title' => 'Краткое описание фотографии', 'type' => 'textarea', 'value' => $row['preview'], 'height' => 160),
 			array('name' => 'text', 'title' => 'Полное описание фотографии', 'type' => 'textarea', 'value' => $row['text'], 'height' => 200),
 			array('name' => 'viewed_text', 'title' => 'Отображать полное описание?', 'type' => 'checkbox', 'value' => 1, 'checked' => $row['viewed_text']),
 			array('name' => 'activation', 'title' => 'Отображается НА САЙТЕ?', 'type' => 'checkbox', 'value' => 1, 'checked' => $row['activation']),

@@ -32,9 +32,9 @@ class applications extends page
 				va.ip,
 				va.title_vacancy AS vacancy_stgrand
 			FROM
-				' . VACANCY_APPLICATIONS_TABLE . ' va
+				tcms_vacancy_applications va
 			LEFT JOIN
-				' . VACANCIES_TABLE . ' v ON (v.id = va.id_vacancy)
+				tcms_vacancies v ON (v.id = va.id_vacancy)
 			WHERE
 				va.other_anketa = ' . $this->db->check_value($this->other_anketa) . '
 			ORDER BY
@@ -145,7 +145,7 @@ $this->request->post('education', array(0 => '')) : array())),
 			
 			$sql = '
 				UPDATE
-					' . VACANCY_APPLICATIONS_TABLE . '
+					tcms_vacancy_applications
 				SET
 					' . $this->db->build_array('UPDATE', $sql_ary) . '
 				WHERE
@@ -160,7 +160,7 @@ $this->request->post('education', array(0 => '')) : array())),
 				*,
 				date_format(birthday, "%d-%m-%Y") AS birthday
 			FROM
-				' . VACANCY_APPLICATIONS_TABLE . '
+				tcms_vacancy_applications
 			WHERE
 				id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
@@ -304,7 +304,7 @@ $this->request->post('education', array(0 => '')) : array())),
 		$sql = '
 			DELETE
 			FROM
-				' . VACANCY_APPLICATIONS_TABLE . '
+				tcms_vacancy_applications
 			WHERE
 				id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
@@ -321,7 +321,7 @@ $this->request->post('education', array(0 => '')) : array())),
 				*,
 				date_format(birthday, "%d-%m-%Y") AS birthday
 			FROM
-				' . VACANCY_APPLICATIONS_TABLE . '
+				tcms_vacancy_applications
 			WHERE
 				id = ' . $this->db->check_value($id);
 		$this->db->query($sql);

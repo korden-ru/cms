@@ -55,7 +55,7 @@ class gallery_photos extends page
 		while( $row = $this->db->fetchrow() )
 		{
 			$row['activation'] = ( $row['activation'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
-			$row['image'] = ( $row['image'] ) ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . $row['title'] . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
+			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" title="' . $row['title'] . '" class="fancybox-gallery" rel="gallery"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
 
 			$data[] = $row;
 		}
@@ -208,7 +208,7 @@ $this->form->upload_folder . "' }"
 			SELECT
 				*
 			FROM
-				' . GALLERY_TABLE . '
+				tcms_gallery
 			WHERE
 				id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);

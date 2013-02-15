@@ -17,8 +17,7 @@ class faq extends page
 	{
 		parent::__construct();
 		
-		$this->form->addButton    = false;
-		$this->form->sortElements = true;
+		$this->form->addButton = false;
 	}
 	
 	/**
@@ -36,10 +35,8 @@ class faq extends page
 				email,
 				phone,
 				question,
-				activation,
-				sort,
-				INET_NTOA(ip) AS ip,
-				INET_NTOA(ip_orig) AS ip_orig
+				ip,
+				activation
 			FROM
 				' . $this->form->table_name . '
 			ORDER BY
@@ -47,15 +44,14 @@ class faq extends page
 		$this->db->query_limit($sql, $pagination['on_page'], $pagination['offset']);
 		$data = array();
 		
-		while( $row = $this->db->fetchrow() )
+		while ($row = $this->db->fetchrow())
 		{
-			$row['activation'] = ( $row['activation'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['activation'] = $row['activation'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			$row['fio'] = '<b>' . $row['fio'] . '</b><br>тел.: ' . $row['phone'];
-			$row['fio'] .= ( $row['email'] ) ? '<br>' . $row['email'] : '';
-			$row['ip'] = ip_template($row['ip'], $row['ip_orig']);
+			$row['fio'] .= $row['email'] ? '<br>' . $row['email'] : '';
 			$row['question'] = utf8_str_limit($row['question'], 150);
 			
-			unset($row['email'], $row['phone'], $row['ip_orig']);
+			unset($row['email'], $row['phone']);
 			
 			$data[] = $row;
 		}
@@ -67,15 +63,15 @@ class faq extends page
 			'Дата',
 			'ФИО/Телефон/E-mail',
 			'Вопрос',
-			'Отвечено?',
-			'IP/IP_ORIG'
+			'IP',
+			'<center><img src="images/i_show_in_site.png" title="Отображается на сайте?"></center>',
 		), $data, array(
 			25,
 			60,
 			150,
 			'',
-			60,
-			120
+			105,
+			25,
 		));
 	}
 	
@@ -117,17 +113,47 @@ class faq extends page
 		$this->db->freeresult();
 		
 		$fieldset = array(
-			array('name' => 'question', 'title' => 'Вопрос', 'type' => 'textarea', 'value' => $row['question'], 'height' => 100),
-			array('name' => 'answer', 'title' => 'Ответ', 'type' => 'textarea', 'value' => $row['answer'], 'height' => 100),
+			array('name' => 'question', 'title' => 'Вопрос', 'type' => 'textarea', 'value' => $row['question'], 'height' => 170),
+			array('name' => 'answer', 'title' => 'Ответ', 'type' => 'textarea', 'value' => $row['answer'], 'height' => 170),
 			array('name' => 'fio', 'title' => 'Имя', 'type' => 'text', 'value' => $row['fio']),
 			array('name' => 'phone', 'title' => 'Телефон', 'type' => 'text', 'value' => $row['phone']),
 			array('name' => 'email', 'title' => 'Email', 'type' => 'text', 'value' => $row['email']),
 			array('name' => 'date', 'title' => 'Дата создания', 'type' => 'date', 'value' => $row['date']),
-			array('name' => 'activation', 'title' => 'Отвечен?', 'type' => 'checkbox', 'checked' => $row['activation'], 'value' => 1)
+			array('name' => 'activation', 'title' => 'Отобразить на сайте?', 'type' => 'checkbox', 'checked' => $row['activation'], 'value' => 1),
+			array('name' => 'sendmail', 'title' => 'Отправить ответ по электронной почте', 'type' => 'checkbox', 'value' => 1, 'checked' => false),
 		);
 		
-		if( $submit )
+		if ($submit)
 		{
+			$email    = $this->request->post('email', '');
+			$fio      = $this->request->post('fio', '');
+			$question = htmlspecialchars_decode($this->request->post('question', ''));
+			$answer   = htmlspecialchars_decode($this->request->post('answer', ''));
+			$sendmail = $this->request->post('sendmail', 0);
+			
+			unset($_POST['sendmail'], $_REQUEST['sendmail']);
+			unset($fieldset[sizeof($fieldset) - 1]);
+			
+			if ($answer && $sendmail)
+			{
+				$this->template->assign(array(
+					'email'    => $email,
+					'date'     => $row['date'],
+					'fio'      => $fio,
+					'question' => html_entity_decode($question),
+					'answer'   => html_entity_decode($answer),
+				));
+
+				$messenger = new \engine\core\email();
+				$messenger->from($this->config['contacts.email'], $this->config['sitename']);
+				$messenger->to($email);
+				$messenger->subject('Re: Вопрос #' . $id);
+				$messenger->set_mailtype('text');
+				$messenger->set_wordwrap(false);
+				$messenger->message($this->template->fetch('email/faq_reply.html'));
+				$messenger->send();
+			}
+
 			$this->form->saveIntoDB($fieldset);
 			
 			redirect($this->path_menu);

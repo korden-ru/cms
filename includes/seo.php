@@ -105,6 +105,7 @@ class seo extends page
 		</dl>
 		</fieldset>';
 		
+		$this->form->U_ACTION = $this->path_menu . '&mode=google_web';
 		$this->form->createEditTMP(array(
 			array('type' => 'code', 'html' => $html)
 		));
@@ -188,6 +189,7 @@ class seo extends page
 		<p>Это увеличит приток пользователей из Яндекса, а также позволит отображать адрес и телефон Вашей компании на страницах результатов поиска Яндекса.</p>
 		</fieldset>';
 		
+		$this->form->U_ACTION = $this->path_menu . '&mode=yandex_web';
 		$this->form->createEditTMP(array(
 			array('type' => 'code', 'html' => $html)
 		));

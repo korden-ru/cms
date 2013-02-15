@@ -1,135 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>Система управления сайтом :: Версия CMS: {$cms_version}</title>
-	<link rel="stylesheet" href="//korden.net/i/bootstrap/2.1.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//korden.net/i/bootstrap/2.1.0/css/expansion.css">
-	<link rel="stylesheet" href="styles/login.css">
-	
-	<script src="//yandex.st/jquery/1.7.2/jquery.min.js"></script>
-	<script src="//korden.net/i/bootstrap/2.1.0/js/bootstrap.min.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Вход в систему управления сайтом :: Версия CMS: {$cms_version}</title>
+<link href="styles/style.css" rel="stylesheet">
+<style type="text/css">
+body
+{
+	background-color: #1b9ed6;
+	background: url("images/back2.jpg") no-repeat bottom right;
+	color: #000;
+	font-size: 12px;
+	font-family: sans-serif, arial, verdana;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	position: relative;
+}
+
+a:link, a:visited
+{
+	color: #fff;
+	text-decoration: none;
+}
+
+a:hover, a:active
+{
+	color: #fff;
+	text-decoration: underline;	
+}
+
+input
+{
+	background-color: #fff;
+}
+
+#copyright { position: absolute; bottom: 170px; right: 40px; width: 200px; height: 50px; color: #545454; font-size: 11px !important; line-height: 18px; text-align: right; }
+</style>
 </head>
 <body>
+	<table id="body_table" cellspacing="0" cellpadding="0">
+	<tr>
+	<td align="center">
 
-	<div class="login" id="authform">
-	<div class="well">
-		<h3>Вход в систему управления сайтом</h3>
-		<br>
-		<form class="form-horizontal" action="" method="post">
-        	<fieldset>
-          		<div class="control-group">
-            		<label for="login" class="control-label" style="width: 100px">Логин:</label>
-            		<div class="controls" style="margin-left: 120px;">
-            		
-            			<div class="input-prepend input-append">
-                			<span class="add-on"><i class="icon-user"></i></span><input type="text" id="login" name="login" class="span2" value="">
-              			</div>
-            			
-              		</div>
-          		</div>
-          		<div class="control-group">
-            		<label for="password" class="control-label" style="width: 100px">Пароль:</label>
-            		<div class="controls" style="margin-left: 120px;">
-						
-						<div class="input-prepend input-append">
-	              			<span class="add-on"><i class="icon-cog"></i></span><input type="password" id="password" name="password" class="span2" value="">
-	              			<p class="help-block"><a href="#" id="rempass">Забыли пароль?</a></p>
-						</div>
-						
-              		</div>
-          		</div>
-          
-          		<div class="form-actions" style="padding: 15px 0 0 0; text-align: center; margin-bottom: 0;">
-          			<input type="hidden" name="login_target" value=""/>
-          			<input class="btn btn-primary" type="submit" name="loginsubmit" value="Войти" />
-            	</div>
-      		</fieldset>
-      	</form>
-	</div>
-	
-	{if isset($smarty.get.errorlogin) || isset($smarty.get.erroract)}
-	<div class="alert alert-error">
-		<button class="close" data-dismiss="alert" type="button">×</button>
-    	{if isset($smarty.get.errorlogin)}
-    		Неверный <b>логин</b> или <b>пароль</b>!
-    	{else if isset($smarty.get.erroract)}
-    		Ваш аккаунт не активирован
-    	{/if}
-    </div>
-	{/if}	
-	</div>
-	
-	<div id="rememberform" class="remember">
-	<div class="well">
-		<button class="close" id="rememberclose">×</button>
-		<h3>Вспомнить пароль</h3>
-		<br>
-		<form class="form-horizontal" action="" method="post">
-        	<fieldset>
-          		<div class="control-group">
-            		<label for="email" class="control-label" style="width: 100px">E-mail:</label>
-            		<div class="controls" style="margin-left: 120px;">
-            		
-            			<div class="input-prepend input-append">
-                			<span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="email" name="email" class="span2" value="">
-                			<p class="help-block" style="font-size: 11px; color: #aaa">Укажите E-mail адрес администратора</p>
-              			</div>
-            			
-              		</div>
-          		</div>
-          		
-          		<div class="form-actions" style="padding: 15px 0 0 0; text-align: center; margin-bottom: 0;">
-          			<input class="btn btn-info" type="submit" name="loginsubmit" value="Отправить" />
-            	</div>
-      		</fieldset>
-      	</form>
-	</div>
-	
-	<div class="alert alert-success" id="winsuccess">
-		<button class="close" data-dismiss="alert" type="button">×</button>
-    	На указанный почтовый ящик выслано письмо с дальнейшими инструкциями.<br/>
-    	Внимание! По независящим от нас причинам письмо может попасть в папку "СПАМ"
-    </div>
-	
-	</div>
-	
+
+
+	<form id="acp_login" method="post" action="" enctype="multipart/form-data" >
+		<table width="200px" height="70px" cellspacing="0">
+		<tr>
+		<td style="font-size: 14px; padding-bottom: 15px;"><label for="login">Имя пользователя:&nbsp;&nbsp;</label>
+		<br />
+		<input name="login" type="text" id="login" style="width: 200px; font-size: 18px;" value="" /></td>
+		</tr>
+		<tr>
+		<td style="font-size: 14px;"><label for="password">Пароль:</label><br />
+		<input name="password" type="password" id="password" style="width: 200px; font-size: 18px;" value="" /></td>
+		</tr>
+		<tr>
+		<td align="center"><br/><input class="button1" type="submit" id="loginsubmit" name="loginsubmit" value="Войти" style="font-size: 18px;" /></td>
+		</tr>
+		</table>
+		<input type="hidden" name="login_target" value=""/>
+	</form>
+	</td>
+	</tr>
+	</table>
+
 	<div id="copyright">
 		Версия CMS: {$cms_version}<br/>
 		Copyright &copy; 2011-{$smarty.now|date_format:"%Y"}
 	</div>
-
-	<script>
-	$(document).ready(function(){
-		$('#winsuccess').hide();
-		$('#rempass').bind('click', function(){
-			$('#authform').animate({ 
-		        left: '-50%'
-		    }, 300);
-			
-			$('#rememberform').animate({ 
-		        top: '45%',
-		        opacity: '1'
-		    }, 300);
-			
-			return false;
-		});
-		
-		$('#rememberclose').bind('click', function(){
-			$('#rememberform').animate({ 
-		        top: '-50%',
-		        opacity: '0'
-		    }, 300);
-			
-			$('#winsuccess').hide();
-			
-			$('#authform').animate({ 
-		        left: '50%'
-		    }, 300);
-			return false;
-		});
-	});
-	</script>
 
 </body>
 </html>

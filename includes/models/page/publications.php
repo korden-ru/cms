@@ -43,9 +43,9 @@ class page_publications extends page
 				a.title,
 				a.activation,
 				a.page_type,
-				(SELECT COUNT(b.id) FROM ' . PUBLICATIONS_GALLERY_TABLE . ' b WHERE b.id_row = a.id) AS total_photos
+				(SELECT COUNT(b.id) FROM tcms_publications_gallery b WHERE b.id_row = a.id) AS total_photos
 			FROM
-				' . PUBLICATIONS_TABLE . ' a
+				tcms_publications a
 			WHERE
 				a.site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
@@ -59,7 +59,7 @@ class page_publications extends page
 		{
 			if( $row['page_type'] )
 			{
-				$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">Фотоотчет (%d)</a>', $this->path_menu . '&class=' . $this->class_name . '_gallery&pid=' . $row['id'], $row['total_photos']);
+				$row['add_buttons'][] = '<input class="button1" style="width:100%;" type="button" value="Фотоотчет (' . $row['total_photos'] . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=' . $this->class_name . '_gallery&pid=' . $row['id'] . '\');" />';
 			}
 			
 			$row['activation'] = $row['activation'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
@@ -75,7 +75,7 @@ class page_publications extends page
 			
 			$row['page_type']  = '<center>' . $row['page_type'] . '</center>';
 			
-			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . htmlspecialchars($row['title']) . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
+			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" title="' . htmlspecialchars($row['title']) . '" class="fancybox-gallery" rel="gallery"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
 				
 			unset($row['total_photos']);
 
@@ -112,7 +112,7 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
@@ -121,7 +121,7 @@ class page_publications extends page
 		$total = $this->db->fetchfield('total') + 1;
 		$this->db->freeresult();
 		
-		$sql = 'INSERT INTO ' . PUBLICATIONS_TABLE . ' ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
+		$sql = 'INSERT INTO tcms_publications ' . $this->db->build_array('INSERT', $this->get_insert_data($total));
 		$this->db->query($sql);
 		
 		redirect($this->form->U_EDIT . $this->db->insert_id());
@@ -138,7 +138,7 @@ class page_publications extends page
 			SELECT
 				image
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				id = ' . $this->db->check_value($id) . '
 			AND
@@ -159,7 +159,7 @@ class page_publications extends page
 			$sql = '
 				DELETE
 				FROM
-					' . PUBLICATIONS_TABLE . '
+					tcms_publications
 				WHERE
 					id = ' . $this->db->check_value($id) . '
 				AND
@@ -184,7 +184,7 @@ class page_publications extends page
 			SELECT
 				*
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				id = ' . $this->db->check_value($id) . '
 			AND
@@ -197,7 +197,7 @@ class page_publications extends page
 
 		$ajax_delete = array(
 			'url'   => 'includes/ajax/delete_file.php', 
-			'param' => "{ id: $id, table: " . PUBLICATIONS_TABLE . ", column: 'image', dir: '" . $this->form->upload_folder . "' }"
+			'param' => "{ id: $id, table: 'tcms_publications', column: 'image', dir: '" . $this->form->upload_folder . "' }"
 		);	
 			
 		$resize = array(
@@ -226,7 +226,6 @@ class page_publications extends page
 			
 			array('type' => 'code', 	'html' => '<fieldset><legend>Тип страницы</legend>'),
 			array('type' => 'select', 	'name' => 'page_type', 'title' => 'Тип страницы', 'options' => $app['page.types'], 'value' => $row['page_type']),
-			array('type' => 'select', 	'name' => 'text_position', 'title' => 'Расположение текста', 'options' => array('Сверху' => 0, 'Снизу' => 1), 'value' => $row['text_position']),
 			array('type' => 'text', 	'name' => 'gallery_title', 'title' => 'Наименование галереи', 'value' => $row['gallery_title'], 'prim' => 'для страниц типа «Текстовая с галереей»'),
 			array('type' => 'code', 	'html' => '</fieldset>'),
 			
@@ -258,7 +257,7 @@ class page_publications extends page
 			SELECT
 				COUNT(*) AS total
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND

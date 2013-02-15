@@ -1,6 +1,5 @@
-<div class="control-group">
-	<label class="control-label" for="{$input.name}">{$input.title}</label>
-	<div class="controls">
-		<input type="checkbox" value="{$input.value}" name="{$input.name}" id="{$input.name}" {if isset($input.checked) && $input.checked}checked{/if} {if isset($input.disabled) && $input.disabled}disabled{/if}>
-	</div>
-</div>
+<dl>
+	<dt><label for="{$input.name}">{$input.title}:</label></dt>
+	<dd><input type="checkbox" value="{$input.value}" name="{$input.name}" id="{$input.name}" {if not empty($input.checked)}checked="checked"{/if} {if not empty($input.disabled)}disabled="disabled"{/if}>
+	</dd>
+</dl>

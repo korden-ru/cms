@@ -1,24 +1,30 @@
 {extends "base.html"}
 
 {block name=content}
-<h2>Добро пожаловать в систему управления сайтом</h2>
+<h1>Добро пожаловать в систему управления сайтом</h1>
 <h4>Заметки администратора</h4>
-<form action="" class="well" method="post">
-	<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea><br/>
-	<input class="btn" type="submit" name="submit_notes" value="Сохранить">
+<form method="post" value="">
+<fieldset>
+	<dl>
+		<textarea name="notes" id="notes" style="width: 100%">{$NOTES}</textarea>
+	</dl>
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit_notes" name="submit_notes" value="Сохранить текст">
+	</p>
+</fieldset>
 </form>
 
-<script src="wysiwyg/ckeditor.js"></script>
+<script src="f/fckeditor.js"></script>
 <script>
 $(document).ready(function() {
-	CKEDITOR.replace( 'notes', {
-		skin : 'office2003',
-		toolbar : 'MyToolbar', 
-		
-		/*extraPlugins : 'stylesheetparser',
-		contentsCss : 'wysiwyg/styles/stylesheetparser.css',
-		stylesSet : []*/
-	});
+	var oFCKeditor = new FCKeditor('notes');
+	oFCKeditor.BasePath = "f/";
+	oFCKeditor.Config["ContentLangDirection"] = "ltr";
+	oFCKeditor.Config["DefaultLanguage"] = "ru";
+	oFCKeditor.Config["EditorAreaStyles"] = "body { padding: 8px; margin: 0; font: normal 12px Verdana; }";
+	// oFCKeditor.Config['ToolbarLocation'] = 'Out:xToolbar';
+	oFCKeditor.Height = 300;
+	oFCKeditor.ReplaceTextarea();
 });
 </script>
 {/block}

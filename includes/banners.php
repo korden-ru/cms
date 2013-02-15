@@ -29,7 +29,7 @@ class banners extends page
 			FROM
 				' . $this->form->table_name . ' a
 			LEFT JOIN
-				' . BANNERS_TYPES_TABLE . ' b ON (b.id = a.type_id)
+				tcms_banners_types b ON (b.id = a.type_id)
 			WHERE
 				a.site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
@@ -93,7 +93,7 @@ class banners extends page
 			FROM
 				' . $this->form->table_name . '
 			WHERE
-				site_id = ' . $this->db->check_value($id) . '
+				site_id = ' . $this->db->check_value($this->site_id) . '
 			AND
 				id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
@@ -145,7 +145,7 @@ class banners extends page
 			SELECT
 				*
 			FROM
-				' . BANNERS_TYPES_TABLE . '
+				tcms_banners_types
 			WHERE
 				activation = 1
 			ORDER BY
@@ -193,7 +193,7 @@ class banners extends page
 			SELECT
 				*
 			FROM
-				' . BANNERS_TYPES_TABLE;
+				tcms_banners_types';
 		$this->db->query($sql);
 		
 		while( $row = $this->db->fetchrow() )

@@ -1,0 +1,33 @@
+{*
+<script src="//yandex.st/jquery/mousewheel/3.0.6/jquery.mousewheel.min.js"></script>
+*}
+<link rel="stylesheet" href="//yandex.st/jquery/fancybox/2.1.3/jquery.fancybox.min.css">
+<link rel="stylesheet" href="//yandex.st/jquery/fancybox/2.1.3/helpers/jquery.fancybox-buttons.min.css">
+{*
+<link rel="stylesheet" href="//yandex.st/jquery/fancybox/2.1.3/helpers/jquery.fancybox-thumbs.min.css">
+*}
+<script src="//yandex.st/jquery/fancybox/2.1.3/jquery.fancybox.min.js"></script>
+<script src="//yandex.st/jquery/fancybox/2.1.3/helpers/jquery.fancybox-buttons.min.js"></script>
+{*
+<script src="//yandex.st/jquery/fancybox/2.1.3/helpers/jquery.fancybox-media.min.js"></script>
+<script src="//yandex.st/jquery/fancybox/2.1.3/helpers/jquery.fancybox-thumbs.min.js"></script>
+*}
+<script>
+$(document).ready(function() {
+	$('.fancybox').fancybox({
+	  helpers: {
+	    title: { type: 'inside' }
+	  }
+	});
+	
+	$('.fancybox-gallery').fancybox({
+		prevEffect: 'none',
+		nextEffect: 'none',
+		closeBtn: false,
+		helpers: {
+			title: { type: 'inside' },
+			buttons: {}
+		}
+	});
+});
+</script>

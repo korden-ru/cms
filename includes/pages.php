@@ -17,9 +17,9 @@ class pages extends page
 	{
 		parent::__construct();
 		
-		$this->forms->addButtonText = 'Добавить страницу';
-		$this->forms->titleTable    = 'Просмотр страниц';
-		$this->forms->set_primary_id('page_id');
+		$this->form->addButtonText = 'Добавить страницу';
+		$this->form->titleTable    = 'Просмотр страниц';
+		$this->form->set_primary_id('page_id');
 	}
 	
 	/**
@@ -27,7 +27,6 @@ class pages extends page
 	*/
 	public function index()
 	{
-		$this->template->assign('U_ADD', ilink($this->get_handler_url('pages::add')));
 		$data = $menu_source = $menu_final = array();
 		
 		$sql = '
@@ -47,7 +46,7 @@ class pages extends page
 				page_redirect,
 				1 AS arrows
 			FROM
-				' . PAGES_TABLE . '
+				' . $this->form->table_name . '
 			WHERE
 				site_id = ' . $this->db->check_value($this->site_id) . '
 			ORDER BY
@@ -76,9 +75,9 @@ class pages extends page
 			}
 			
 			$row['page_url']     = mb_strlen($row['page_url']) > 25 ? mb_substr($row['page_url'], 0, 25) . '...' : $row['page_url'];
-			$row['page_enabled'] = $row['page_enabled'] ? '<center><img src="/images/tick.png" alt=""></center>' : '';
+			$row['page_enabled'] = $row['page_enabled'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			$row['page_enabled'] = $row['page_enabled'] && $row['page_redirect'] ? '<center><img src="images/road_sign.png" alt="" title="Редирект &rarr; ' . htmlspecialchars($row['page_redirect']) . '"></center>' : $row['page_enabled'];
-			$row['page_display'] = 2 == $row['page_display'] ? '<center><img src="/images/tick.png" alt=""></center>' : '';
+			$row['page_display'] = 2 == $row['page_display'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
 			
 			if( $row['page_protected'] >= 1 && $this->user->group != 1 )
 			{
@@ -103,37 +102,22 @@ class pages extends page
 				case 1:
 				case 2:
 				case 3:
+				case 4:
 				
 					$sql = '
 						SELECT
 							COUNT(*) as total
 						FROM
-							' . PAGES_TABLE . '_gallery
+							' . $this->form->table_name . '_gallery
 						WHERE
 							id_row = ' . $this->db->check_value($row['page_id']);
 					$this->db->query($sql);
 					$total = $this->db->fetchfield('total');
 					$this->db->freeresult();
 					
-					$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'], 'Блоки (' . $total . ')');
+					$row['add_buttons'][] = '<input class="button1" style="width: 100%;" type="button" value="Блоки (' . $total . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=pages_gallery&pid=' . $row['page_id'] . '\');">';
 					
 				break;
-				// case 4:
-				// 
-				// 	$sql = '
-				// 		SELECT
-				// 			COUNT(*) as total
-				// 		FROM
-				// 			' . PRODUCTS_TABLE . '
-				// 		WHERE
-				// 			id_row = ' . $this->db->check_value($row['page_id']);
-				// 	$this->db->query($sql);
-				// 	$total = $this->db->fetchfield('total');
-				// 	$this->db->freeresult();
-				// 
-				// 	$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=products&pid=' . $row['page_id'], 'Товары (' . $total . ')');
-				// 
-				// break;
 			}
 			
 			switch( $row['page_type'] )
@@ -142,25 +126,25 @@ class pages extends page
 				case 1: $row['page_type'] = 'Текстовая с галереей'; break;
 				case 2: $row['page_type'] = 'Текстовая с блоками'; break;
 				case 3: $row['page_type'] = 'Блоки'; break;
-				case 4: $row['page_type'] = 'Содержит товары'; break;
+				case 4: $row['page_type'] = 'Текстовая с каруселью'; break;
 			}
 
 			$row['page_type'] = '<center>' . $row['page_type'] . '</center>';
 			
 			$row['page_name'] .= $this->print_menu($menu_final, $key);
 			
-			$row['arrows'] = '<center><a href="' . $this->path_menu . '&mode=move_up&id=' . $row['page_id'] . '"><img src="/images/arrow_090.png" alt="" title="Переместить выше"></a> <a href="' . $this->path_menu . '&mode=move_down&id=' . $row['page_id'] . '"><img src="/images/arrow_270.png" alt="" title="Переместить ниже"></a></center>';
+			$row['arrows'] = '<center><a href="' . $this->path_menu . '&mode=move_up&id=' . $row['page_id'] . '"><img src="images/arrow_090.png" alt="" title="Переместить выше"></a> <a href="' . $this->path_menu . '&mode=move_down&id=' . $row['page_id'] . '"><img src="images/arrow_270.png" alt="" title="Переместить ниже"></a></center>';
 
 			unset($row['parent_id'], $row['submenu'], $row['page_handler'], $row['handler_method'], $row['page_redirect'], $row['page_formats'], $row['is_dir'], $row['page_protected']);
 			
 			$data[] = $row;
 		}
 		
-		$this->forms->createShowTMP(array(
+		$this->form->createShowTMP(array(
 			'ID',
 			'Название',
 			'URL',
-			'<center><img src="/images/i_show_in_site.png" title="Отображается на сайте?"></center>',
+			'<center><img src="images/i_show_in_site.png" title="Отображается на сайте?"></center>',
 			'<center><span title="Отображается в главном меню?">ГМ</span></center>',
 			'Тип страницы',
 			'Позиция'
@@ -189,32 +173,32 @@ class pages extends page
 		$this->update_page_data($page_data);
 		$this->remove_cache_file();
 		
-		redirect(ilink($this->get_handler_url('pages::edit', array($page_data['page_id']))));
+		redirect($this->form->U_EDIT . $page_data['page_id']);
 	}
 	
 	/**
 	* Удаление
 	*/
-	public function delete($id)
+	public function delete()
 	{
+		$id     = $this->request->variable('id', 0);
 		$submit = $this->request->is_set_post('submit');
 		
 		$this->delete_page($id);
 		$this->remove_cache_file();
 
-		redirect(ilink($this->get_handler_url('pages::index')));
+		redirect($this->path_menu);
 	}
 
 	/**
 	* Редактирование
 	*/
-	public function edit($id)
+	public function edit($paths)
 	{
 		global $app;
 
+		$id     = $this->request->variable('id', 0);
 		$submit = $this->request->is_set_post('submit');
-		$this->forms->U_ACTION = ilink($this->url);
-		$this->forms->table_row_id = $id;
 		
 		$sql = '
 			SELECT
@@ -222,18 +206,30 @@ class pages extends page
 			FROM
 				' . PAGES_TABLE . '
 			WHERE
-				site_id = ' . $this->db->check_value($this->site_id) . '
-			AND
 				page_id = ' . $this->db->check_value($id);
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
 
-		$s_cat_option = '<option value="0"' . ($row['parent_id'] == 0 ? ' selected="selected"' : '') . '>Родительский пункт меню</option>';
+		$s_cat_option = '<option value="0"' . (($row['parent_id'] == 0) ? ' selected="selected"' : '') . '>Родительский пункт меню</option>';
 		
+		$page_url_ary = array(
+			'type'            => 'text',
+			'name'            => 'page_url',
+			'title'           => 'URL-адрес страницы',
+			'value'           => $row['page_url'],
+			'chpu_button'     => 'page_name',
+			'chpu_rus_button' => 'page_name'
+		);
+		
+		if ($row['parent_id'] == 0 && $row['page_url'] == 'index' && $row['is_dir'] == 0)
+		{
+			$page_url_ary['perms'] = array(1);
+		}
+
 		$fieldset = array(
 			array('type' => 'text',     'name' => 'page_name', 'title' => 'Название страницы', 'value' => $row['page_name'], 'prim' => 'Будет использовано в наименовании пункта меню'),
-			array('type' => 'text',     'name' => 'page_url', 'title' => 'URL-адрес страницы', 'value' => $row['page_url'], 'chpu_button' => 'page_name', 'chpu_rus_button' => 'page_name'),
+			$page_url_ary,
 			array('type' => 'text',     'name' => 'page_handler', 'title' => 'Файл-обработчик', 'value' => $row['page_handler'], 'perms' => array(1)),
 			array('type' => 'text',     'name' => 'handler_method', 'title' => 'Метод обработчика', 'value' => $row['handler_method'], 'perms' => array(1)),
 			array('type' => 'textarea', 'name' => 'page_text', 'title' => 'Текст страницы', 'value' => $row['page_text']),
@@ -241,13 +237,14 @@ class pages extends page
 			
 			array('type' => 'code', 	'html' => '<fieldset><legend>Поместить в меню</legend>'),
 			array('type' => 'select', 	'name' => 'parent_id', 'title' => 'Родительская страница', 'raw' => $s_cat_option . $this->make_page_select($row['parent_id'], $row['page_id'], false, true)),
+			array('type' => 'select',   'name' => 'page_display', 'title' => 'Главное меню', 'options' => array('Нет' => 0, 'Да' => 2/*, 'Да (только в подразделах)' => 1*/), 'value' => $row['page_display']),
 		);
 		
 		$sql = '
 			SELECT
 				*
 			FROM
-				' . MENUS_TABLE . '
+				tcms_menus
 			WHERE
 				activation = 1
 			ORDER BY
@@ -284,7 +281,6 @@ class pages extends page
 			
 			array('type' => 'code', 	'html' => '<fieldset><legend>Дополнительные настройки</legend>'),
 			array('type' => 'checkbox', 'name' => 'page_enabled', 'title' => 'Отображается НА САЙТЕ?', 'value' => 1, 'checked' => $row['page_enabled']),
-		array('type' => 'select',   'name' => 'page_display', 'title' => 'Отображается В ГЛАВНОМ МЕНЮ?', 'options' => array('Нет' => 0, 'Да' => 2/*, 'Да (только в подразделах)' => 1*/), 'value' => $row['page_display']),
 			array('type' => 'select', 'name' => 'page_protected', 'title' => 'Защитить страницу в системе управления', 'options' => array('Нет' => 0, 'От удаления' => 1, 'От редактирования' => 2, 'От просмотра' => 3), 'value' => $row['page_protected'], 'perms' => array(1)),
 			array('type' => 'text',     'name' => 'page_redirect', 'title' => 'Редирект', 'value' => $row['page_redirect'], 'prim' => 'Для осуществления редиректа у страницы не должен быть назначен файл- и метод-обработчики', 'perms' => array(1)),
 			array('type' => 'code', 	'html' => '</fieldset>')
@@ -301,20 +297,22 @@ class pages extends page
 				$this->move_page($id, $parent_id);
 			}
 
-			$this->forms->saveIntoDB($fieldset);
+			$this->form->saveIntoDB($fieldset);
 			$this->remove_cache_file();
 			
-			redirect(ilink($this->get_handler_url('pages::index')));
+			redirect($this->path_menu);
 		}
 
-		$this->forms->createEditTMP($fieldset);
+		$this->form->createEditTMP($fieldset);
 	}
 	
 	/**
 	* Перемещение страницы вниз
 	*/
-	public function move_down($id)
+	public function move_down()
 	{
+		$id = $this->request->variable('id', 0);
+		
 		$row = $this->get_page_row($id);
 
 		if( !$row )
@@ -324,14 +322,16 @@ class pages extends page
 
 		$this->move_page_by($row, 'move_down', 1);
 		
-		redirect(ilink($this->get_handler_url('pages::index')));
+		redirect($this->path_menu);
 	}
 	
 	/**
 	* Перемещение страницы вверх
 	*/
-	public function move_up($id)
+	public function move_up()
 	{
+		$id = $this->request->variable('id', 0);
+		
 		$row = $this->get_page_row($id);
 
 		if( !$row )
@@ -341,7 +341,7 @@ class pages extends page
 
 		$this->move_page_by($row, 'move_up', 1);
 		
-		redirect(ilink($this->get_handler_url('pages::index')));
+		redirect($this->path_menu);
 	}
 	
 	private function generate_menu($menu_source, $parent_id = 0)
@@ -392,10 +392,10 @@ class pages extends page
 				continue;
 			}
 			
-			$link_e    = ilink($this->get_handler_url('pages::edit', array($v['page_id'])));
-			$link_d    = ilink($this->get_handler_url('pages::delete', array($v['page_id'])));
-			$link_down = ilink($this->get_handler_url('pages::move_down', array($v['page_id'])));
-			$link_up   = ilink($this->get_handler_url('pages::move_up', array($v['page_id'])));
+			$link_e    = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=edit&id=' . $v['page_id'];
+			$link_d    = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=delete&id=' . $v['page_id'];
+			$link_down = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=move_down&id=' . $v['page_id'];
+			$link_up   = $this->config['acp.root_path'] . '?tab=1&menu=4&mode=move_up&id=' . $v['page_id'];
 			
 			$str .= '<div style="position: relative; font-size: 12px; margin:2px 5px 2px ' . $offset . 'px; padding: 5px 105px 5px 5px; border: 1px solid #a5a5a5; background-color: #eee; border-radius: 3px;">';
 			$str .= $v['page_name'];
@@ -406,23 +406,23 @@ class pages extends page
 			}
 			
 			$str .= '<div style="position:absolute; right: 10px; top: 2px; z-index: 20; text-align: right;width:100px;">';
-			$str .= '<a href="' . $link_up . '"><img src="/images/arrow_090.png" alt="" title="Переместить выше"></a> ';
-			$str .= '<a href="' . $link_down . '"><img src="/images/arrow_270.png" alt="" title="Переместить ниже"></a> ';
-			$str .= $v['page_protected'] < 2 || $this->user->group == 1 ? '<a href="'.$link_e.'"><img src="/images/pencil.png" title="Редактировать"></a> ' : '';
+			$str .= '<a href="' . $link_up . '"><img src="images/arrow_090.png" alt="" title="Переместить выше"></a> ';
+			$str .= '<a href="' . $link_down . '"><img src="images/arrow_270.png" alt="" title="Переместить ниже"></a> ';
+			$str .= $v['page_protected'] < 2 || $this->user->group == 1 ? '<a href="'.$link_e.'"><img src="images/pencil.png" title="Редактировать"></a> ' : '';
 			if ($v['page_type'] != 0)
 			{
 				if ($v['page_type'] != 5)
 				{
 					$link_p = $this->config['acp.root_path'] . '?tab=1&menu=4&class=pages_gallery&pid=' . $v['page_id'];
-					$str .= '<a href="'.$link_p.'"><img src="/images/_photo.png"></a> ';
+					$str .= '<a href="'.$link_p.'"><img src="images/_photo.png"></a> ';
 				}
 				else 
 				{
 					$link_p = $this->config['acp.root_path'] . '?tab=1&menu=4&class=products&pid=' . $v['page_id'];
-					$str .= '<a href="'.$link_p.'"><img src="/images/_block.png"></a> ';
+					$str .= '<a href="'.$link_p.'"><img src="images/_block.png"></a> ';
 				}
 			}
-			$str .= $v['page_protected'] < 1 || $this->user->group == 1 ? '<a href="'.$link_d.'" onclick="return confirm(\'Будет удалена вся информация связанная с этой записью! Продолжить?\');"><img src="/images/cross_script.png" title="Удалить"></a>' : '';
+			$str .= $v['page_protected'] < 1 || $this->user->group == 1 ? '<a href="'.$link_d.'" onclick="return confirm(\'Будет удалена вся информация связанная с этой записью! Продолжить?\');"><img src="images/cross_script.png" title="Удалить"></a>' : '';
 			$str .= '</div></div>';	
 			$str .= $this->reqursive_print_menu($v['submenu'], $offset + 20);
 		}

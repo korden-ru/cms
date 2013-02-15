@@ -44,11 +44,10 @@ class gallery extends page
 		
 		while( $row = $this->db->fetchrow() )
 		{
-			$row['add_buttons'][] = sprintf('<a href="%s" class="btn btn-mini btn-block">%s</a>', $this->path_menu . '&class=gallery_photos&pid=' . $row['id'], 'Фото (' . $row['total_photos'] . ')');
-			
-			$row['activation'] = $row['activation'] ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['activation'] = ( $row['activation'] ) ? '<center><img src="images/tick.png" alt=""></center>' : '';
+			$row['add_buttons'][] = '<input class="button1" style="width:100%;" type="button" value="Фото (' . $row['total_photos'] . ')" onclick="Redirect(arguments, \'' . $this->path_menu . '&class=gallery_photos&pid=' . $row['id'] . '\');">';
 			$row['title'] = htmlspecialchars($row['title']);
-			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" onclick="return hs.expand(this);" title="' . $row['title'] . '" class="highslide"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
+			$row['image'] = $row['image'] ? '<a href="/uploads/' . $this->form->upload_folder . '/' . $row['image'] . '" class="fancybox-gallery" rel="gallery" title="' . $row['title'] . '"><img src="/uploads/' . $this->form->upload_folder . '/sm/' . $row['image'] . '" width="70"></a>' : '';
 			
 			unset($row['total_photos']);
 			
@@ -200,7 +199,7 @@ class gallery extends page
 		
 		$fieldset = array(
 			array('name' => 'title', 'title' => 'Наименование галереи', 'type' => 'text', 'value' => $row['title']),
-			array('name' => 'description', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['description'], 'height' => 100),
+			array('name' => 'description', 'title' => 'Краткое описание', 'type' => 'textarea', 'value' => $row['description'], 'height' => 160),
 			array('name' => 'image', 'title' => 'Изображение', 'type' => 'file', 'value' => $row['image'], 'old' => 'old_image', 'resize' => $resize, 'ajax_delete' => $ajax_delete),
 
 

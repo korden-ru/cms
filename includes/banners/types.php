@@ -117,6 +117,7 @@ class banners_types extends page
 			array('type' => 'text', 'name' => 'alias', 'title' => 'Алиас', 'value' => $row['alias']),
 			array('type' => 'text', 'name' => 'width', 'title' => 'Ширина', 'value' => $row['width']),
 			array('type' => 'text', 'name' => 'height', 'title' => 'Высота', 'value' => $row['height']),
+			array('type' => 'text', 'name' => 'count_on_page', 'title' => 'Баннеров на странице', 'value' => $row['count_on_page']),
 			array('type' => 'checkbox', 'name' => 'activation', 'title' => 'Отображается НА САЙТЕ?', 'value' => 1, 'checked' => $row['activation']),
 		);
 

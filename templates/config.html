@@ -7,7 +7,6 @@
 	<fieldset>
 	<legend>Содержание</legend>
 		{foreach $config as $row}
-			{include "block/text.html" input=$row}
 		<dl>
 			<dt><label for="{$row.config_name}">{$row.title}:</label></dt>
 			<dd><input name="config[{$row.config_name}]" type="text" id="{$row.config_name}" style="width: 99%" value="{$row.config_value|escape}"></dd>

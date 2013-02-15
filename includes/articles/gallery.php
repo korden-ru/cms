@@ -10,6 +10,13 @@ use acp\models\page_gallery;
 
 class articles_gallery extends page_gallery
 {
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->form->table_name = 'tcms_publications_gallery';
+	}
+
 	protected function get_parent_name($pid)
 	{
 		if( empty($this->parent_row) )
@@ -26,7 +33,7 @@ class articles_gallery extends page_gallery
 			SELECT
 				*
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);

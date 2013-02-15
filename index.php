@@ -17,7 +17,6 @@ require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 $login	= $app['request']->is_set_post('loginsubmit');
 $logout	= $app['request']->is_set('logoutsubmit');
 	
-
 if( $logout )
 {
 	$app['user']->logout();
@@ -45,10 +44,14 @@ if( false === $app['user']->check() && $login )
 			
 		break;
 		case 'login_fail':
-			redirect($app['config']['acp.root_path'] . '?errorlogin');
+		
+			$app['template']->assign('ERROR', 'Неверный логин или пароль');
+		
 		break;
 		case 'login_activate':
-			redirect($app['config']['acp.root_path'] . '?erroract');
+		
+			$app['template']->assign('ERROR', 'Ваш аккаунт не активирован');
+		
 		break;
 		default:
 

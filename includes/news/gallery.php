@@ -14,9 +14,9 @@ class news_gallery extends page_gallery
 	{
 		parent::__construct();
 		
-		$this->form->table_name = SQL_PREFIX . 'publications_gallery';
+		$this->form->table_name = 'tcms_publications_gallery';
 	}
-	
+
 	protected function get_parent_name($pid)
 	{
 		if( empty($this->parent_row) )
@@ -33,7 +33,7 @@ class news_gallery extends page_gallery
 			SELECT
 				*
 			FROM
-				' . PUBLICATIONS_TABLE . '
+				tcms_publications
 			WHERE
 				id = ' . $this->db->check_value($pid);
 		$this->db->query($sql);

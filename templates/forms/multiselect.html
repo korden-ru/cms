@@ -1,0 +1,25 @@
+{if isset($input.raw)}
+	<dl>
+		<dt><label for="{$input.name}">{$input.title}</label></dt>
+		<dd><select name="{$input.name}[]" id="{$input.name}">{$input.raw}</select></dd>
+	</dl>
+{else}
+	<dl>
+		<dt><label for="{$input.name}">{$input.title}:</label></dt>
+		<dd>
+			<select name="{$input.name}[]" id="{$input.name}" multiple {if isset($input.style)}style="{$input.style}"{/if} size="{$input.size|default:10}">
+				{foreach $input.options as $key => $value}
+					{if !in_array($value)}
+						<option value="{$value}" {if isset($input.value) && in_array($value, $input.value)}selected{/if}>{$key}</option>
+						{continue}
+					{/if}
+					<optgroup label="{$key}">
+						{foreach $value as $title => $row}
+							<option value="{$row}" {if isset($input.value) && in_array($row, $input.value)}selected{/if}>{$title}</option>
+						{/foreach}
+					</optgroup>
+				{/foreach}
+			</select>
+		</dd>
+	</dl>
+{/if}

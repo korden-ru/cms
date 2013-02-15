@@ -1,0 +1,28 @@
+{extends "base.html"}
+
+{block name=content}
+<h1>Группировка подписчиков</h1>
+<br>
+<form method="post" action="">
+<fieldset>
+	<legend>Содержание</legend>
+	<dl>
+		<dt><label for="title">Группа:</label></dt>
+		<dd><input type="text" value="{$group.title}" name="title" id="title" style="width: 98%;"></dd>
+	</dl>
+	<dl>
+		<dt><label>Участники</label></dt>
+		<dd>
+			{foreach $subscribers as $row}
+				<div style="margin-bottom: 5px;"><label><input type="checkbox" name="subscribers[]" value="{$row.id}"{if $row.checked} checked{/if}> {$row.email}{if $row.title} ({$row.title}){/if}</label></div>
+			{/foreach}
+		</dd>
+	</dl>
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="Отправить">
+		&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="Очистить">
+	</p>
+</fieldset>
+</form>
+{/block}

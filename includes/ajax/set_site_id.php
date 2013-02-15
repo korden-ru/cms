@@ -4,9 +4,9 @@
 * @copyright (c) 2012
 */
 
-define('IN_ACP', true);
+define('IN_ACP', 0x000001);
 
-require(__DIR__ . '/../../../public_html/bootstrap.php');
+require(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/bootstrap.php');
 
 if( !$app['request']->is_set_post('site_id') || !$app['request']->is_ajax )
 {

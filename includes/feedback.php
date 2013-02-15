@@ -158,11 +158,41 @@ class feedback extends page
 			array('name' => 'phone', 'title' => 'Контактный телефон', 'type' => 'text', 'value' => $row['phone']),
 			// array('name' => 'org', 'title' => 'Организация', 'type' => 'text', 'value' => $row['org']),
 			array('name' => 'text', 'title' => 'Сообщение', 'type' => 'textbig', 'value' => $row['text']),
-			array('name' => 'comment', 'title' => 'Комментирование', 'type' => 'textbig', 'value' => $row['comment'])
+			array('name' => 'comment', 'title' => 'Комментирование', 'type' => 'textbig', 'value' => $row['comment']),
+			array('name' => 'sendmail', 'title' => 'Отправить ответ по электронной почте', 'type' => 'checkbox', 'value' => 1, 'checked' => false),
 		);
 			
-		if( $submit )
+		if ($submit)
 		{
+			$email    = $this->request->post('email', '');
+			$fio      = $this->request->post('fio', '');
+			$text     = htmlspecialchars_decode($this->request->post('text', ''));
+			$comment  = htmlspecialchars_decode($this->request->post('comment', ''));
+			$sendmail = $this->request->post('sendmail', 0);
+			
+			unset($_POST['sendmail'], $_REQUEST['sendmail']);
+			unset($fieldset[sizeof($fieldset) - 1]);
+			
+			if ($comment && $sendmail)
+			{
+				$this->template->assign(array(
+					'email'   => $email,
+					'date'    => $row['date'],
+					'fio'     => $fio,
+					'text'    => $text,
+					'comment' => $comment,
+				));
+
+				$messenger = new \engine\core\email();
+				$messenger->from($this->config['contacts.email'], $this->config['sitename']);
+				$messenger->to($email);
+				$messenger->subject('Re: Отзыв #' . $id);
+				$messenger->set_mailtype('text');
+				$messenger->set_wordwrap(false);
+				$messenger->message($this->template->fetch('email/feedback_reply.html'));
+				$messenger->send();
+			}
+
 			$this->form->saveIntoDB($fieldset);
 			
 			redirect($this->path_menu);

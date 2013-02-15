@@ -1,0 +1,4 @@
+{$answer|strip_tags}
+
+{$date|date_format:'d.m.Y, H:i'}, "{$fio}" <{$email}>
+> {str_replace("\n", "\n> ", $question|strip_tags)}

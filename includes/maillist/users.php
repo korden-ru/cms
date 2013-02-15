@@ -18,7 +18,7 @@ class maillist_users extends page
 		parent::__construct();
 		
 		$this->form->addButtonText = 'Добавить нового подписчика';
-		$this->form->table_name    = MAILLIST_TABLE;
+		$this->form->table_name    = 'tcms_maillist';
 		$this->form->titleTable    = 'Просмотр подписчиков';
 	}
 	

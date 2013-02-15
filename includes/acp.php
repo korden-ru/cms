@@ -58,19 +58,31 @@
 		WHERE a.tab=0 '.$qWhere.'
 		ORDER BY a.sort ASC';
 	$result=$app['db']->query($sql);
+	$tabs = array();
+	while($row=$app['db']->fetchrow($result))
+	{
+		$tabs[$row['id']] = $row['title'];
+	}
+	$app['db']->freeresult();
+
+	
+	$sql='SELECT a.tab, COUNT(a.id) AS cnt 
+		FROM '.SQL_PREFIX.'modules AS a  
+		WHERE a.parent != 0 AND a.tab IN ('.implode(',', array_keys($tabs)).')'.$qWhere.'
+		GROUP BY a.tab';
+	$result=$app['db']->query($sql);
+	$arr = array();
 	while($row=$app['db']->fetchrow($result))
 	{
 		$app['template']->append('main_tabs',array(
-			'ICON'   => $row['icon'],
-			'ACTIVE' => $row['id']==$tab,
-			'ID'     => $row['id'],
-			'TITLE'  => $row['title']
+		
+				'ACTCLASS'	=> $row['tab']==$tab?'id="activetab"':'',
+				'ID'		=> $row['tab'],
+				'TITLE'		=> $tabs[$row['tab']]
 		));
-	}
-		
-	$app['db']->freeresult();
-		
-		
+	}	
+	
+	
 	$sql='SELECT a.*, (SELECT COUNT(*) FROM '.SQL_PREFIX.'modules as b WHERE a.id = b.parent AND b.tab='.$tab.''.$bWhere.') as pcount  
 		FROM '.SQL_PREFIX.'modules  AS a
 		WHERE a.tab='.$tab.''.$qWhere.'
@@ -82,6 +94,8 @@
 		$menus[]=$row;
 		$found=true;
 	}
+	
+	
 	$app['db']->freeresult();
 	$app['template']->append('left_menu',array(),true);
 	if($found)
@@ -95,12 +109,11 @@
 			}
 
 			$app['template']->append('left_menu',array(
-				'ICON'   => $m['icon'],
-				'PCOUNT' => $m['pcount'],
-				'ACTIVE' => $m['id']==$menu,
-				'HREF'   => $m['class'] && $m['mode']? $app['config']['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
-				'TITLE'  => $m['title']
-			));
+							'PCOUNT'	=> $m['pcount'],
+							'ACTIVE'	=> ($m['id']==$menu)?'id="activemenu"':'',
+							'HREF'		=> $m['class'] && $m['mode']? $app['config']['acp.root_path'] . '?tab='.$tab.'&menu='.$m['id']:'',
+							'TITLE'		=> $m['title']
+							));
 		}		
 	}
 	

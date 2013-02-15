@@ -25,15 +25,17 @@ class maillist_signature extends page
 	{
 		$submit = $this->request->is_set_post('submit');
 
-		if( $submit )
+		if ($submit)
 		{
 			$signature = htmlspecialchars_decode($this->request->post('signature', ''));
 			
 			$sql = '
 				UPDATE
-					' . MAILLIST_SIGNATURE_TABLE . '
+					tcms_maillist_signature
 				SET
-					signature = ' . $this->db->check_value($signature);
+					' . $this->db->build_array('UPDATE', array('signature' => $signature)) . '
+				WHERE
+					1 = 1';
 			$this->db->query($sql);
 			
 			redirect($this->path_menu);
@@ -43,7 +45,7 @@ class maillist_signature extends page
 			SELECT
 				*
 			FROM
-				' . MAILLIST_SIGNATURE_TABLE;
+				tcms_maillist_signature';
 		$this->db->query($sql);
 		$row = $this->db->fetchrow();
 		$this->db->freeresult();
