@@ -44,9 +44,13 @@ $sql = '
 		id = ' . $app['db']->check_value($id);
 $app['db']->query($sql);
 
-unlink(SITE_DIR . 'uploads/' . $dir . '/original/' . $row[$column]);
-unlink(SITE_DIR . 'uploads/' . $dir . '/sm/' . $row[$column]);
-unlink(SITE_DIR . 'uploads/' . $dir . '/' . $row[$column]);
+$path = SITE_DIR. 'uploads/' . $dir;
+$fldrs = glob($path.'/*', GLOB_ONLYDIR);
+$fldrs[] = $path;
+foreach ($fldrs as $fldr)
+{
+	unlink($fldr. '/' .$row[$column]);
+}
 
 die('success');
 
