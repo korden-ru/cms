@@ -40,7 +40,7 @@ if( !$gallery )
 	exit('error');
 }
 
-$dirpath = SITE_DIR . 'uploads/' . $folder . '/';
+$dirpath = SITE_DIR . 'uploads/' . $folder;
 
 //проверяем есть ли фотка в базе
 $sql = '
@@ -69,10 +69,12 @@ $sql = '
 $app['db']->query($sql);
 
 //удаляем фотки на диске
-unlink($dirpath . 'original/' . $photo['image']);
-unlink($dirpath . 'sm/' . $photo['image']);
-unlink($dirpath . $photo['image']);
-
+$fldrs = glob($dirpath.'/*', GLOB_ONLYDIR);
+$fldrs[] = $dirpath;
+foreach ($fldrs as $fldr)
+{
+	unlink($fldr. '/' .$photo['image']);
+}
 exit('success');
 
 ?>
